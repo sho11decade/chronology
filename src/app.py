@@ -7,10 +7,19 @@ import sys
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
+# Add current directory to Python path for imports
+current_dir = Path(__file__).parent
+sys.path.insert(0, str(current_dir))
 
-from .models import GenerateRequest, GenerateResponse, UploadResponse
-from .services.text_extractor import MAX_CHARACTERS, extract_text_from_upload
-from .services.timeline_generator import generate_timeline
+try:
+    from .models import GenerateRequest, GenerateResponse, UploadResponse
+    from .text_extractor import extract_text_from_upload, MAX_CHARACTERS
+    from .timeline_generator import generate_timeline
+except ImportError:
+    # Fallback to absolute imports when running as script
+    from models import GenerateRequest, GenerateResponse, UploadResponse
+    from text_extractor import extract_text_from_upload, MAX_CHARACTERS
+    from timeline_generator import generate_timeline
 
 
 app = FastAPI(

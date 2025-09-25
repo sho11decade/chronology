@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from ..services.timeline_generator import generate_timeline
+try:
+    from .timeline_generator import generate_timeline
+except ImportError:
+    # Fallback to absolute imports when running as script
+    from timeline_generator import generate_timeline
 
 
 def test_generate_timeline_extracts_events():

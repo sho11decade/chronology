@@ -3,15 +3,27 @@ from __future__ import annotations
 import itertools
 import math
 import re
+import sys
 from collections import Counter
 from dataclasses import dataclass
 from datetime import date
+from pathlib import Path
 from typing import Iterable, List, Optional
 from uuid import uuid4
 
-from .text_features import LOCATION_KEYWORDS, PEOPLE_SUFFIXES, CATEGORY_KEYWORDS
-from ..models import TimelineItem
-from ..utils.japanese_calendar import normalise_era_notation
+# Add current directory to Python path for imports
+current_dir = Path(__file__).parent
+sys.path.insert(0, str(current_dir))
+
+try:
+    from .text_features import LOCATION_KEYWORDS, PEOPLE_SUFFIXES, CATEGORY_KEYWORDS
+    from .models import TimelineItem
+    from .japanese_calendar import normalise_era_notation
+except ImportError:
+    # Fallback to absolute imports when running as script
+    from text_features import LOCATION_KEYWORDS, PEOPLE_SUFFIXES, CATEGORY_KEYWORDS
+    from models import TimelineItem
+    from japanese_calendar import normalise_era_notation
 
 DATE_PATTERNS = [
     re.compile(r"(?P<year>\d{3,4})年(?P<month>\d{1,2})月(?P<day>\d{1,2})日?"),
