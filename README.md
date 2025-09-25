@@ -38,6 +38,36 @@ pip install -r requirements.txt
 | POST     | `/api/upload`  | ファイルをアップロードしテキスト抽出 |
 | POST     | `/api/generate`| テキストから年表を生成       |
 
+## Render.com無料プランでのデプロイ
+
+このプロジェクトはRender.comの無料プランで簡単にホスティングできます。
+
+### デプロイ手順
+
+1. **GitHubリポジトリの準備**
+   - コードをGitHubにプッシュ
+
+2. **Render.comでのセットアップ**
+   - [Render.com](https://render.com)でアカウント作成（GitHubアカウントでサインイン推奨）
+   - 「New Web Service」を選択
+   - GitHubリポジトリを接続
+   - `render.yaml`の設定が自動的に読み込まれます
+
+3. **手動設定（render.yamlを使わない場合）**
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `cd src && python -m uvicorn app:app --host 0.0.0.0 --port $PORT`
+   - **Python Version**: `3.10.11`
+
+### 無料プランの制限
+- 月750時間の稼働時間
+- 15分間アクセスがないとスリープ状態になります
+- 初回アクセス時にコールドスタートで少し時間がかかります
+
+### デプロイ後のURL
+- **API**: `https://your-app-name.onrender.com`
+- **API ドキュメント**: `https://your-app-name.onrender.com/docs`
+- **ヘルスチェック**: `https://your-app-name.onrender.com/health`
+
 # English Version
 This is the backend system for an application that generates chronologies from text. Built using FastAPI, it provides features such as text analysis, chronology generation, and file upload.
 

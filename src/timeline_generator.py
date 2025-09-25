@@ -4,7 +4,8 @@ import itertools
 import math
 import re
 import sys
-from collections import Counter
+from calendar import monthrange
+from collections import Counter, OrderedDict
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -25,16 +26,30 @@ except ImportError:
     from models import TimelineItem
     from japanese_calendar import normalise_era_notation
 
+DIGIT_CLASS = "0-9０-９"
+
 DATE_PATTERNS = [
-    re.compile(r"(?P<year>\d{3,4})年(?P<month>\d{1,2})月(?P<day>\d{1,2})日?"),
-    re.compile(r"(?P<year>\d{3,4})年(?P<month>\d{1,2})月"),
-    re.compile(r"(?P<year>\d{3,4})年"),
-    re.compile(r"(?P<year>\d{3,4})月(?P<day>\d{1,2})日"),
-    re.compile(r"(?P<year>\d{3,4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})"),
-    re.compile(r"(?P<year>\d{3,4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})"),
+    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})年(?P<month>[{DIGIT_CLASS}]{{1,2}})月(?P<day>[{DIGIT_CLASS}]{{1,2}})日?"),
+    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})年(?P<month>[{DIGIT_CLASS}]{{1,2}})月"),
+    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})年"),
+    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})月(?P<day>[{DIGIT_CLASS}]{{1,2}})日"),
+    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})[-/\.](?P<month>[{DIGIT_CLASS}]{{1,2}})[-/\.](?P<day>[{DIGIT_CLASS}]{{1,2}})"),
 ]
 
 ERA_PATTERN = re.compile(r"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[0-9０-９]+|元)年(?:(?P<month>[0-9０-９]+)月)?(?:(?P<day>[0-9０-９]+)日)?")
+
+FULLWIDTH_DIGIT_TABLE = str.maketrans({
+    "０": "0",
+    "１": "1",
+    "２": "2",
+    "３": "3",
+    "４": "4",
+    "５": "5",
+    "６": "6",
+    "７": "7",
+    "８": "8",
+    "９": "9",
+})
 SENTENCE_SPLIT_PATTERN = re.compile(r"(?<=[。！？!\?])\s*")
 
 
@@ -57,18 +72,52 @@ def split_sentences(text: str) -> List[str]:
     return sentences
 
 
+def _normalise_digits(value: str) -> str:
+    return value.translate(FULLWIDTH_DIGIT_TABLE)
+
+
+def _parse_number(value: Optional[str], fallback: int = 1) -> int:
+    if value is None:
+        return fallback
+    try:
+        return int(_normalise_digits(value))
+    except ValueError:
+        return fallback
+
+
+def _safe_iso_date(year: int, month: int, day: int) -> Optional[str]:
+    if year < 100:  # Ignore unrealistic matches like postal codes
+        return None
+    month = min(max(month, 1), 12)
+    last_day = monthrange(year, month)[1]
+    day = min(max(day, 1), last_day)
+    try:
+        return date(year, month, day).isoformat()
+    except ValueError:
+        return None
+
+
 def iter_dates(sentence: str) -> Iterable[RawEvent]:
+    seen_spans: list[tuple[int, int]] = []
     for match in ERA_PATTERN.finditer(sentence):
         era_raw = match.group()
         iso_candidate = normalise_era_notation(era_raw)
+        seen_spans.append(match.span())
         yield RawEvent(sentence=sentence, date_text=era_raw, date_iso=iso_candidate)
 
     for pattern in DATE_PATTERNS:
         for match in pattern.finditer(sentence):
-            year = int(match.group("year"))
-            month = int(match.group("month")) if match.groupdict().get("month") else 1
-            day = int(match.group("day")) if match.groupdict().get("day") else 1
-            iso = date(year, min(month, 12), min(day, 28)).isoformat()
+            span = match.span()
+            if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
+                continue
+            year_raw = match.group("year")
+            month_raw = match.groupdict().get("month")
+            day_raw = match.groupdict().get("day")
+            year = _parse_number(year_raw, fallback=0)
+            month = _parse_number(month_raw, fallback=1)
+            day = _parse_number(day_raw, fallback=1)
+            iso = _safe_iso_date(year, month, day)
+            seen_spans.append(span)
             yield RawEvent(
                 sentence=sentence,
                 date_text=match.group(),
@@ -137,26 +186,75 @@ def generate_timeline(text: str, max_events: int = 150) -> List[TimelineItem]:
     # Deduplicate by sentence/date combo to avoid repetition when multiple regexes match
     unique_events = list({(event.sentence, event.date_text): event for event in raw_events}.values())
 
-    items: List[TimelineItem] = []
-    for event in itertools.islice(unique_events, 0, max_events):
+    aggregated_events: dict[str, dict] = {}
+    appearance_index: dict[str, int] = {}
+
+    for event in unique_events:
+        key = event.date_iso or event.date_text
+        if key not in aggregated_events:
+            appearance_index[key] = len(appearance_index)
+            aggregated_events[key] = {
+                "sentences": [],
+                "people": OrderedDict(),
+                "locations": OrderedDict(),
+                "category_counts": Counter(),
+                "importance": -math.inf,
+                "title": "",
+                "date_text": event.date_text,
+                "date_iso": event.date_iso,
+            }
+
+        entry = aggregated_events[key]
+
+        if event.sentence not in entry["sentences"]:
+            entry["sentences"].append(event.sentence)
+
         tokens = extract_tokens(event.sentence)
-        people = detect_people(tokens)
-        locations = detect_locations(event.sentence)
+        for person in detect_people(tokens):
+            entry["people"].setdefault(person, None)
+        for location in detect_locations(event.sentence):
+            entry["locations"].setdefault(location, None)
+
         category = infer_category(event.sentence)
+        entry["category_counts"][category] += 1
+
         importance = score_importance(event.sentence)
         title = build_title(event.sentence, event.date_text)
+
+        if importance > entry["importance"]:
+            entry["importance"] = importance
+            entry["title"] = title
+            entry["date_text"] = event.date_text
+            entry["date_iso"] = event.date_iso
+
+    sorted_entries = sorted(
+        aggregated_events.items(),
+        key=lambda item: (
+            item[1]["date_iso"] or "9999-12-31",
+            -item[1]["importance"],
+            appearance_index[item[0]],
+        ),
+    )
+
+    items: List[TimelineItem] = []
+    for key, entry in itertools.islice(sorted_entries, 0, max_events):
+        category = (
+            entry["category_counts"].most_common(1)[0][0]
+            if entry["category_counts"]
+            else "general"
+        )
+        description = "\n".join(entry["sentences"])
         item = TimelineItem(
             id=str(uuid4()),
-            date_text=event.date_text,
-            date_iso=event.date_iso,
-            title=title,
-            description=event.sentence,
-            people=people,
-            locations=locations,
+            date_text=entry["date_text"],
+            date_iso=entry["date_iso"],
+            title=entry["title"] or entry["date_text"],
+            description=description,
+            people=list(entry["people"].keys())[:5],
+            locations=list(entry["locations"].keys())[:5],
             category=category,
-            importance=importance,
+            importance=max(0.0, round(entry["importance"], 2)),
         )
         items.append(item)
 
-    items.sort(key=lambda item: (item.date_iso or "9999-12-31", item.importance * -1))
     return items
