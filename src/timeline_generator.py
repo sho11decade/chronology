@@ -75,6 +75,7 @@ class RawEvent:
     sentence: str
     date_text: str
     date_iso: Optional[str]
+TITLE_MAX_LENGTH = 80
 
 
 def split_sentences(text: str) -> List[str]:
@@ -285,7 +286,7 @@ def infer_category(sentence: str) -> str:
     return "general"
 
 
-def score_importance(sentence: str) -> float:
+def score_importance(sentence: str, people_count: int = 0, location_count: int = 0) -> float:
     words = re.findall(r"[\w一-龥]+", sentence.lower())
     keyword_counts = Counter(words)
     emphasis = sum(
@@ -294,7 +295,9 @@ def score_importance(sentence: str) -> float:
         for keyword in keywords
     )
     length_bonus = min(len(sentence) / 120.0, 1.0)
-    score = min(1.0, 0.3 + 0.2 * emphasis + 0.5 * length_bonus)
+    detail_bonus = min(0.25, 0.06 * min(people_count, 3) + 0.05 * min(location_count, 3))
+    numeric_bonus = 0.05 if re.search(rf"[{DIGIT_CLASS}]", sentence) else 0.0
+    score = min(1.0, 0.3 + 0.2 * emphasis + 0.4 * length_bonus + detail_bonus + numeric_bonus)
     return round(score, 2)
 
 
@@ -303,11 +306,34 @@ def extract_tokens(sentence: str) -> List[str]:
 
 
 def build_title(sentence: str, date_text: str) -> str:
+    candidate = sentence
+
     if sentence.startswith(date_text):
-        remainder = sentence[len(date_text) :].strip("。:： ")
-        if remainder:
-            return remainder[:40]
-    return sentence[:40]
+        candidate = sentence[len(date_text) :]
+
+    candidate = candidate.lstrip("・:：、。 　")
+    if not candidate:
+        candidate = sentence
+
+    clause_match = re.search(r"[。.!！？\?]", candidate)
+    if clause_match:
+        candidate = candidate[: clause_match.start()]
+    else:
+        comma_match = re.search(r"[、,，]", candidate)
+        if comma_match and comma_match.start() >= 8:
+            candidate = candidate[: comma_match.start()]
+
+    candidate = candidate.strip("・:：、。 　")
+
+    if len(candidate) > TITLE_MAX_LENGTH:
+        truncated = candidate[:TITLE_MAX_LENGTH].rstrip("・:：、。 　")
+        if len(truncated) < len(candidate):
+            candidate = f"{truncated}…"
+        else:
+            candidate = truncated
+
+    fallback = sentence[:TITLE_MAX_LENGTH].rstrip("・:：、。 　")
+    return candidate or fallback
 
 
 def generate_timeline(
@@ -362,8 +388,9 @@ def generate_timeline(
         category = infer_category(event.sentence)
         entry["category_counts"][category] += 1
 
-        importance = score_importance(event.sentence)
         title = build_title(event.sentence, event.date_text)
+
+        importance = score_importance(event.sentence, len(people), len(locations))
 
         if importance > entry["importance"]:
             entry["importance"] = importance

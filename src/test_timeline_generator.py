@@ -103,3 +103,27 @@ def test_generate_timeline_handles_fullwidth_relative_years():
     text = "１０年前のきょう、重要な合意がなされた。"
     items = generate_timeline(text, reference_date=reference)
     assert any(item.date_iso == "2014-01-01" for item in items)
+
+
+def test_generate_timeline_title_preserves_clause_without_truncation():
+    text = (
+        "2024年6月1日、長いタイトルが途中で切れずに伝えたい内容を含むように改善されました。"
+        "さらに説明が続く。"
+    )
+    items = generate_timeline(text)
+    assert items
+    assert any(
+        item.title == "長いタイトルが途中で切れずに伝えたい内容を含むように改善されました"
+        for item in items
+    )
+
+
+def test_generate_timeline_prefers_detailed_sentence_for_title():
+    text = (
+        "2020年1月1日、これは非常に長い説明文でありながら重要な固有名詞は含まれていませんただの説明文です。"
+        "\n2020年1月1日、東京都で田中太郎氏が新店舗を開業した。"
+    )
+    items = generate_timeline(text)
+    assert items
+    item = items[0]
+    assert item.title.startswith("東京都で田中太郎氏が新店舗を開業した")
