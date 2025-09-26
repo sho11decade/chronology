@@ -7,7 +7,7 @@ import sys
 from calendar import monthrange
 from collections import Counter, OrderedDict
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import Iterable, List, Optional
 from uuid import uuid4
@@ -17,13 +17,23 @@ current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
 try:
-    from .text_features import LOCATION_KEYWORDS, PEOPLE_SUFFIXES, CATEGORY_KEYWORDS
+    from .text_features import (
+        LOCATION_KEYWORDS,
+        LOCATION_SUFFIXES,
+        PEOPLE_SUFFIXES,
+        CATEGORY_KEYWORDS,
+    )
     from .models import TimelineItem
     from .japanese_calendar import normalise_era_notation
     from .text_cleaner import normalise_input_text
 except ImportError:
     # Fallback to absolute imports when running as script
-    from text_features import LOCATION_KEYWORDS, PEOPLE_SUFFIXES, CATEGORY_KEYWORDS
+    from text_features import (
+        LOCATION_KEYWORDS,
+        LOCATION_SUFFIXES,
+        PEOPLE_SUFFIXES,
+        CATEGORY_KEYWORDS,
+    )
     from models import TimelineItem
     from japanese_calendar import normalise_era_notation
     from text_cleaner import normalise_input_text
@@ -39,6 +49,7 @@ DATE_PATTERNS = [
 ]
 
 ERA_PATTERN = re.compile(r"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[0-9０-９]+|元)年(?:(?P<month>[0-9０-９]+)月)?(?:(?P<day>[0-9０-９]+)日)?")
+RELATIVE_YEAR_PATTERN = re.compile(rf"(?P<years>[{DIGIT_CLASS}]+)年前")
 
 FULLWIDTH_DIGIT_TABLE = str.maketrans({
     "０": "0",
@@ -53,6 +64,10 @@ FULLWIDTH_DIGIT_TABLE = str.maketrans({
     "９": "9",
 })
 SENTENCE_SPLIT_PATTERN = re.compile(r"(?<=[。！？!\?])\s*")
+KANJI_NAME_PATTERN = re.compile(r"^[一-龥]{2,4}$")
+KATAKANA_NAME_PATTERN = re.compile(r"^[ァ-ヴー]+$")
+LOCATION_COMPOUND_PATTERN = re.compile(r"[一-龥]{1,4}(?:都|道|府|県|市|区|町|村|郡|空港|駅|港|湾|半島)")
+TOKEN_STRIP_CHARS = "（）()「」『』\"'、，,。:：;；!?！？〜～‐-"
 
 
 @dataclass
@@ -104,13 +119,35 @@ def _safe_iso_date(year: int, month: int, day: int) -> Optional[str]:
         return None
 
 
-def iter_dates(sentence: str) -> Iterable[RawEvent]:
+def _relative_year_to_iso(years_text: str, reference: date) -> Optional[str]:
+    years = _parse_number(years_text, fallback=-1)
+    if years <= 0 or years > 3000:
+        return None
+    target_year = reference.year - years
+    if target_year <= 0:
+        return None
+    return _safe_iso_date(target_year, 1, 1)
+
+
+def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
     seen_spans: list[tuple[int, int]] = []
     for match in ERA_PATTERN.finditer(sentence):
         era_raw = match.group()
         iso_candidate = normalise_era_notation(era_raw)
         seen_spans.append(match.span())
         yield RawEvent(sentence=sentence, date_text=era_raw, date_iso=iso_candidate)
+
+    for match in RELATIVE_YEAR_PATTERN.finditer(sentence):
+        span = match.span()
+        if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
+            continue
+        iso_candidate = _relative_year_to_iso(match.group("years"), reference)
+        seen_spans.append(span)
+        yield RawEvent(
+            sentence=sentence,
+            date_text=match.group(),
+            date_iso=iso_candidate,
+        )
 
     for pattern in DATE_PATTERNS:
         for match in pattern.finditer(sentence):
@@ -132,19 +169,112 @@ def iter_dates(sentence: str) -> Iterable[RawEvent]:
             )
 
 
-def detect_people(tokens: List[str]) -> List[str]:
-    candidates: List[str] = []
+def _strip_token(token: str) -> str:
+    return token.strip(TOKEN_STRIP_CHARS)
+
+
+def _remove_person_suffix(token: str) -> str:
+    for suffix in PEOPLE_SUFFIXES:
+        if token.endswith(suffix):
+            return token[: -len(suffix)]
+    return token
+
+
+def _remove_location_suffix(token: str) -> str:
+    for suffix in LOCATION_SUFFIXES:
+        if token.endswith(suffix):
+            return token[: -len(suffix)]
+    return token
+
+
+def classify_people_locations(sentence: str, tokens: List[str]) -> tuple[List[str], List[str]]:
+    people_order: OrderedDict[str, None] = OrderedDict()
+    locations_order: OrderedDict[str, None] = OrderedDict()
+    person_bases: set[str] = set()
+    location_bases: set[str] = set()
+
+    def add_person(name: str) -> None:
+        cleaned = _strip_token(name)
+        if not cleaned:
+            return
+        base = _strip_token(_remove_person_suffix(cleaned)) or cleaned
+        if base in location_bases and not any(cleaned.endswith(suf) for suf in PEOPLE_SUFFIXES):
+            return
+        if base not in person_bases:
+            person_bases.add(base)
+            people_order.setdefault(cleaned, None)
+
+    def add_location(name: str) -> None:
+        cleaned = _strip_token(name)
+        if not cleaned:
+            return
+        base = _strip_token(_remove_location_suffix(cleaned)) or cleaned
+        if base in person_bases and not any(cleaned.endswith(suf) for suf in LOCATION_SUFFIXES):
+            return
+        if base not in location_bases:
+            location_bases.add(base)
+            locations_order.setdefault(cleaned, None)
+
     for token in tokens:
-        if any(token.endswith(suffix) for suffix in PEOPLE_SUFFIXES):
-            candidates.append(token)
-        elif len(token) >= 2 and all("\u4e00" <= char <= "\u9fff" for char in token):
-            candidates.append(token)
-    return sorted(set(candidates))[:5]
+        cleaned = _strip_token(token)
+        if not cleaned:
+            continue
 
+        if cleaned in LOCATION_KEYWORDS:
+            add_location(cleaned)
+            continue
 
-def detect_locations(sentence: str) -> List[str]:
-    hits = [word for word in LOCATION_KEYWORDS if word in sentence]
-    return sorted(set(hits))[:5]
+        if any(cleaned.endswith(suffix) for suffix in LOCATION_SUFFIXES):
+            add_location(cleaned)
+            continue
+
+        base_person = _remove_person_suffix(cleaned)
+        if base_person != cleaned:
+            if base_person and base_person not in LOCATION_KEYWORDS and not any(base_person.endswith(suf) for suf in LOCATION_SUFFIXES):
+                add_person(cleaned)
+            continue
+
+        if KANJI_NAME_PATTERN.match(cleaned) and not any(cleaned.endswith(suf) for suf in LOCATION_SUFFIXES):
+            if cleaned not in LOCATION_KEYWORDS:
+                add_person(cleaned)
+            continue
+
+        if "・" in cleaned:
+            parts = [part for part in cleaned.split("・") if part]
+            if parts and all(KANJI_NAME_PATTERN.match(part) or KATAKANA_NAME_PATTERN.match(part) for part in parts):
+                add_person(cleaned)
+                continue
+
+        if KATAKANA_NAME_PATTERN.match(cleaned) and len(cleaned) >= 3:
+            add_person(cleaned)
+            continue
+
+    for match in LOCATION_COMPOUND_PATTERN.finditer(sentence):
+        add_location(match.group())
+
+    for keyword in LOCATION_KEYWORDS:
+        if keyword in sentence:
+            add_location(keyword)
+
+    people = list(people_order.keys())
+    locations = list(locations_order.keys())
+
+    overlap = set(people) & set(locations)
+    for name in overlap:
+        if any(name.endswith(suf) for suf in PEOPLE_SUFFIXES):
+            if name in locations:
+                locations.remove(name)
+        elif any(name.endswith(suf) for suf in LOCATION_SUFFIXES):
+            if name in people:
+                people.remove(name)
+        elif len(name) <= 2:
+            if name in people:
+                people.remove(name)
+        else:
+            if name in locations:
+                locations.remove(name)
+
+    return people[:5], locations[:5]
 
 
 def infer_category(sentence: str) -> str:
@@ -180,13 +310,18 @@ def build_title(sentence: str, date_text: str) -> str:
     return sentence[:40]
 
 
-def generate_timeline(text: str, max_events: int = 150) -> List[TimelineItem]:
+def generate_timeline(
+    text: str,
+    max_events: int = 150,
+    reference_date: Optional[date] = None,
+) -> List[TimelineItem]:
     preprocessed = normalise_input_text(text)
     sentences = split_sentences(preprocessed)
+    reference = reference_date or datetime.utcnow().date()
 
     raw_events: List[RawEvent] = []
     for sentence in sentences:
-        matches = list(iter_dates(sentence))
+        matches = list(iter_dates(sentence, reference))
         if not matches:
             continue
         raw_events.extend(matches)
@@ -218,9 +353,10 @@ def generate_timeline(text: str, max_events: int = 150) -> List[TimelineItem]:
             entry["sentences"].append(event.sentence)
 
         tokens = extract_tokens(event.sentence)
-        for person in detect_people(tokens):
+        people, locations = classify_people_locations(event.sentence, tokens)
+        for person in people:
             entry["people"].setdefault(person, None)
-        for location in detect_locations(event.sentence):
+        for location in locations:
             entry["locations"].setdefault(location, None)
 
         category = infer_category(event.sentence)

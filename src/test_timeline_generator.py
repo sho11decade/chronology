@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import date
+
 try:
     from .timeline_generator import generate_timeline
 except ImportError:
@@ -87,3 +89,17 @@ def test_generate_timeline_handles_bullet_list():
     assert len(items) >= 2
     dates = {item.date_iso for item in items if item.date_iso}
     assert "2019-10-22" in dates
+
+
+def test_generate_timeline_handles_relative_years():
+    reference = date(2024, 1, 1)
+    text = "10年前に会社が設立された。"
+    items = generate_timeline(text, reference_date=reference)
+    assert any(item.date_iso == "2014-01-01" for item in items)
+
+
+def test_generate_timeline_handles_fullwidth_relative_years():
+    reference = date(2024, 1, 1)
+    text = "１０年前のきょう、重要な合意がなされた。"
+    items = generate_timeline(text, reference_date=reference)
+    assert any(item.date_iso == "2014-01-01" for item in items)
