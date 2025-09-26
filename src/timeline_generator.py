@@ -20,11 +20,13 @@ try:
     from .text_features import LOCATION_KEYWORDS, PEOPLE_SUFFIXES, CATEGORY_KEYWORDS
     from .models import TimelineItem
     from .japanese_calendar import normalise_era_notation
+    from .text_cleaner import normalise_input_text
 except ImportError:
     # Fallback to absolute imports when running as script
     from text_features import LOCATION_KEYWORDS, PEOPLE_SUFFIXES, CATEGORY_KEYWORDS
     from models import TimelineItem
     from japanese_calendar import normalise_era_notation
+    from text_cleaner import normalise_input_text
 
 DIGIT_CLASS = "0-9０-９"
 
@@ -62,14 +64,19 @@ class RawEvent:
 
 def split_sentences(text: str) -> List[str]:
     stripped = text.replace("\r", "")
-    sentences = [
-        segment.strip()
-        for segment in SENTENCE_SPLIT_PATTERN.split(stripped)
-        if segment.strip()
-    ]
-    if not sentences:
-        sentences = [stripped.strip()]
-    return sentences
+    candidates: list[str] = []
+    for line in stripped.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        segments = [segment.strip() for segment in SENTENCE_SPLIT_PATTERN.split(line) if segment.strip()]
+        if segments:
+            candidates.extend(segments)
+        else:
+            candidates.append(line)
+    if not candidates:
+        candidates = [stripped.strip()]
+    return candidates
 
 
 def _normalise_digits(value: str) -> str:
@@ -174,7 +181,8 @@ def build_title(sentence: str, date_text: str) -> str:
 
 
 def generate_timeline(text: str, max_events: int = 150) -> List[TimelineItem]:
-    sentences = split_sentences(text)
+    preprocessed = normalise_input_text(text)
+    sentences = split_sentences(preprocessed)
 
     raw_events: List[RawEvent] = []
     for sentence in sentences:

@@ -64,3 +64,26 @@ def test_generate_timeline_detects_sports_category():
     text = "2023年3月21日、侍ジャパンがW杯で優勝し、選手たちが歓喜した。"
     items = generate_timeline(text)
     assert any(item.category == "sports" for item in items)
+
+
+def test_generate_timeline_strips_wikipedia_markers():
+    text = (
+        "2020年1月1日、首都圏で大規模な式典が開催された[1]。"
+        "<ref>出典: ウィキペディア</ref>{{Infobox}}"
+    )
+    items = generate_timeline(text)
+    assert items
+    description = items[0].description
+    assert "[1]" not in description
+    assert "出典" not in description
+
+
+def test_generate_timeline_handles_bullet_list():
+    text = """
+    * 2019年10月22日　即位礼正殿の儀が執り行われた。
+    * 2019年11月10日　祝賀御列の儀が行われた。
+    """
+    items = generate_timeline(text)
+    assert len(items) >= 2
+    dates = {item.date_iso for item in items if item.date_iso}
+    assert "2019-10-22" in dates
