@@ -3,12 +3,19 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
+import sys
 from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
 from typing import Iterable, List, Optional, Tuple
 
-from .models import TimelineItem
+CURRENT_DIR = Path(__file__).parent
+sys.path.insert(0, str(CURRENT_DIR))
+
+try:
+    from .models import TimelineItem
+except ImportError:
+    from models import TimelineItem
 
 DEFAULT_DB_PATH = Path(os.getenv("CHRONOLOGY_DB_PATH", Path(__file__).parent / "chronology.db"))
 
