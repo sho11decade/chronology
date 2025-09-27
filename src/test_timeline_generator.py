@@ -145,6 +145,21 @@ def test_generate_timeline_confidence_increases_with_additional_context():
     assert item.confidence >= 0.6
 
 
+def test_generate_timeline_title_strips_parenthetical_dates():
+    text = "2014年4月1日、2014年（平成26年）に改正された法律が施行された。"
+    items = generate_timeline(text)
+    assert items
+    titles = {item.title for item in items}
+    assert any("法律が施行された" in title for title in titles)
+    assert all("平成26年" not in title or "法律" in title for title in titles)
+
+
+def test_generate_timeline_preserves_meaningful_parentheses():
+    text = "2015年5月1日、東京（渋谷区）で大型の文化イベントが開催された。"
+    items = generate_timeline(text)
+    assert any("渋谷区" in item.title for item in items)
+
+
 def test_generate_timeline_ignores_meaningless_date_only_sentences():
     text = "\n".join(
         [

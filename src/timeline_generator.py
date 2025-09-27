@@ -315,6 +315,8 @@ def build_title(sentence: str, date_text: str) -> str:
     if not candidate:
         candidate = sentence
 
+    candidate = _strip_parenthetical_dates(candidate)
+
     clause_match = re.search(r"[。.!！？\?]", candidate)
     if clause_match:
         candidate = candidate[: clause_match.start()]
@@ -324,6 +326,16 @@ def build_title(sentence: str, date_text: str) -> str:
             candidate = candidate[: comma_match.start()]
 
     candidate = candidate.strip("・:：、。 　")
+    candidate = _strip_parenthetical_dates(candidate)
+
+    if not candidate or _MEANINGLESS_PATTERN.match(candidate):
+        alt = _first_meaningful_clause(sentence, date_text)
+        if alt:
+            candidate = alt
+
+    if not candidate or _MEANINGLESS_PATTERN.match(candidate):
+        fallback = sentence[:TITLE_MAX_LENGTH].rstrip("・:：、。 　")
+        return fallback
 
     if len(candidate) > TITLE_MAX_LENGTH:
         truncated = candidate[:TITLE_MAX_LENGTH].rstrip("・:：、。 　")
@@ -332,11 +344,47 @@ def build_title(sentence: str, date_text: str) -> str:
         else:
             candidate = truncated
 
-    fallback = sentence[:TITLE_MAX_LENGTH].rstrip("・:：、。 　")
-    return candidate or fallback
+    return candidate
 
 
 _MEANINGLESS_PATTERN = re.compile(rf"^[\s{DIGIT_CLASS}年月日・:：、。　/-]+$")
+
+ERA_NAMES = ("令和", "平成", "昭和", "大正", "明治")
+
+
+def _is_parenthetical_date(text: str) -> bool:
+    cleaned = text.strip()
+    if not cleaned:
+        return False
+    for era in ERA_NAMES:
+        cleaned = cleaned.replace(era, "")
+    cleaned = re.sub(rf"[{DIGIT_CLASS}元年月日／/・\.\-\s　]", "", cleaned)
+    return cleaned == ""
+
+
+def _strip_parenthetical_dates(text: str) -> str:
+    result = text
+    while True:
+        match = re.match(r"^[（(][^（）()]{0,40}[）)]", result)
+        if not match:
+            break
+        inner = match.group()[1:-1]
+        if _is_parenthetical_date(inner):
+            result = result[match.end():].lstrip("・:：、。 　")
+        else:
+            break
+
+    while True:
+        match = re.search(r"[（(][^（）()]{0,40}[）)]\s*$", result)
+        if not match:
+            break
+        inner = result[match.start() + 1 : match.end() - 1]
+        if _is_parenthetical_date(inner):
+            result = result[: match.start()].rstrip("・:：、。 　")
+        else:
+            break
+
+    return result
 
 
 def has_meaningful_content(sentence: str, date_text: str) -> bool:
@@ -350,6 +398,20 @@ def has_meaningful_content(sentence: str, date_text: str) -> bool:
     if _MEANINGLESS_PATTERN.match(remainder):
         return False
     return bool(re.search(r"[A-Za-z一-龥ぁ-んァ-ヴー]", remainder))
+
+
+def _first_meaningful_clause(sentence: str, date_text: str) -> Optional[str]:
+    for part in re.split(r"[。.!！？\?,、,，]", sentence):
+        candidate = part.strip("・:：、。 　")
+        if not candidate:
+            continue
+        if has_meaningful_content(candidate, ""):
+            return candidate
+    if has_meaningful_content(sentence, date_text):
+        stripped = sentence.strip("・:：、。 　")
+        if stripped:
+            return stripped
+    return None
 
 
 def compute_confidence(entry: dict) -> float:
