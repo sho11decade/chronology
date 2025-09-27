@@ -107,6 +107,7 @@ CATEGORY_KEYWORDS_LOWER = {
     category: tuple(keyword.lower() for keyword in keywords)
     for category, keywords in CATEGORY_KEYWORDS.items()
 }
+LEADING_SYMBOL_PATTERN = re.compile(r"^[-‐‑‒–—―－−•●◦○◆◇☆★▪▫∙·・]\s*")
 
 
 @dataclass
@@ -114,6 +115,8 @@ class RawEvent:
     sentence: str
     date_text: str
     date_iso: Optional[str]
+    relative_years: Optional[int] = None
+    reference_year: Optional[int] = None
 TITLE_MAX_LENGTH = 80
 
 
@@ -230,14 +233,16 @@ def _safe_iso_date(year: int, month: int, day: int) -> Optional[str]:
         return None
 
 
-def _relative_year_to_iso(years_text: str, reference: date) -> Optional[str]:
+def _relative_year_to_iso(years_text: str, reference: date) -> tuple[Optional[str], Optional[int]]:
     years = _parse_number(years_text, fallback=-1)
-    if years <= 0 or years > 3000:
-        return None
+    if years <= 0:
+        return None, None
+
     target_year = reference.year - years
-    if target_year <= 0:
-        return None
-    return _safe_iso_date(target_year, 1, 1)
+    iso_candidate = None
+    if target_year > 0:
+        iso_candidate = _safe_iso_date(target_year, 1, 1)
+    return iso_candidate, years
 
 
 def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
@@ -246,18 +251,25 @@ def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
         era_raw = match.group()
         iso_candidate = normalise_era_notation(era_raw)
         seen_spans.append(match.span())
-        yield RawEvent(sentence=sentence, date_text=era_raw, date_iso=iso_candidate)
+        yield RawEvent(
+            sentence=sentence,
+            date_text=era_raw,
+            date_iso=iso_candidate,
+            reference_year=reference.year,
+        )
 
     for match in RELATIVE_YEAR_PATTERN.finditer(sentence):
         span = match.span()
         if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
             continue
-        iso_candidate = _relative_year_to_iso(match.group("years"), reference)
+        iso_candidate, relative_years = _relative_year_to_iso(match.group("years"), reference)
         seen_spans.append(span)
         yield RawEvent(
             sentence=sentence,
             date_text=match.group(),
             date_iso=iso_candidate,
+            relative_years=relative_years,
+            reference_year=reference.year,
         )
 
     for pattern in DATE_PATTERNS:
@@ -277,6 +289,7 @@ def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
                 sentence=sentence,
                 date_text=match.group(),
                 date_iso=iso,
+                reference_year=reference.year,
             )
 
 
@@ -446,6 +459,12 @@ def build_title(sentence: str, date_text: str) -> str:
     candidate = candidate.strip("・:：、。 　")
     candidate = _strip_parenthetical_dates(candidate)
 
+    while True:
+        stripped = LEADING_SYMBOL_PATTERN.sub("", candidate, count=1)
+        if stripped == candidate:
+            break
+        candidate = stripped.lstrip()
+
     if not candidate or _MEANINGLESS_PATTERN.match(candidate):
         alt = _first_meaningful_clause(sentence, date_text)
         if alt:
@@ -543,13 +562,24 @@ def _strip_fuzzy_suffixes(text: str) -> str:
     return result
 
 
-def _parse_sort_candidate(date_iso: Optional[str], date_text: str) -> Optional[tuple[int, int, int, int]]:
+def _parse_sort_candidate(
+    date_iso: Optional[str],
+    date_text: str,
+    *,
+    relative_years: Optional[int] = None,
+    reference_year: Optional[int] = None,
+) -> Optional[tuple[int, int, int, int]]:
     if date_iso:
         try:
             year, month, day = (int(part) for part in date_iso.split("-"))
             return (year, month, day, 0)
         except ValueError:
             pass
+
+    if relative_years is not None:
+        base_year = reference_year if reference_year is not None else datetime.utcnow().year
+        approx_year = base_year - relative_years
+        return (approx_year, 1, 1, 2)
 
     cleaned = _strip_fuzzy_suffixes(date_text)
     cleaned = cleaned.strip("・:：、。 　")
@@ -699,7 +729,12 @@ def generate_timeline(
 
         entry = aggregated_events[key]
 
-        sort_candidate = _parse_sort_candidate(event.date_iso, event.date_text)
+        sort_candidate = _parse_sort_candidate(
+            event.date_iso,
+            event.date_text,
+            relative_years=event.relative_years,
+            reference_year=event.reference_year,
+        )
         _choose_sort_key(entry, sort_candidate)
 
         sentence = event.sentence

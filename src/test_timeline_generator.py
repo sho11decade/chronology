@@ -214,3 +214,23 @@ def test_generate_timeline_ignores_isbn_sequences():
     descriptions = "\n".join(item.description for item in items)
     assert "ISBN" not in descriptions
     assert all("978-4-0010-1234-5" not in item.title for item in items)
+
+
+def test_generate_timeline_orders_large_relative_years_first():
+    reference = date(2024, 1, 1)
+    text = (
+        "二万年前、洞窟壁画が描かれた。\n"
+        "100年前、京都で記念展示が開催された。"
+    )
+    items = generate_timeline(text, reference_date=reference)
+    assert len(items) >= 2
+    assert items[0].date_text.startswith("二万年前")
+    assert items[0].date_iso is None
+    assert any(item.date_text.startswith("100年前") for item in items)
+
+
+def test_generate_timeline_title_strips_leading_dash():
+    text = "2020年1月1日 - 東京で新年の式典が開催された。"
+    items = generate_timeline(text)
+    assert items
+    assert not items[0].title.startswith("-")
