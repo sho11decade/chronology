@@ -336,6 +336,22 @@ def build_title(sentence: str, date_text: str) -> str:
     return candidate or fallback
 
 
+_MEANINGLESS_PATTERN = re.compile(rf"^[\s{DIGIT_CLASS}年月日・:：、。　/-]+$")
+
+
+def has_meaningful_content(sentence: str, date_text: str) -> bool:
+    remainder = sentence
+    if date_text:
+        remainder = remainder.replace(date_text, " ", 1)
+    remainder = remainder.strip()
+    remainder = remainder.strip("・:：、。 　")
+    if not remainder:
+        return False
+    if _MEANINGLESS_PATTERN.match(remainder):
+        return False
+    return bool(re.search(r"[A-Za-z一-龥ぁ-んァ-ヴー]", remainder))
+
+
 def compute_confidence(entry: dict) -> float:
     raw_importance = entry.get("importance", 0.0)
     if not isinstance(raw_importance, (int, float)) or not math.isfinite(raw_importance):
@@ -407,6 +423,9 @@ def generate_timeline(
 
         entry = aggregated_events[key]
 
+        if not has_meaningful_content(event.sentence, event.date_text):
+            continue
+
         if event.sentence not in entry["sentences"]:
             entry["sentences"].append(event.sentence)
 
@@ -441,6 +460,8 @@ def generate_timeline(
 
     items: List[TimelineItem] = []
     for key, entry in itertools.islice(sorted_entries, 0, max_events):
+        if not entry["sentences"]:
+            continue
         category = (
             entry["category_counts"].most_common(1)[0][0]
             if entry["category_counts"]

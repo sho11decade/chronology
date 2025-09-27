@@ -143,3 +143,17 @@ def test_generate_timeline_confidence_increases_with_additional_context():
     assert items
     item = items[0]
     assert item.confidence >= 0.6
+
+
+def test_generate_timeline_ignores_meaningless_date_only_sentences():
+    text = "\n".join(
+        [
+            "2020年5月。",
+            "2021年6月",
+            "2021年6月15日、東京で新しい交通計画が発表された。",
+        ]
+    )
+    items = generate_timeline(text)
+    assert items
+    assert len(items) == 1
+    assert items[0].date_iso == "2021-06-15"
