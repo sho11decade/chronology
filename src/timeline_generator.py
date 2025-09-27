@@ -38,18 +38,49 @@ except ImportError:
     from japanese_calendar import normalise_era_notation
     from text_cleaner import normalise_input_text
 
-DIGIT_CLASS = "0-9０-９"
+KANJI_DIGITS = "〇零一二三四五六七八九"
+KANJI_DIGIT_VALUES = {
+    "〇": 0,
+    "零": 0,
+    "一": 1,
+    "二": 2,
+    "三": 3,
+    "四": 4,
+    "五": 5,
+    "六": 6,
+    "七": 7,
+    "八": 8,
+    "九": 9,
+}
+KANJI_SMALL_UNITS = {
+    "十": 10,
+    "百": 100,
+    "千": 1000,
+}
+KANJI_LARGE_UNITS = {
+    "万": 10_000,
+    "億": 100_000_000,
+    "兆": 1_000_000_000_000,
+}
+NUMERAL_CLASS = f"0-9０-９{KANJI_DIGITS}{''.join(KANJI_SMALL_UNITS.keys())}{''.join(KANJI_LARGE_UNITS.keys())}元"
+
+YEAR_TOKEN = rf"(?P<year>[{NUMERAL_CLASS}]{{1,8}})"
+MONTH_TOKEN = rf"(?P<month>[{NUMERAL_CLASS}]{{1,5}})"
+DAY_TOKEN = rf"(?P<day>[{NUMERAL_CLASS}]{{1,5}})"
 
 DATE_PATTERNS = [
-    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})年(?P<month>[{DIGIT_CLASS}]{{1,2}})月(?P<day>[{DIGIT_CLASS}]{{1,2}})日?"),
-    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})年(?P<month>[{DIGIT_CLASS}]{{1,2}})月"),
-    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})年"),
-    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})月(?P<day>[{DIGIT_CLASS}]{{1,2}})日"),
-    re.compile(rf"(?P<year>[{DIGIT_CLASS}]{{3,4}})[-/\.](?P<month>[{DIGIT_CLASS}]{{1,2}})[-/\.](?P<day>[{DIGIT_CLASS}]{{1,2}})"),
+    re.compile(rf"{YEAR_TOKEN}年{MONTH_TOKEN}月{DAY_TOKEN}日?"),
+    re.compile(rf"{YEAR_TOKEN}年{MONTH_TOKEN}月"),
+    re.compile(rf"{YEAR_TOKEN}年"),
+    re.compile(rf"{YEAR_TOKEN}月{DAY_TOKEN}日"),
+    re.compile(rf"{YEAR_TOKEN}[-/\.]{MONTH_TOKEN}[-/\.]" + rf"{DAY_TOKEN}"),
 ]
 
-ERA_PATTERN = re.compile(r"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[0-9０-９]+|元)年(?:(?P<month>[0-9０-９]+)月)?(?:(?P<day>[0-9０-９]+)日)?")
-RELATIVE_YEAR_PATTERN = re.compile(rf"(?P<years>[{DIGIT_CLASS}]+)年前")
+ERA_NUMERAL_CLASS = f"0-9０-９{KANJI_DIGITS}{''.join(KANJI_SMALL_UNITS.keys())}"
+ERA_PATTERN = re.compile(
+    rf"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[{ERA_NUMERAL_CLASS}]+|元)年(?:(?P<month>[{ERA_NUMERAL_CLASS}]+)月)?(?:(?P<day>[{ERA_NUMERAL_CLASS}]+)日)?"
+)
+RELATIVE_YEAR_PATTERN = re.compile(rf"(?P<years>[{NUMERAL_CLASS}]+)年前")
 
 FULLWIDTH_DIGIT_TABLE = str.maketrans({
     "０": "0",
@@ -99,13 +130,84 @@ def _normalise_digits(value: str) -> str:
     return value.translate(FULLWIDTH_DIGIT_TABLE)
 
 
+def _convert_japanese_numerals_to_int(raw: str) -> Optional[int]:
+    if raw is None:
+        return None
+    cleaned = re.sub(r"[\s　,，_]", "", raw)
+    if not cleaned:
+        return None
+    cleaned = _normalise_digits(cleaned)
+    if not cleaned:
+        return None
+    if cleaned == "元":
+        return 1
+
+    if all(ch in KANJI_DIGIT_VALUES for ch in cleaned):
+        digits = "".join(str(KANJI_DIGIT_VALUES[ch]) for ch in cleaned)
+        return int(digits)
+
+    total = 0
+    section = 0
+    current_digit = None
+
+    for ch in cleaned:
+        if ch in KANJI_DIGIT_VALUES:
+            current_digit = KANJI_DIGIT_VALUES[ch]
+            continue
+
+        if ch.isdigit():
+            current_digit = int(ch)
+            continue
+
+        if ch in KANJI_SMALL_UNITS:
+            multiplier = KANJI_SMALL_UNITS[ch]
+            value = current_digit if current_digit is not None else 1
+            section += value * multiplier
+            current_digit = None
+            continue
+
+        if ch in KANJI_LARGE_UNITS:
+            unit_value = KANJI_LARGE_UNITS[ch]
+            if current_digit is not None:
+                section += current_digit
+            if section == 0:
+                section = 1
+            total += section * unit_value
+            section = 0
+            current_digit = None
+            continue
+
+        return None
+
+    if current_digit is not None:
+        section += current_digit
+
+    result = total + section
+    return result if result != 0 else None
+
+
 def _parse_number(value: Optional[str], fallback: int = 1) -> int:
     if value is None:
         return fallback
-    try:
-        return int(_normalise_digits(value))
-    except ValueError:
+    candidate = _normalise_digits(value).strip()
+    candidate = re.sub(r"[,_，]", "", candidate)
+    if not candidate:
         return fallback
+    if re.fullmatch(r"[0-9]+", candidate):
+        try:
+            return int(candidate)
+        except ValueError:
+            return fallback
+
+    kanji_value = _convert_japanese_numerals_to_int(value)
+    if kanji_value is not None:
+        return kanji_value
+
+    kanji_value = _convert_japanese_numerals_to_int(candidate)
+    if kanji_value is not None:
+        return kanji_value
+
+    return fallback
 
 
 def _safe_iso_date(year: int, month: int, day: int) -> Optional[str]:
@@ -296,7 +398,7 @@ def score_importance(sentence: str, people_count: int = 0, location_count: int =
     )
     length_bonus = min(len(sentence) / 120.0, 1.0)
     detail_bonus = min(0.25, 0.06 * min(people_count, 3) + 0.05 * min(location_count, 3))
-    numeric_bonus = 0.05 if re.search(rf"[{DIGIT_CLASS}]", sentence) else 0.0
+    numeric_bonus = 0.05 if re.search(rf"[{NUMERAL_CLASS}]", sentence) else 0.0
     score = min(1.0, 0.3 + 0.2 * emphasis + 0.4 * length_bonus + detail_bonus + numeric_bonus)
     return round(score, 2)
 
@@ -347,7 +449,7 @@ def build_title(sentence: str, date_text: str) -> str:
     return candidate
 
 
-_MEANINGLESS_PATTERN = re.compile(rf"^[\s{DIGIT_CLASS}年月日・:：、。　/-]+$")
+_MEANINGLESS_PATTERN = re.compile(rf"^[\s{NUMERAL_CLASS}年月日・:：、。　/-]+$")
 
 ERA_NAMES = ("令和", "平成", "昭和", "大正", "明治")
 
@@ -358,7 +460,7 @@ def _is_parenthetical_date(text: str) -> bool:
         return False
     for era in ERA_NAMES:
         cleaned = cleaned.replace(era, "")
-    cleaned = re.sub(rf"[{DIGIT_CLASS}元年月日／/・\.\-\s　]", "", cleaned)
+    cleaned = re.sub(rf"[{NUMERAL_CLASS}元年月日／/・\.\-\s　]", "", cleaned)
     return cleaned == ""
 
 

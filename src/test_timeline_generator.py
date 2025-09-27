@@ -172,3 +172,22 @@ def test_generate_timeline_ignores_meaningless_date_only_sentences():
     assert items
     assert len(items) == 1
     assert items[0].date_iso == "2021-06-15"
+
+
+def test_generate_timeline_parses_kanji_dates():
+    text = "二千十四年四月一日、東京で重要な会議が開催された。"
+    items = generate_timeline(text)
+    assert any(item.date_iso == "2014-04-01" for item in items)
+
+
+def test_generate_timeline_parses_era_with_kanji_month_day():
+    text = "令和三年四月一日、京都で新しい政策が発表された。"
+    items = generate_timeline(text)
+    assert any(item.date_iso == "2021-04-01" for item in items)
+
+
+def test_generate_timeline_handles_kanji_relative_years():
+    reference = date(2024, 1, 1)
+    text = "十年前に会社が創立された。"
+    items = generate_timeline(text, reference_date=reference)
+    assert any(item.date_iso == "2014-01-01" for item in items)
