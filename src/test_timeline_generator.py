@@ -24,6 +24,9 @@ def test_generate_timeline_extracts_events():
     assert "education" in categories
     assert "economy" in categories or "politics" in categories
 
+    for item in items:
+        assert 0.0 <= item.confidence <= 1.0
+
 
 def test_generate_timeline_limits_events():
     many_events = "\n".join(
@@ -38,6 +41,7 @@ def test_generate_timeline_handles_fullwidth_digits():
     text = "２０２０年５月１５日、新製品が発表された。"
     items = generate_timeline(text)
     assert any(item.date_iso == "2020-05-15" for item in items)
+    assert any(item.confidence >= 0.5 for item in items)
 
 
 def test_generate_timeline_merges_events_with_same_date():
@@ -127,3 +131,15 @@ def test_generate_timeline_prefers_detailed_sentence_for_title():
     assert items
     item = items[0]
     assert item.title.startswith("東京都で田中太郎氏が新店舗を開業した")
+    assert item.confidence >= 0.5
+
+
+def test_generate_timeline_confidence_increases_with_additional_context():
+    text = (
+        "2022年4月10日、東京都で佐藤花子氏が新しい教育プログラムを発表し、文部科学省も支援を表明した。"
+        "同日、渋谷区で関連イベントが開催された。"
+    )
+    items = generate_timeline(text)
+    assert items
+    item = items[0]
+    assert item.confidence >= 0.6

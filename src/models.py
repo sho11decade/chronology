@@ -27,6 +27,12 @@ class TimelineItem(BaseModel):
         le=1.0,
         description="Normalised importance score between 0 and 1",
     )
+    confidence: float = Field(
+        default=0.5,
+        ge=0.0,
+        le=1.0,
+        description="Heuristic confidence score indicating reliability of the event",
+    )
 
     @validator("category")
     def normalise_category(cls, value: str) -> str:

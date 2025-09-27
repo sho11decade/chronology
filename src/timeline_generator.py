@@ -336,6 +336,38 @@ def build_title(sentence: str, date_text: str) -> str:
     return candidate or fallback
 
 
+def compute_confidence(entry: dict) -> float:
+    raw_importance = entry.get("importance", 0.0)
+    if not isinstance(raw_importance, (int, float)) or not math.isfinite(raw_importance):
+        raw_importance = 0.0
+    base = min(0.8, max(0.2, 0.3 + 0.5 * raw_importance))
+
+    iso_bonus = 0.1 if entry.get("date_iso") else 0.0
+
+    people_container = entry.get("people") or {}
+    if isinstance(people_container, (dict, OrderedDict)):
+        people_count = len(people_container)
+    else:
+        people_count = len(list(people_container))
+
+    locations_container = entry.get("locations") or {}
+    if isinstance(locations_container, (dict, OrderedDict)):
+        location_count = len(locations_container)
+    else:
+        location_count = len(list(locations_container))
+
+    entity_bonus = min(0.15, 0.05 * (people_count + location_count))
+
+    sentence_count = len(entry.get("sentences", []))
+    sentence_bonus = 0.05 if sentence_count > 1 else 0.0
+
+    category_counts = entry.get("category_counts")
+    diversity_bonus = 0.05 if category_counts and len(category_counts) > 1 else 0.0
+
+    score = min(1.0, base + iso_bonus + entity_bonus + sentence_bonus + diversity_bonus)
+    return round(score, 2)
+
+
 def generate_timeline(
     text: str,
     max_events: int = 150,
@@ -415,6 +447,7 @@ def generate_timeline(
             else "general"
         )
         description = "\n".join(entry["sentences"])
+        confidence = compute_confidence(entry)
         item = TimelineItem(
             id=str(uuid4()),
             date_text=entry["date_text"],
@@ -425,6 +458,7 @@ def generate_timeline(
             locations=list(entry["locations"].keys())[:5],
             category=category,
             importance=max(0.0, round(entry["importance"], 2)),
+            confidence=confidence,
         )
         items.append(item)
 
