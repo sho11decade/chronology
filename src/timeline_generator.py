@@ -73,7 +73,7 @@ DATE_PATTERNS = [
     re.compile(rf"{YEAR_TOKEN}年{MONTH_TOKEN}月"),
     re.compile(rf"{YEAR_TOKEN}年"),
     re.compile(rf"{YEAR_TOKEN}月{DAY_TOKEN}日"),
-    re.compile(rf"{YEAR_TOKEN}[-/\.]{MONTH_TOKEN}[-/\.]" + rf"{DAY_TOKEN}"),
+    re.compile(rf"{YEAR_TOKEN}[-/\.]" + rf"{MONTH_TOKEN}[-/\.]" + rf"{DAY_TOKEN}"),
 ]
 
 ERA_NUMERAL_CLASS = f"0-9０-９{KANJI_DIGITS}{''.join(KANJI_SMALL_UNITS.keys())}"
@@ -452,6 +452,7 @@ def build_title(sentence: str, date_text: str) -> str:
 _MEANINGLESS_PATTERN = re.compile(rf"^[\s{NUMERAL_CLASS}年月日・:：、。　/-]+$")
 
 ERA_NAMES = ("令和", "平成", "昭和", "大正", "明治")
+FUZZY_SUFFIX_PATTERN = re.compile(r"(頃|ごろ|前半|後半|上旬|中旬|下旬|初頭|末|末頃|ごろには|頃には|ごろまで|頃まで)$")
 
 
 def _is_parenthetical_date(text: str) -> bool:
@@ -514,6 +515,97 @@ def _first_meaningful_clause(sentence: str, date_text: str) -> Optional[str]:
         if stripped:
             return stripped
     return None
+
+
+def _strip_fuzzy_suffixes(text: str) -> str:
+    result = text
+    while True:
+        updated = FUZZY_SUFFIX_PATTERN.sub("", result).strip()
+        if updated == result:
+            break
+        result = updated
+    return result
+
+
+def _parse_sort_candidate(date_iso: Optional[str], date_text: str) -> Optional[tuple[int, int, int, int]]:
+    if date_iso:
+        try:
+            year, month, day = (int(part) for part in date_iso.split("-"))
+            return (year, month, day, 0)
+        except ValueError:
+            pass
+
+    cleaned = _strip_fuzzy_suffixes(date_text)
+    cleaned = cleaned.strip("・:：、。 　")
+    if not cleaned:
+        return None
+
+    # Try to normalise era notations
+    era_iso = normalise_era_notation(cleaned)
+    if era_iso:
+        try:
+            year, month, day = (int(part) for part in era_iso.split("-"))
+            return (year, month, day, 0)
+        except ValueError:
+            pass
+
+    for pattern in DATE_PATTERNS:
+        match = pattern.search(cleaned)
+        if not match:
+            continue
+        groups = match.groupdict()
+        year_raw = groups.get("year")
+        month_raw = groups.get("month")
+        day_raw = groups.get("day")
+        if not year_raw:
+            continue
+        year = _parse_number(year_raw, fallback=0)
+        month = _parse_number(month_raw, fallback=1) if month_raw else 1
+        day = _parse_number(day_raw, fallback=1) if day_raw else 1
+
+        if year <= 0:
+            continue
+
+        precision = 2
+        if month_raw:
+            precision = 1
+        if day_raw:
+            precision = 0
+
+        month = min(max(month, 1), 12)
+        day = min(max(day, 1), 31)
+        return (year, month, day, precision)
+
+    return None
+
+
+def _choose_sort_key(entry: dict, candidate: Optional[tuple[int, int, int, int]]) -> None:
+    if candidate is None:
+        return
+    existing = entry.get("sort_key")
+    if existing is None:
+        entry["sort_key"] = candidate
+        return
+    if (candidate[0], candidate[1], candidate[2]) < (existing[0], existing[1], existing[2]):
+        entry["sort_key"] = candidate
+        return
+    if (candidate[0], candidate[1], candidate[2]) == (existing[0], existing[1], existing[2]) and candidate[3] < existing[3]:
+        entry["sort_key"] = candidate
+
+
+def _timeline_sort_key(entry: dict, appearance_order: int) -> tuple:
+    sort_tuple = entry.get("sort_key")
+    if sort_tuple:
+        year, month, day, precision = sort_tuple
+        return (0, year, month, day, precision, -entry["importance"], appearance_order)
+    fallback_date = entry.get("date_iso")
+    if fallback_date:
+        try:
+            year, month, day = (int(part) for part in fallback_date.split("-"))
+            return (0, year, month, day, 0, -entry["importance"], appearance_order)
+        except ValueError:
+            pass
+    return (1, appearance_order)
 
 
 def compute_confidence(entry: dict) -> float:
@@ -583,9 +675,13 @@ def generate_timeline(
                 "title": "",
                 "date_text": event.date_text,
                 "date_iso": event.date_iso,
+                "sort_key": None,
             }
 
         entry = aggregated_events[key]
+
+        sort_candidate = _parse_sort_candidate(event.date_iso, event.date_text)
+        _choose_sort_key(entry, sort_candidate)
 
         if not has_meaningful_content(event.sentence, event.date_text):
             continue
@@ -615,11 +711,7 @@ def generate_timeline(
 
     sorted_entries = sorted(
         aggregated_events.items(),
-        key=lambda item: (
-            item[1]["date_iso"] or "9999-12-31",
-            -item[1]["importance"],
-            appearance_index[item[0]],
-        ),
+        key=lambda item: _timeline_sort_key(item[1], appearance_index[item[0]]),
     )
 
     items: List[TimelineItem] = []

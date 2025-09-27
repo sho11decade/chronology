@@ -191,3 +191,14 @@ def test_generate_timeline_handles_kanji_relative_years():
     text = "十年前に会社が創立された。"
     items = generate_timeline(text, reference_date=reference)
     assert any(item.date_iso == "2014-01-01" for item in items)
+
+
+def test_generate_timeline_sorts_two_digit_years_before_modern_dates():
+    text = (
+        "45年8月15日、歴史的な宣言が発表された。"
+        "\n1946年1月1日、新たな政策が開始された。"
+    )
+    items = generate_timeline(text)
+    assert len(items) >= 2
+    assert items[0].date_text.startswith("45年")
+    assert items[1].date_iso == "1946-01-01"
