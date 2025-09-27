@@ -100,6 +100,14 @@ KATAKANA_NAME_PATTERN = re.compile(r"^[ァ-ヴー]+$")
 LOCATION_COMPOUND_PATTERN = re.compile(r"[一-龥]{1,4}(?:都|道|府|県|市|区|町|村|郡|空港|駅|港|湾|半島)")
 TOKEN_STRIP_CHARS = "（）()「」『』\"'、，,。:：;；!?！？〜～‐-"
 
+TOKEN_PATTERN = re.compile(r"[\w一-龥]+")
+NUMERAL_REGEX = re.compile(rf"[{NUMERAL_CLASS}]")
+LOCATION_KEYWORDS_SET = set(LOCATION_KEYWORDS)
+CATEGORY_KEYWORDS_LOWER = {
+    category: tuple(keyword.lower() for keyword in keywords)
+    for category, keywords in CATEGORY_KEYWORDS.items()
+}
+
 
 @dataclass
 class RawEvent:
@@ -323,7 +331,7 @@ def classify_people_locations(sentence: str, tokens: List[str]) -> tuple[List[st
         if not cleaned:
             continue
 
-        if cleaned in LOCATION_KEYWORDS:
+        if cleaned in LOCATION_KEYWORDS_SET:
             add_location(cleaned)
             continue
 
@@ -333,12 +341,12 @@ def classify_people_locations(sentence: str, tokens: List[str]) -> tuple[List[st
 
         base_person = _remove_person_suffix(cleaned)
         if base_person != cleaned:
-            if base_person and base_person not in LOCATION_KEYWORDS and not any(base_person.endswith(suf) for suf in LOCATION_SUFFIXES):
+            if base_person and base_person not in LOCATION_KEYWORDS_SET and not any(base_person.endswith(suf) for suf in LOCATION_SUFFIXES):
                 add_person(cleaned)
             continue
 
         if KANJI_NAME_PATTERN.match(cleaned) and not any(cleaned.endswith(suf) for suf in LOCATION_SUFFIXES):
-            if cleaned not in LOCATION_KEYWORDS:
+            if cleaned not in LOCATION_KEYWORDS_SET:
                 add_person(cleaned)
             continue
 
@@ -380,31 +388,39 @@ def classify_people_locations(sentence: str, tokens: List[str]) -> tuple[List[st
     return people[:5], locations[:5]
 
 
-def infer_category(sentence: str) -> str:
-    lowercase = sentence.lower()
-    for category, keywords in CATEGORY_KEYWORDS.items():
+def infer_category(sentence: str, lower_sentence: Optional[str] = None) -> str:
+    lowercase = lower_sentence if lower_sentence is not None else sentence.lower()
+    for category, keywords in CATEGORY_KEYWORDS_LOWER.items():
         if any(keyword in lowercase for keyword in keywords):
             return category
     return "general"
 
 
-def score_importance(sentence: str, people_count: int = 0, location_count: int = 0) -> float:
-    words = re.findall(r"[\w一-龥]+", sentence.lower())
+def score_importance(
+    sentence: str,
+    people_count: int = 0,
+    location_count: int = 0,
+    *,
+    tokens: Optional[List[str]] = None,
+    has_numeral: Optional[bool] = None,
+) -> float:
+    token_iterable = tokens if tokens is not None else TOKEN_PATTERN.findall(sentence)
+    words = [token.lower() for token in token_iterable]
     keyword_counts = Counter(words)
     emphasis = sum(
         keyword_counts.get(keyword, 0)
-        for keywords in CATEGORY_KEYWORDS.values()
+        for keywords in CATEGORY_KEYWORDS_LOWER.values()
         for keyword in keywords
     )
     length_bonus = min(len(sentence) / 120.0, 1.0)
     detail_bonus = min(0.25, 0.06 * min(people_count, 3) + 0.05 * min(location_count, 3))
-    numeric_bonus = 0.05 if re.search(rf"[{NUMERAL_CLASS}]", sentence) else 0.0
+    numeric_bonus = 0.05 if (has_numeral if has_numeral is not None else bool(NUMERAL_REGEX.search(sentence))) else 0.0
     score = min(1.0, 0.3 + 0.2 * emphasis + 0.4 * length_bonus + detail_bonus + numeric_bonus)
     return round(score, 2)
 
 
 def extract_tokens(sentence: str) -> List[str]:
-    return re.findall(r"[\w一-龥]+", sentence)
+    return TOKEN_PATTERN.findall(sentence)
 
 
 def build_title(sentence: str, date_text: str) -> str:
@@ -661,6 +677,9 @@ def generate_timeline(
 
     aggregated_events: dict[str, dict] = {}
     appearance_index: dict[str, int] = {}
+    token_cache: dict[str, List[str]] = {}
+    lowercase_cache: dict[str, str] = {}
+    numeral_cache: dict[str, bool] = {}
 
     for event in unique_events:
         key = event.date_iso or event.date_text
@@ -683,25 +702,43 @@ def generate_timeline(
         sort_candidate = _parse_sort_candidate(event.date_iso, event.date_text)
         _choose_sort_key(entry, sort_candidate)
 
-        if not has_meaningful_content(event.sentence, event.date_text):
+        sentence = event.sentence
+        if not has_meaningful_content(sentence, event.date_text):
             continue
 
-        if event.sentence not in entry["sentences"]:
-            entry["sentences"].append(event.sentence)
+        lowercase_sentence = lowercase_cache.get(sentence)
+        if lowercase_sentence is None:
+            lowercase_sentence = sentence.lower()
+            lowercase_cache[sentence] = lowercase_sentence
+        if sentence not in entry["sentences"]:
+            entry["sentences"].append(sentence)
 
-        tokens = extract_tokens(event.sentence)
-        people, locations = classify_people_locations(event.sentence, tokens)
+        tokens = token_cache.get(sentence)
+        if tokens is None:
+            tokens = extract_tokens(sentence)
+            token_cache[sentence] = tokens
+        people, locations = classify_people_locations(sentence, tokens)
         for person in people:
             entry["people"].setdefault(person, None)
         for location in locations:
             entry["locations"].setdefault(location, None)
 
-        category = infer_category(event.sentence)
+        category = infer_category(sentence, lower_sentence=lowercase_sentence)
         entry["category_counts"][category] += 1
 
-        title = build_title(event.sentence, event.date_text)
+        title = build_title(sentence, event.date_text)
 
-        importance = score_importance(event.sentence, len(people), len(locations))
+        has_numeral = numeral_cache.get(sentence)
+        if has_numeral is None:
+            has_numeral = bool(NUMERAL_REGEX.search(sentence))
+            numeral_cache[sentence] = has_numeral
+        importance = score_importance(
+            sentence,
+            len(people),
+            len(locations),
+            tokens=tokens,
+            has_numeral=has_numeral,
+        )
 
         if importance > entry["importance"]:
             entry["importance"] = importance

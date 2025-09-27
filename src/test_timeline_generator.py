@@ -202,3 +202,15 @@ def test_generate_timeline_sorts_two_digit_years_before_modern_dates():
     assert len(items) >= 2
     assert items[0].date_text.startswith("45年")
     assert items[1].date_iso == "1946-01-01"
+
+
+def test_generate_timeline_ignores_isbn_sequences():
+    text = (
+        "ISBN 978-4-0010-1234-5\n"
+        "2021年5月10日、東京で歴史資料の公開が行われた。"
+    )
+    items = generate_timeline(text)
+    assert items
+    descriptions = "\n".join(item.description for item in items)
+    assert "ISBN" not in descriptions
+    assert all("978-4-0010-1234-5" not in item.title for item in items)
