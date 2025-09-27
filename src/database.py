@@ -112,6 +112,12 @@ def store_timeline(
     return request_id
 
 
+def check_database_ready(*, db_path: Optional[Path] = None) -> bool:
+    with _get_connection(db_path) as conn:
+        conn.execute("SELECT 1")
+    return True
+
+
 def fetch_recent_timelines(
     limit: int = 10,
     *,

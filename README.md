@@ -10,7 +10,7 @@
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 50,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
 - **履歴管理**: SQLite に年表を永続化し、履歴 API から再取得可能。
-- **Wikipedia 取り込み**: Wikipedia の記事タイトルまたはURLから本文を取得し、そのまま年表生成に利用可能。
+- **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
 
 ## プロジェクト構成
 
@@ -55,6 +55,15 @@ source .venv/bin/activate
 pip install -r src/requirements.txt
 ```
 
+### 環境変数
+
+アプリの挙動は環境変数（または `.env` ファイル）で調整できます。
+
+- `CHRONOLOGY_CHRONOLOGY_DB_PATH`（互換用に `CHRONOLOGY_DB_PATH` も可）: SQLite の保存先パス
+- `CHRONOLOGY_ALLOWED_ORIGINS`: CORS で許可するオリジン（カンマ区切り）
+- `CHRONOLOGY_LOG_LEVEL`: ログレベル（`DEBUG`/`INFO`/`WARNING`/`ERROR`/`CRITICAL`）
+- `CHRONOLOGY_ENABLE_REQUEST_LOGGING`: リクエストログの有効・無効（`true`/`false`）
+
 ## ローカル起動
 
 ```powershell
@@ -78,7 +87,9 @@ cd chronology
 
 | メソッド | パス                     | 説明                                                 |
 |----------|--------------------------|------------------------------------------------------|
-| GET      | `/health`                | ヘルスチェック                                       |
+| GET      | `/health`                | 稼働状態とアップタイムを返すヘルスチェック           |
+| GET      | `/health/live`           | プロセス稼働を確認するライブネスチェック             |
+| GET      | `/health/ready`          | データベース接続を含む依存状態を確認するレディネス   |
 | POST     | `/api/upload`            | PDF / DOCX などをアップロードしてテキスト抽出       |
 | POST     | `/api/generate`          | テキストから年表を生成し、DB に保存                  |
 | POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |
