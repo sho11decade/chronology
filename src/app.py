@@ -21,6 +21,7 @@ try:
         TimelineSummary,
         UploadResponse,
     )
+    from .models import WikipediaImportRequest, WikipediaImportResponse
     from .text_extractor import extract_text_from_upload, MAX_CHARACTERS
     from .timeline_generator import generate_timeline
     from .database import (
@@ -29,6 +30,7 @@ try:
         fetch_recent_timelines,
         fetch_timeline,
     )
+    from .wikipedia_importer import fetch_wikipedia_article
 except ImportError:
     # Fallback to absolute imports when running as script
     from models import (
@@ -38,9 +40,11 @@ except ImportError:
         TimelineSummary,
         UploadResponse,
     )
+    from models import WikipediaImportRequest, WikipediaImportResponse
     from text_extractor import extract_text_from_upload, MAX_CHARACTERS
     from timeline_generator import generate_timeline
     from database import init_db, store_timeline, fetch_recent_timelines, fetch_timeline
+    from wikipedia_importer import fetch_wikipedia_article
 
 
 DB_PATH = Path(os.getenv("CHRONOLOGY_DB_PATH", current_dir / "chronology.db"))
@@ -97,6 +101,36 @@ async def generate(request: GenerateRequest) -> GenerateResponse:
     )
 
     return GenerateResponse(
+        request_id=request_id,
+        items=items,
+        total_events=len(items),
+        generated_at=datetime.utcnow(),
+    )
+
+
+@app.post("/api/import/wikipedia", response_model=WikipediaImportResponse)
+async def import_wikipedia(request: WikipediaImportRequest) -> WikipediaImportResponse:
+    article = await run_in_threadpool(
+        fetch_wikipedia_article,
+        topic=request.topic,
+        url=str(request.url) if request.url else None,
+        language=request.language,
+    )
+
+    items = generate_timeline(article.text)
+    request_id = await run_in_threadpool(
+        store_timeline,
+        article.text,
+        items,
+        source=f"wikipedia:{article.language}",
+        db_path=DB_PATH,
+    )
+
+    return WikipediaImportResponse(
+        source_title=article.title,
+        source_url=article.url,
+        characters=article.characters,
+        text_preview=article.preview,
         request_id=request_id,
         items=items,
         total_events=len(items),

@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import uuid4
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, HttpUrl, root_validator, validator
 
 
 class TimelineItem(BaseModel):
@@ -80,6 +80,43 @@ class UploadResponse(BaseModel):
     characters: int
     text_preview: str
     text: str
+
+
+class WikipediaImportRequest(BaseModel):
+    topic: Optional[str] = Field(
+        default=None,
+        description="Wikipedia の記事タイトル (例: 坂本龍馬)",
+        max_length=300,
+    )
+    url: Optional[HttpUrl] = Field(
+        default=None,
+        description="Wikipedia 記事への完全な URL",
+    )
+    language: str = Field(
+        default="ja",
+        max_length=12,
+        description="MediaWiki 言語コード (例: ja, en)",
+    )
+
+    @root_validator
+    def ensure_topic_or_url(cls, values: dict) -> dict:
+        topic = values.get("topic")
+        url = values.get("url")
+        if not topic and not url:
+            raise ValueError("topic または url のいずれかを指定してください。")
+
+        language = (values.get("language") or "ja").strip()
+        if not language:
+            raise ValueError("language を指定してください。")
+        values["language"] = language
+        return values
+
+
+class WikipediaImportResponse(GenerateResponse):
+    source_title: str = Field(..., description="取得した Wikipedia 記事のタイトル")
+    source_url: str = Field(..., description="取得した Wikipedia 記事の URL")
+    characters: int = Field(..., description="タイムライン生成に使用した本文の文字数")
+    text_preview: str = Field(..., description="本文の先頭 200 文字のプレビュー")
 
 
 class TimelineSummary(BaseModel):

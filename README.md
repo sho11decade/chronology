@@ -10,6 +10,7 @@
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 50,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
 - **履歴管理**: SQLite に年表を永続化し、履歴 API から再取得可能。
+- **Wikipedia 取り込み**: Wikipedia の記事タイトルまたはURLから本文を取得し、そのまま年表生成に利用可能。
 
 ## プロジェクト構成
 
@@ -75,13 +76,14 @@ cd chronology
 
 ## API エンドポイント一覧
 
-| メソッド | パス                | 説明                                           |
-|----------|---------------------|------------------------------------------------|
-| GET      | `/health`           | ヘルスチェック                                 |
-| POST     | `/api/upload`       | PDF / DOCX などをアップロードしてテキスト抽出 |
-| POST     | `/api/generate`     | テキストから年表を生成し、DB に保存            |
-| GET      | `/api/history`      | 保存済み年表の一覧（最新順・最大 50 件）       |
-| GET      | `/api/history/{id}` | 指定 ID の年表詳細を取得                       |
+| メソッド | パス                     | 説明                                                 |
+|----------|--------------------------|------------------------------------------------------|
+| GET      | `/health`                | ヘルスチェック                                       |
+| POST     | `/api/upload`            | PDF / DOCX などをアップロードしてテキスト抽出       |
+| POST     | `/api/generate`          | テキストから年表を生成し、DB に保存                  |
+| POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |
+| GET      | `/api/history`           | 保存済み年表の一覧（最新順・最大 50 件）             |
+| GET      | `/api/history/{id}`      | 指定 ID の年表詳細を取得                             |
 
 ### `/api/generate` レスポンス例
 
@@ -103,6 +105,40 @@ cd chronology
 		}
 	],
 	"total_events": 15,
+	"generated_at": "2025-09-27T09:00:00.000000"
+}
+```
+
+### `/api/import/wikipedia` リクエスト・レスポンス例
+
+```jsonc
+POST /api/import/wikipedia
+{
+	"topic": "坂本龍馬",
+	"language": "ja"
+}
+
+{
+	"source_title": "坂本龍馬",
+	"source_url": "https://ja.wikipedia.org/wiki/%E5%9D%82%E6%9C%AC%E9%BE%8D%E9%A6%AC",
+	"characters": 1200,
+	"text_preview": "土佐藩出身の志士。...",
+	"request_id": 456,
+	"items": [
+		{
+			"id": "...",
+			"date_text": "1867年11月15日",
+			"date_iso": "1867-11-15",
+			"title": "坂本龍馬が暗殺された",
+			"description": "1867年11月15日、京都・近江屋で坂本龍馬が暗殺された。",
+			"people": ["坂本龍馬"],
+			"locations": ["京都"],
+			"category": "politics",
+			"importance": 0.82,
+			"confidence": 0.75
+		}
+	],
+	"total_events": 20,
 	"generated_at": "2025-09-27T09:00:00.000000"
 }
 ```
