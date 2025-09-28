@@ -22,20 +22,11 @@ try:
     from .models import (
         GenerateRequest,
         GenerateResponse,
-        HistoryResponse,
-        TimelineSummary,
         UploadResponse,
     )
     from .models import WikipediaImportRequest, WikipediaImportResponse
     from .text_extractor import extract_text_from_upload, MAX_CHARACTERS
     from .timeline_generator import generate_timeline
-    from .database import (
-        init_db,
-        store_timeline,
-        fetch_recent_timelines,
-        fetch_timeline,
-        check_database_ready,
-    )
     from .wikipedia_importer import fetch_wikipedia_article
 except ImportError:
     # Fallback to absolute imports when running as script
@@ -43,20 +34,11 @@ except ImportError:
     from models import (
         GenerateRequest,
         GenerateResponse,
-        HistoryResponse,
-        TimelineSummary,
         UploadResponse,
     )
     from models import WikipediaImportRequest, WikipediaImportResponse
     from text_extractor import extract_text_from_upload, MAX_CHARACTERS
     from timeline_generator import generate_timeline
-    from database import (
-        init_db,
-        store_timeline,
-        fetch_recent_timelines,
-        fetch_timeline,
-        check_database_ready,
-    )
     from wikipedia_importer import fetch_wikipedia_article
 
 
@@ -65,7 +47,6 @@ logging.basicConfig(level=LOG_LEVEL)
 logger = logging.getLogger("chronology.app")
 logger.setLevel(LOG_LEVEL)
 
-DB_PATH = Path(settings.chronology_db_path)
 ALLOWED_ORIGINS = settings.allowed_origins or ["*"]
 
 
@@ -136,7 +117,6 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONR
 async def startup() -> None:
     app.state.started_at = datetime.utcnow()
     app.state.settings = settings
-    await run_in_threadpool(init_db, DB_PATH)
 
 
 @app.get("/health")
@@ -154,21 +134,7 @@ async def health_live() -> Dict[str, Any]:
 
 
 @app.get("/health/ready")
-async def health_ready(request: Request) -> Dict[str, Any]:
-    try:
-        await run_in_threadpool(check_database_ready, db_path=DB_PATH)
-    except Exception as exc:  # pragma: no cover - defensive guard
-        request_id = getattr(request.state, "request_id", str(uuid4()))
-        logger.exception(
-            "Database readiness check failed",
-            extra={"request_id": request_id},
-        )
-        headers = {"X-Request-ID": request_id}
-        raise HTTPException(
-            status_code=503,
-            detail="データベースに接続できません。",
-            headers=headers,
-        ) from exc
+async def health_ready() -> Dict[str, Any]:
     return {"status": "ok", "uptime_seconds": round(_uptime_seconds(), 3)}
 
 
@@ -189,16 +155,8 @@ async def generate(request: GenerateRequest) -> GenerateResponse:
         raise HTTPException(status_code=400, detail="文字数が制限を超えています (最大50,000文字)")
 
     items = generate_timeline(request.text)
-    request_id = await run_in_threadpool(
-        store_timeline,
-        request.text,
-        items,
-        source="api",
-        db_path=DB_PATH,
-    )
 
     return GenerateResponse(
-        request_id=request_id,
         items=items,
         total_events=len(items),
         generated_at=datetime.utcnow(),
@@ -215,55 +173,13 @@ async def import_wikipedia(request: WikipediaImportRequest) -> WikipediaImportRe
     )
 
     items = generate_timeline(article.text)
-    request_id = await run_in_threadpool(
-        store_timeline,
-        article.text,
-        items,
-        source=f"wikipedia:{article.language}",
-        db_path=DB_PATH,
-    )
 
     return WikipediaImportResponse(
         source_title=article.title,
         source_url=article.url,
         characters=article.characters,
         text_preview=article.preview,
-        request_id=request_id,
         items=items,
         total_events=len(items),
         generated_at=datetime.utcnow(),
-    )
-
-
-@app.get("/api/history", response_model=HistoryResponse)
-async def history(limit: int = 10) -> HistoryResponse:
-    limit = max(1, min(limit, 50))
-    rows = await run_in_threadpool(fetch_recent_timelines, limit, db_path=DB_PATH)
-    summaries = [
-        TimelineSummary(
-            request_id=row[0],
-            generated_at=row[1],
-            total_events=row[2],
-            text_preview=row[3],
-        )
-        for row in rows
-    ]
-    return HistoryResponse(timelines=summaries)
-
-
-@app.get("/api/history/{request_id}", response_model=GenerateResponse)
-async def history_detail(request_id: int) -> GenerateResponse:
-    generated_at, items = await run_in_threadpool(
-        fetch_timeline,
-        request_id,
-        db_path=DB_PATH,
-    )
-    if generated_at is None:
-        raise HTTPException(status_code=404, detail="指定された年表が見つかりませんでした。")
-
-    return GenerateResponse(
-        request_id=request_id,
-        items=items,
-        total_events=len(items),
-        generated_at=generated_at,
     )

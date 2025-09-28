@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 from fastapi.testclient import TestClient
 
@@ -51,7 +49,7 @@ def test_fetch_wikipedia_article(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "記念式典" in article.text
 
 
-def test_import_wikipedia_endpoint(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+def test_import_wikipedia_endpoint(monkeypatch: pytest.MonkeyPatch) -> None:
     fake_article = WikipediaArticle(
         title="坂本龍馬",
         language="ja",
@@ -60,7 +58,6 @@ def test_import_wikipedia_endpoint(monkeypatch: pytest.MonkeyPatch, tmp_path: Pa
         preview="2020年1月1日、東京で記念式典が開催された。",
     )
 
-    monkeypatch.setattr(app_module, "DB_PATH", tmp_path / "test.db", raising=False)
     monkeypatch.setattr(app_module, "fetch_wikipedia_article", lambda **_: fake_article)
 
     with TestClient(app_module.app) as client:
@@ -73,4 +70,3 @@ def test_import_wikipedia_endpoint(monkeypatch: pytest.MonkeyPatch, tmp_path: Pa
     assert data["items"]
     assert data["total_events"] == len(data["items"])
     assert data["text_preview"].startswith("2020年1月1日")
-    assert data["request_id"] is not None

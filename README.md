@@ -9,7 +9,6 @@
 - **信頼度スコア**: 抽出したメタ情報（ISO 日付化の可否、人物・場所の数、文脈量）から 0〜1 の信頼度を算出。
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 50,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
-- **履歴管理**: SQLite に年表を永続化し、履歴 API から再取得可能。
 - **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
 
 ## プロジェクト構成
@@ -21,7 +20,6 @@ chronology/
 ├── run.sh
 └── src/
 		├── app.py                 # FastAPI エントリポイント
-		├── database.py            # SQLite 永続化レイヤー
 		├── japanese_calendar.py   # 和暦→西暦変換と漢数字処理
 		├── models.py              # Pydantic モデル
 		├── text_cleaner.py        # Wikipedia 等のノイズ除去
@@ -35,7 +33,6 @@ chronology/
 
 - Python 3.10 以上（推奨 3.10 系）
 - Poetry / pip いずれか（本リポジトリでは `pip` 前提）
-- SQLite (Python 標準ライブラリで利用可能)
 
 ## セットアップ
 
@@ -59,7 +56,6 @@ pip install -r src/requirements.txt
 
 アプリの挙動は環境変数（または `.env` ファイル）で調整できます。
 
-- `CHRONOLOGY_CHRONOLOGY_DB_PATH`（互換用に `CHRONOLOGY_DB_PATH` も可）: SQLite の保存先パス
 - `CHRONOLOGY_ALLOWED_ORIGINS`: CORS で許可するオリジン（カンマ区切り）
 - `CHRONOLOGY_LOG_LEVEL`: ログレベル（`DEBUG`/`INFO`/`WARNING`/`ERROR`/`CRITICAL`）
 - `CHRONOLOGY_ENABLE_REQUEST_LOGGING`: リクエストログの有効・無効（`true`/`false`）
@@ -72,7 +68,6 @@ python -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
 - 起動後、`http://127.0.0.1:8000/docs` で OpenAPI ドキュメントを確認できます。
-- 既定では `src/chronology.db` に SQLite が作成されます。環境変数 `CHRONOLOGY_DB_PATH` で保存先を変更可能。
 
 ## テスト
 
@@ -89,18 +84,15 @@ cd chronology
 |----------|--------------------------|------------------------------------------------------|
 | GET      | `/health`                | 稼働状態とアップタイムを返すヘルスチェック           |
 | GET      | `/health/live`           | プロセス稼働を確認するライブネスチェック             |
-| GET      | `/health/ready`          | データベース接続を含む依存状態を確認するレディネス   |
+| GET      | `/health/ready`          | アプリケーションの起動状態を確認するレディネス       |
 | POST     | `/api/upload`            | PDF / DOCX などをアップロードしてテキスト抽出       |
-| POST     | `/api/generate`          | テキストから年表を生成し、DB に保存                  |
+| POST     | `/api/generate`          | テキストから年表を生成して返す                        |
 | POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |
-| GET      | `/api/history`           | 保存済み年表の一覧（最新順・最大 50 件）             |
-| GET      | `/api/history/{id}`      | 指定 ID の年表詳細を取得                             |
 
 ### `/api/generate` レスポンス例
 
 ```json
 {
-	"request_id": 123,
 	"items": [
 		{
 			"id": "...",
@@ -134,7 +126,6 @@ POST /api/import/wikipedia
 	"source_url": "https://ja.wikipedia.org/wiki/%E5%9D%82%E6%9C%AC%E9%BE%8D%E9%A6%AC",
 	"characters": 1200,
 	"text_preview": "土佐藩出身の志士。...",
-	"request_id": 456,
 	"items": [
 		{
 			"id": "...",
@@ -153,12 +144,6 @@ POST /api/import/wikipedia
 	"generated_at": "2025-09-27T09:00:00.000000"
 }
 ```
-
-## データベース
-
-- SQLite を使用。テーブルは `timeline_requests`（メタ情報）と `timeline_items`（イベント詳細）の 2 つ。
-- WAL モードを有効化しているため並列アクセスに強いです。
-- `CHRONOLOGY_DB_PATH` を設定すると任意パスへ出力できます。
 
 ## Docker / Render での利用
 

@@ -66,10 +66,6 @@ class GenerateRequest(BaseModel):
 
 
 class GenerateResponse(BaseModel):
-    request_id: Optional[int] = Field(
-        default=None,
-        description="Identifier of the stored timeline when persistence is enabled.",
-    )
     items: List[TimelineItem]
     total_events: int
     generated_at: datetime
@@ -119,12 +115,3 @@ class WikipediaImportResponse(GenerateResponse):
     text_preview: str = Field(..., description="本文の先頭 200 文字のプレビュー")
 
 
-class TimelineSummary(BaseModel):
-    request_id: int
-    generated_at: datetime
-    total_events: int
-    text_preview: str
-
-
-class HistoryResponse(BaseModel):
-    timelines: List[TimelineSummary]
