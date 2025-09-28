@@ -145,6 +145,17 @@ def test_generate_timeline_confidence_increases_with_additional_context():
     assert item.confidence >= 0.6
 
 
+def test_generate_timeline_attaches_followup_sentence():
+    text = (
+        "2021年8月20日、京都で国際会議が開催された。"
+        "同日、関連イベントが市内全域で実施された。"
+    )
+    items = generate_timeline(text)
+    assert len(items) == 1
+    assert any("関連イベント" in sentence for sentence in items[0].description.split("\n"))
+    assert "同日" in items[0].description
+
+
 def test_generate_timeline_title_strips_parenthetical_dates():
     text = "2014年4月1日、2014年（平成26年）に改正された法律が施行された。"
     items = generate_timeline(text)

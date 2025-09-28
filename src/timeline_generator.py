@@ -9,7 +9,7 @@ from collections import Counter, OrderedDict
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import Iterable, List, Optional, Set, Tuple
 from uuid import uuid4
 
 # Add current directory to Python path for imports
@@ -108,6 +108,9 @@ CATEGORY_KEYWORDS_LOWER = {
     for category, keywords in CATEGORY_KEYWORDS.items()
 }
 LEADING_SYMBOL_PATTERN = re.compile(r"^[-‐‑‒–—―－−•●◦○◆◇☆★▪▫∙·・]\s*")
+FOLLOWUP_PREFIX_PATTERN = re.compile(
+    r"^(同日|同年|同月|同じ日|同じ年|同夜|その日|その夜|その後|同時に)"
+)
 
 
 @dataclass
@@ -135,6 +138,13 @@ def split_sentences(text: str) -> List[str]:
     if not candidates:
         candidates = [stripped.strip()]
     return candidates
+
+
+def _is_followup_sentence(sentence: str) -> bool:
+    stripped = sentence.strip()
+    if not stripped:
+        return False
+    return bool(FOLLOWUP_PREFIX_PATTERN.match(stripped))
 
 
 def _normalise_digits(value: str) -> str:
@@ -484,6 +494,47 @@ def build_title(sentence: str, date_text: str) -> str:
     return candidate
 
 
+def _update_entry_with_sentence(
+    entry: dict,
+    sentence: str,
+    *,
+    tokens: List[str],
+    lower_sentence: str,
+    has_numeral: bool,
+    allow_title_update: bool,
+    event_date_text: Optional[str] = None,
+    event_date_iso: Optional[str] = None,
+) -> None:
+    if sentence not in entry["sentences"]:
+        entry["sentences"].append(sentence)
+
+    people, locations = classify_people_locations(sentence, tokens)
+    for person in people:
+        entry["people"].setdefault(person, None)
+    for location in locations:
+        entry["locations"].setdefault(location, None)
+
+    category = infer_category(sentence, lower_sentence=lower_sentence)
+    entry["category_counts"][category] += 1
+
+    importance = score_importance(
+        sentence,
+        len(people),
+        len(locations),
+        tokens=tokens,
+        has_numeral=has_numeral,
+    )
+
+    if allow_title_update and importance > entry["importance"]:
+        reference_date_text = event_date_text or entry["date_text"]
+        entry["importance"] = importance
+        entry["title"] = build_title(sentence, reference_date_text)
+        if event_date_text:
+            entry["date_text"] = event_date_text
+        if event_date_iso is not None:
+            entry["date_iso"] = event_date_iso
+    else:
+        entry["importance"] = max(entry["importance"], importance)
 _MEANINGLESS_PATTERN = re.compile(rf"^[\s{NUMERAL_CLASS}年月日・:：、。　/-]+$")
 
 ERA_NAMES = ("令和", "平成", "昭和", "大正", "明治")
@@ -695,91 +746,113 @@ def generate_timeline(
     sentences = split_sentences(preprocessed)
     reference = reference_date or datetime.utcnow().date()
 
-    raw_events: List[RawEvent] = []
-    for sentence in sentences:
-        matches = list(iter_dates(sentence, reference))
-        if not matches:
-            continue
-        raw_events.extend(matches)
-
-    # Deduplicate by sentence/date combo to avoid repetition when multiple regexes match
-    unique_events = list({(event.sentence, event.date_text): event for event in raw_events}.values())
-
     aggregated_events: dict[str, dict] = {}
     appearance_index: dict[str, int] = {}
     token_cache: dict[str, List[str]] = {}
     lowercase_cache: dict[str, str] = {}
     numeral_cache: dict[str, bool] = {}
+    seen_pairs: Set[Tuple[str, str]] = set()
+    last_event_key: Optional[str] = None
 
-    for event in unique_events:
-        key = event.date_iso or event.date_text
-        if key not in aggregated_events:
-            appearance_index[key] = len(appearance_index)
-            aggregated_events[key] = {
-                "sentences": [],
-                "people": OrderedDict(),
-                "locations": OrderedDict(),
-                "category_counts": Counter(),
-                "importance": -math.inf,
-                "title": "",
-                "date_text": event.date_text,
-                "date_iso": event.date_iso,
-                "sort_key": None,
-            }
+    def _lower(sentence: str) -> str:
+        lowered = lowercase_cache.get(sentence)
+        if lowered is None:
+            lowered = sentence.lower()
+            lowercase_cache[sentence] = lowered
+        return lowered
 
-        entry = aggregated_events[key]
+    def _tokens(sentence: str) -> List[str]:
+        cached = token_cache.get(sentence)
+        if cached is None:
+            cached = extract_tokens(sentence)
+            token_cache[sentence] = cached
+        return cached
 
-        sort_candidate = _parse_sort_candidate(
-            event.date_iso,
-            event.date_text,
-            relative_years=event.relative_years,
-            reference_year=event.reference_year,
-        )
-        _choose_sort_key(entry, sort_candidate)
+    def _has_numeral(sentence: str) -> bool:
+        result = numeral_cache.get(sentence)
+        if result is None:
+            result = bool(NUMERAL_REGEX.search(sentence))
+            numeral_cache[sentence] = result
+        return result
 
-        sentence = event.sentence
-        if not has_meaningful_content(sentence, event.date_text):
+    for sentence in sentences:
+        stripped = sentence.strip()
+        if not stripped:
             continue
 
-        lowercase_sentence = lowercase_cache.get(sentence)
-        if lowercase_sentence is None:
-            lowercase_sentence = sentence.lower()
-            lowercase_cache[sentence] = lowercase_sentence
-        if sentence not in entry["sentences"]:
-            entry["sentences"].append(sentence)
+        matches = list(iter_dates(sentence, reference))
+        if matches:
+            for event in matches:
+                pair = (sentence, event.date_text)
+                if pair in seen_pairs:
+                    continue
+                if not has_meaningful_content(sentence, event.date_text):
+                    continue
 
-        tokens = token_cache.get(sentence)
-        if tokens is None:
-            tokens = extract_tokens(sentence)
-            token_cache[sentence] = tokens
-        people, locations = classify_people_locations(sentence, tokens)
-        for person in people:
-            entry["people"].setdefault(person, None)
-        for location in locations:
-            entry["locations"].setdefault(location, None)
+                key = event.date_iso or event.date_text
+                if key not in aggregated_events:
+                    appearance_index[key] = len(appearance_index)
+                    aggregated_events[key] = {
+                        "sentences": [],
+                        "people": OrderedDict(),
+                        "locations": OrderedDict(),
+                        "category_counts": Counter(),
+                        "importance": -math.inf,
+                        "title": "",
+                        "date_text": event.date_text,
+                        "date_iso": event.date_iso,
+                        "sort_key": None,
+                    }
 
-        category = infer_category(sentence, lower_sentence=lowercase_sentence)
-        entry["category_counts"][category] += 1
+                entry = aggregated_events[key]
 
-        title = build_title(sentence, event.date_text)
+                sort_candidate = _parse_sort_candidate(
+                    event.date_iso,
+                    event.date_text,
+                    relative_years=event.relative_years,
+                    reference_year=event.reference_year,
+                )
+                _choose_sort_key(entry, sort_candidate)
 
-        has_numeral = numeral_cache.get(sentence)
-        if has_numeral is None:
-            has_numeral = bool(NUMERAL_REGEX.search(sentence))
-            numeral_cache[sentence] = has_numeral
-        importance = score_importance(
-            sentence,
-            len(people),
-            len(locations),
-            tokens=tokens,
-            has_numeral=has_numeral,
-        )
+                lowercase_sentence = _lower(sentence)
+                tokens = _tokens(sentence)
+                has_numeral = _has_numeral(sentence)
 
-        if importance > entry["importance"]:
-            entry["importance"] = importance
-            entry["title"] = title
-            entry["date_text"] = event.date_text
-            entry["date_iso"] = event.date_iso
+                _update_entry_with_sentence(
+                    entry,
+                    sentence,
+                    tokens=tokens,
+                    lower_sentence=lowercase_sentence,
+                    has_numeral=has_numeral,
+                    allow_title_update=True,
+                    event_date_text=event.date_text,
+                    event_date_iso=event.date_iso,
+                )
+
+                seen_pairs.add(pair)
+                last_event_key = key
+            continue
+
+        if last_event_key and _is_followup_sentence(sentence):
+            entry = aggregated_events.get(last_event_key)
+            if entry is None:
+                continue
+            if not has_meaningful_content(sentence, entry["date_text"]):
+                continue
+
+            lowercase_sentence = _lower(sentence)
+            tokens = _tokens(sentence)
+            has_numeral = _has_numeral(sentence)
+
+            _update_entry_with_sentence(
+                entry,
+                sentence,
+                tokens=tokens,
+                lower_sentence=lowercase_sentence,
+                has_numeral=has_numeral,
+                allow_title_update=False,
+            )
+            continue
 
     sorted_entries = sorted(
         aggregated_events.items(),
