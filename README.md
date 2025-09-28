@@ -9,6 +9,7 @@
 - **信頼度スコア**: 抽出したメタ情報（ISO 日付化の可否、人物・場所の数、文脈量）から 0〜1 の信頼度を算出。
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 50,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
+- **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
 - **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
 
 ## プロジェクト構成
@@ -22,6 +23,7 @@ chronology/
 		├── app.py                 # FastAPI エントリポイント
 		├── japanese_calendar.py   # 和暦→西暦変換と漢数字処理
 		├── models.py              # Pydantic モデル
+		├── search.py              # タイムライン検索ロジック
 		├── text_cleaner.py        # Wikipedia 等のノイズ除去
 		├── text_extractor.py      # ファイルアップロードのテキスト抽出
 		├── text_features.py       # 辞書・カテゴリ・接尾辞定義
@@ -87,6 +89,7 @@ cd chronology
 | GET      | `/health/ready`          | アプリケーションの起動状態を確認するレディネス       |
 | POST     | `/api/upload`            | PDF / DOCX などをアップロードしてテキスト抽出       |
 | POST     | `/api/generate`          | テキストから年表を生成して返す                        |
+| POST     | `/api/search`            | 生成した年表をキーワードや日付でフィルタリング        |
 | POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |
 
 ### `/api/generate` レスポンス例
@@ -109,6 +112,49 @@ cd chronology
 	],
 	"total_events": 15,
 	"generated_at": "2025-09-27T09:00:00.000000"
+}
+```
+
+### `/api/search` リクエスト・レスポンス例
+
+```jsonc
+POST /api/search
+{
+	"text": "2023年4月10日、大阪で国際技術会議が開催された。2022年3月15日、東京で教育改革が始まった。",
+	"keywords": ["大阪", "技術"],
+	"match_mode": "all",
+	"date_from": "2020-01-01",
+	"max_results": 5
+}
+
+{
+	"keywords": ["大阪", "技術"],
+	"categories": [],
+	"date_from": "2020-01-01",
+	"date_to": null,
+	"match_mode": "all",
+	"total_events": 2,
+	"total_matches": 1,
+	"results": [
+		{
+			"score": 6.3,
+			"matched_keywords": ["大阪", "技術"],
+			"matched_fields": ["description", "title"],
+			"item": {
+				"id": "...",
+				"date_text": "2023年4月10日",
+				"date_iso": "2023-04-10",
+				"title": "大阪で国際技術会議が開催された",
+				"description": "2023年4月10日、大阪で国際技術会議が開催された。",
+				"people": [],
+				"locations": ["大阪"],
+				"category": "technology",
+				"importance": 0.78,
+				"confidence": 0.74
+			}
+		}
+	],
+	"generated_at": "2025-09-28T09:00:00.000000"
 }
 ```
 

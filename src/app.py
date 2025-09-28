@@ -22,11 +22,14 @@ try:
     from .models import (
         GenerateRequest,
         GenerateResponse,
+        SearchRequest,
+        SearchResponse,
         UploadResponse,
     )
     from .models import WikipediaImportRequest, WikipediaImportResponse
     from .text_extractor import extract_text_from_upload, MAX_CHARACTERS
     from .timeline_generator import generate_timeline
+    from .search import search_timeline_items
     from .wikipedia_importer import fetch_wikipedia_article
 except ImportError:
     # Fallback to absolute imports when running as script
@@ -34,11 +37,14 @@ except ImportError:
     from models import (
         GenerateRequest,
         GenerateResponse,
+        SearchRequest,
+        SearchResponse,
         UploadResponse,
     )
     from models import WikipediaImportRequest, WikipediaImportResponse
     from text_extractor import extract_text_from_upload, MAX_CHARACTERS
     from timeline_generator import generate_timeline
+    from search import search_timeline_items
     from wikipedia_importer import fetch_wikipedia_article
 
 
@@ -159,6 +165,32 @@ async def generate(request: GenerateRequest) -> GenerateResponse:
     return GenerateResponse(
         items=items,
         total_events=len(items),
+        generated_at=datetime.utcnow(),
+    )
+
+
+@app.post("/api/search", response_model=SearchResponse)
+async def search(request: SearchRequest) -> SearchResponse:
+    items = generate_timeline(request.text)
+    results = search_timeline_items(
+        items,
+        keywords=request.keywords,
+        categories=request.categories,
+        date_from=request.date_from,
+        date_to=request.date_to,
+        match_mode=request.match_mode,
+        max_results=request.max_results,
+    )
+
+    return SearchResponse(
+        keywords=request.keywords,
+        categories=request.categories,
+        date_from=request.date_from,
+        date_to=request.date_to,
+        match_mode=request.match_mode,
+        total_events=len(items),
+        total_matches=len(results),
+        results=results,
         generated_at=datetime.utcnow(),
     )
 
