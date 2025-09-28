@@ -1,9 +1,17 @@
 from __future__ import annotations
 
+import sys
 from datetime import date, datetime
+from pathlib import Path
 from typing import List, Sequence
 
-from .models import SearchResult, TimelineItem
+current_dir = Path(__file__).parent
+sys.path.insert(0, str(current_dir))
+
+try:
+    from .models import SearchResult, TimelineItem
+except ImportError:  # pragma: no cover - allow execution without package context
+    from models import SearchResult, TimelineItem
 
 FIELD_WEIGHTS = {
     "title": 3.0,
