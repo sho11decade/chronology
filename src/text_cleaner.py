@@ -11,6 +11,14 @@ SECTION_PATTERN = re.compile(r"^=+\s*(.*?)\s*=+$", re.MULTILINE)
 PAREN_REFERENCE_PATTERN = re.compile(r"（[0-9０-９]+）")
 BRACKETED_NOTE_PATTERN = re.compile(r"\([^\)]+?出典[^\)]*?\)")
 ISBN_PATTERN = re.compile(r"ISBN(?:-1[03])?:?\s*[0-9０-９\-‐–−—ー\s]{10,30}", re.IGNORECASE)
+CATALOG_CODE_PATTERNS = (
+    re.compile(r"JASRAC作品コード[:：]?\s*[A-Z0-9\-／/]{3,}", re.IGNORECASE),
+    re.compile(r"JASRAC番号[:：]?\s*[A-Z0-9\-／/]{3,}", re.IGNORECASE),
+)
+CATALOG_LINE_KEYWORDS = (
+    "jasrac作品コード",
+    "jasrac番号",
+)
 MULTI_SPACE_PATTERN = re.compile(r"[ \t\u3000]+")
 NEWLINE_PATTERN = re.compile(r"\n{2,}")
 BULLET_PREFIXES: tuple[str, ...] = ("・", "-", "*", "●", "■", "▲")
@@ -53,12 +61,30 @@ def _normalise_bullets(lines: Iterable[str]) -> list[str]:
     return normalised
 
 
+def _remove_catalog_codes(text: str) -> str:
+    cleaned = text
+    for pattern in CATALOG_CODE_PATTERNS:
+        cleaned = pattern.sub(" ", cleaned)
+    return cleaned
+
+
+def _filter_catalog_lines(lines: Iterable[str]) -> list[str]:
+    filtered: list[str] = []
+    for line in lines:
+        lowered = line.lower()
+        if any(keyword in lowered for keyword in CATALOG_LINE_KEYWORDS):
+            continue
+        filtered.append(line)
+    return filtered
+
+
 def normalise_input_text(text: str) -> str:
     """Pre-process raw text to improve event extraction accuracy."""
     if not text:
         return ""
 
     text = html.unescape(text)
+    text = _remove_catalog_codes(text)
     text = REF_TAG_PATTERN.sub(" ", text)
     text = TEMPLATE_PATTERN.sub(" ", text)
     text = CITATION_PATTERN.sub("", text)
@@ -68,6 +94,7 @@ def normalise_input_text(text: str) -> str:
 
     lines = text.splitlines()
     lines = _strip_wikipedia_metadata(lines)
+    lines = _filter_catalog_lines(lines)
     lines = _normalise_bullets(lines)
 
     cleaned = "\n".join(lines)

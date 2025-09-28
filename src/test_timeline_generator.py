@@ -216,6 +216,18 @@ def test_generate_timeline_ignores_isbn_sequences():
     assert all("978-4-0010-1234-5" not in item.title for item in items)
 
 
+def test_generate_timeline_excludes_jasrac_work_code():
+    text = (
+        "JASRAC作品コード：123-4567-8\n"
+        "2020年1月1日、東京で新しい楽曲が初演された。"
+    )
+    items = generate_timeline(text)
+    assert items
+    for item in items:
+        assert "JASRAC作品コード" not in item.description
+        assert "JASRAC作品コード" not in item.title
+
+
 def test_generate_timeline_orders_large_relative_years_first():
     reference = date(2024, 1, 1)
     text = (
