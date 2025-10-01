@@ -78,9 +78,10 @@ DATE_PATTERNS = [
 
 ERA_NUMERAL_CLASS = f"0-9０-９{KANJI_DIGITS}{''.join(KANJI_SMALL_UNITS.keys())}"
 ERA_PATTERN = re.compile(
-    rf"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[{ERA_NUMERAL_CLASS}]+|元)年(?:(?P<month>[{ERA_NUMERAL_CLASS}]+)月)?(?:(?P<day>[{ERA_NUMERAL_CLASS}]+)日)?"
+    rf"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[{ERA_NUMERAL_CLASS}]+|元)(?P<suffix>年度|年)(?:(?P<month>[{ERA_NUMERAL_CLASS}]+)月)?(?:(?P<day>[{ERA_NUMERAL_CLASS}]+)日)?"
 )
 RELATIVE_YEAR_PATTERN = re.compile(rf"(?P<years>[{NUMERAL_CLASS}]+)年前")
+FISCAL_YEAR_PATTERN = re.compile(rf"{YEAR_TOKEN}年度")
 
 FULLWIDTH_DIGIT_TABLE = str.maketrans({
     "０": "0",
@@ -110,6 +111,33 @@ CATEGORY_KEYWORDS_LOWER = {
 LEADING_SYMBOL_PATTERN = re.compile(r"^[-‐‑‒–—―－−•●◦○◆◇☆★▪▫∙·・]\s*")
 FOLLOWUP_PREFIX_PATTERN = re.compile(
     r"^(同日|同年|同月|同じ日|同じ年|同夜|その日|その夜|その後|同時に)"
+)
+CONJUNCTION_PREFIXES: Tuple[str, ...] = tuple(
+    sorted(
+        (
+            "しかし",
+            "しかしながら",
+            "だが",
+            "一方",
+            "その一方",
+            "そのため",
+            "その結果",
+            "その後",
+            "その上",
+            "さらに",
+            "また",
+            "そして",
+            "加えて",
+            "なお",
+            "ただし",
+            "ところが",
+            "それでも",
+            "それなのに",
+            "にもかかわらず",
+        ),
+        key=len,
+        reverse=True,
+    )
 )
 
 
@@ -145,6 +173,21 @@ def _is_followup_sentence(sentence: str) -> bool:
     if not stripped:
         return False
     return bool(FOLLOWUP_PREFIX_PATTERN.match(stripped))
+
+
+def _strip_leading_conjunctions(text: str) -> str:
+    candidate = text.lstrip()
+    while candidate:
+        for prefix in CONJUNCTION_PREFIXES:
+            if candidate.startswith(prefix):
+                remainder = candidate[len(prefix) :].lstrip("、,，・:： 　")
+                if remainder == candidate:
+                    return candidate
+                candidate = remainder.lstrip()
+                break
+        else:
+            break
+    return candidate
 
 
 def _normalise_digits(value: str) -> str:
@@ -287,6 +330,8 @@ def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
             span = match.span()
             if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
                 continue
+            if sentence[span[1]: span[1] + 1] == "度":
+                continue
             year_raw = match.group("year")
             month_raw = match.groupdict().get("month")
             day_raw = match.groupdict().get("day")
@@ -301,6 +346,23 @@ def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
                 date_iso=iso,
                 reference_year=reference.year,
             )
+
+    for match in FISCAL_YEAR_PATTERN.finditer(sentence):
+        span = match.span()
+        if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
+            continue
+        year_raw = match.group("year")
+        year = _parse_number(year_raw, fallback=0)
+        if year <= 0:
+            continue
+        iso = _safe_iso_date(year, 4, 1)
+        seen_spans.append(span)
+        yield RawEvent(
+            sentence=sentence,
+            date_text=match.group(),
+            date_iso=iso,
+            reference_year=reference.year,
+        )
 
 
 def _strip_token(token: str) -> str:
@@ -453,6 +515,7 @@ def build_title(sentence: str, date_text: str) -> str:
         candidate = sentence[len(date_text) :]
 
     candidate = candidate.lstrip("・:：、。 　")
+    candidate = _strip_leading_conjunctions(candidate)
     if not candidate:
         candidate = sentence
 
@@ -467,6 +530,7 @@ def build_title(sentence: str, date_text: str) -> str:
             candidate = candidate[: comma_match.start()]
 
     candidate = candidate.strip("・:：、。 　")
+    candidate = _strip_leading_conjunctions(candidate)
     candidate = _strip_parenthetical_dates(candidate)
 
     while True:
@@ -482,6 +546,7 @@ def build_title(sentence: str, date_text: str) -> str:
 
     if not candidate or _MEANINGLESS_PATTERN.match(candidate):
         fallback = sentence[:TITLE_MAX_LENGTH].rstrip("・:：、。 　")
+        fallback = _strip_leading_conjunctions(fallback)
         return fallback
 
     if len(candidate) > TITLE_MAX_LENGTH:
@@ -582,6 +647,7 @@ def has_meaningful_content(sentence: str, date_text: str) -> bool:
         remainder = remainder.replace(date_text, " ", 1)
     remainder = remainder.strip()
     remainder = remainder.strip("・:：、。 　")
+    remainder = _strip_leading_conjunctions(remainder)
     if not remainder:
         return False
     if _MEANINGLESS_PATTERN.match(remainder):
@@ -594,10 +660,14 @@ def _first_meaningful_clause(sentence: str, date_text: str) -> Optional[str]:
         candidate = part.strip("・:：、。 　")
         if not candidate:
             continue
+        candidate = _strip_leading_conjunctions(candidate)
+        if not candidate:
+            continue
         if has_meaningful_content(candidate, ""):
             return candidate
     if has_meaningful_content(sentence, date_text):
         stripped = sentence.strip("・:：、。 　")
+        stripped = _strip_leading_conjunctions(stripped)
         if stripped:
             return stripped
     return None

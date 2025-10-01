@@ -47,7 +47,7 @@ KANJI_SMALL_UNITS = {
 NUMERAL_CLASS = "0-9０-９〇零一二三四五六七八九十百千元"
 
 ERA_REGEX = re.compile(
-    rf"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[{NUMERAL_CLASS}]+|元)年(?:(?P<month>[{NUMERAL_CLASS}]+)月)?(?:(?P<day>[{NUMERAL_CLASS}]+)日)?"
+    rf"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[{NUMERAL_CLASS}]+|元)(?P<suffix>年度|年)(?:(?P<month>[{NUMERAL_CLASS}]+)月)?(?:(?P<day>[{NUMERAL_CLASS}]+)日)?"
 )
 
 
@@ -107,8 +107,16 @@ def normalise_era_notation(text: str) -> Optional[str]:
 
     era = match.group("era")
     raw_year = match.group("year")
-    raw_month = match.group("month") or "1"
-    raw_day = match.group("day") or "1"
+    suffix = match.group("suffix")
+    raw_month = match.group("month")
+    raw_day = match.group("day")
+
+    if suffix == "年度":
+        raw_month = raw_month or "4"
+        raw_day = raw_day or "1"
+    else:
+        raw_month = raw_month or "1"
+        raw_day = raw_day or "1"
 
     year_num = _normalise_number(raw_year, 1)
     month_num = _normalise_number(raw_month, 1)

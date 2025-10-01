@@ -197,6 +197,21 @@ def test_generate_timeline_parses_era_with_kanji_month_day():
     assert any(item.date_iso == "2021-04-01" for item in items)
 
 
+def test_generate_timeline_parses_fiscal_year():
+    text = "2020年度、東京都で新たな政策が実施された。"
+    items = generate_timeline(text)
+    assert items
+    assert items[0].date_iso == "2020-04-01"
+    assert items[0].date_text.startswith("2020年度")
+
+
+def test_generate_timeline_parses_era_fiscal_year():
+    text = "令和三年度、地域医療プログラムが開始された。"
+    items = generate_timeline(text)
+    assert items
+    assert any(item.date_iso == "2021-04-01" for item in items)
+
+
 def test_generate_timeline_handles_kanji_relative_years():
     reference = date(2024, 1, 1)
     text = "十年前に会社が創立された。"
@@ -257,3 +272,11 @@ def test_generate_timeline_title_strips_leading_dash():
     items = generate_timeline(text)
     assert items
     assert not items[0].title.startswith("-")
+
+
+def test_generate_timeline_title_removes_conjunctions():
+    text = "2024年1月1日、しかし新プロジェクトが発表された。"
+    items = generate_timeline(text)
+    assert items
+    assert not items[0].title.startswith("しかし")
+    assert items[0].title.startswith("新プロジェクト")
