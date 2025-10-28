@@ -144,8 +144,9 @@ class ShareStore:
                 [],
             )
             try:
+                # 既存行がある場合に備え、DEFAULT を付けて追加
                 self._d1_execute(
-                    "ALTER TABLE shares ADD COLUMN expires_at TEXT NOT NULL",
+                    "ALTER TABLE shares ADD COLUMN expires_at TEXT NOT NULL DEFAULT ''",
                     [],
                 )
             except Exception:
