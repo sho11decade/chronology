@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import json
 from typing import List
 
 from pydantic import BaseSettings, Field, validator
@@ -57,6 +58,27 @@ class Settings(BaseSettings):
         case_sensitive = False
         env_file = ".env"
         env_file_encoding = "utf-8"
+
+        @classmethod
+        def parse_env_var(cls, field_name, raw_value):  # type: ignore[override]
+            """
+            環境変数をPython値へ変換する。
+            既定（pydantic v1）は JSON として解釈するため、
+            List[str] をカンマ区切りや "*" 単体で渡したいケースに対応する。
+            """
+            try:
+                # まずは通常通り JSON として解釈（true/false, 数値, 配列に対応）
+                return json.loads(raw_value)
+            except Exception:
+                # JSON でなければ、フィールド個別のフォールバック
+                if field_name == "allowed_origins":
+                    raw = str(raw_value).strip()
+                    if raw == "*":
+                        return ["*"]
+                    # カンマ区切り対応
+                    return [v.strip() for v in raw.split(",") if v and v.strip()]
+                # デフォルトは生の文字列を返す
+                return raw_value
 
     @validator("allowed_origins", pre=True)
     def _split_origins(cls, value):  # type: ignore[override]
