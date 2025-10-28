@@ -266,7 +266,7 @@ async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
     )
 
     base = (settings.public_base_url or "").rstrip("/")
-    path = f"/api/share/{share_id}"
+    path = f"/share/{share_id}"
     url = f"{base}{path}" if base else path
 
     return ShareCreateResponse(
