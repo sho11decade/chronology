@@ -4,7 +4,7 @@ import json
 import os
 import sqlite3
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional
 from uuid import uuid4
 
@@ -21,6 +21,10 @@ class D1Config:
 
 def now_utc_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def plus_days_utc_iso(days: int) -> str:
+    return (datetime.now(timezone.utc) + timedelta(days=days)).isoformat()
 
 
 class ShareStore:
@@ -40,17 +44,28 @@ class ShareStore:
     # -------------------------------
     # Public API
     # -------------------------------
-    def create_share(self, text: str, title: str, items: list[dict[str, Any]]) -> str:
+    def create_share(
+        self,
+        text: str,
+        title: str,
+        items: list[dict[str, Any]],
+        expires_at_iso: Optional[str] = None,
+    ) -> tuple[str, str, str]:
+        """
+        共有を作成。
+        Returns: (share_id, created_at_iso, expires_at_iso)
+        """
         share_id = str(uuid4())
         created_at = now_utc_iso()
+        expires_at = expires_at_iso or plus_days_utc_iso(30)
         items_json = json.dumps(items, ensure_ascii=False)
         if self._d1.enabled:
             self._d1_execute(
                 """
-                INSERT INTO shares (id, title, text, items_json, created_at)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO shares (id, title, text, items_json, created_at, expires_at)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                [share_id, title, text, items_json, created_at],
+                [share_id, title, text, items_json, created_at, expires_at],
             )
         else:
             with self._sqlite_conn() as conn:
@@ -61,23 +76,24 @@ class ShareStore:
                         title TEXT NOT NULL,
                         text TEXT NOT NULL,
                         items_json TEXT NOT NULL,
-                        created_at TEXT NOT NULL
+                        created_at TEXT NOT NULL,
+                        expires_at TEXT NOT NULL
                     )
                     """
                 )
                 conn.execute(
                     """
-                    INSERT INTO shares (id, title, text, items_json, created_at)
-                    VALUES (?, ?, ?, ?, ?)
+                    INSERT INTO shares (id, title, text, items_json, created_at, expires_at)
+                    VALUES (?, ?, ?, ?, ?, ?)
                     """,
-                    (share_id, title, text, items_json, created_at),
+                    (share_id, title, text, items_json, created_at, expires_at),
                 )
-        return share_id
+        return share_id, created_at, expires_at
 
     def get_share(self, share_id: str) -> Optional[Dict[str, Any]]:
         if self._d1.enabled:
             rows = self._d1_query(
-                "SELECT id, title, text, items_json, created_at FROM shares WHERE id = ? LIMIT 1",
+                "SELECT id, title, text, items_json, created_at, expires_at FROM shares WHERE id = ? LIMIT 1",
                 [share_id],
             )
             row = rows[0] if rows else None
@@ -90,11 +106,12 @@ class ShareStore:
                 "text": row[2],
                 "items": items,
                 "created_at": row[4],
+                "expires_at": row[5],
             }
         else:
             with self._sqlite_conn() as conn:
                 cur = conn.execute(
-                    "SELECT id, title, text, items_json, created_at FROM shares WHERE id = ? LIMIT 1",
+                    "SELECT id, title, text, items_json, created_at, expires_at FROM shares WHERE id = ? LIMIT 1",
                     (share_id,),
                 )
                 r = cur.fetchone()
@@ -107,11 +124,12 @@ class ShareStore:
                 "text": r[2],
                 "items": items,
                 "created_at": r[4],
+                "expires_at": r[5],
             }
 
     def init_schema(self) -> None:
         if self._d1.enabled:
-            # D1: IF NOT EXISTS で初期化
+            # D1: IF NOT EXISTS で初期化 → 既存にexpires_atが無ければ追加
             self._d1_execute(
                 """
                 CREATE TABLE IF NOT EXISTS shares (
@@ -119,11 +137,20 @@ class ShareStore:
                     title TEXT NOT NULL,
                     text TEXT NOT NULL,
                     items_json TEXT NOT NULL,
-                    created_at TEXT NOT NULL
+                    created_at TEXT NOT NULL,
+                    expires_at TEXT NOT NULL
                 )
                 """,
                 [],
             )
+            try:
+                self._d1_execute(
+                    "ALTER TABLE shares ADD COLUMN expires_at TEXT NOT NULL",
+                    [],
+                )
+            except Exception:
+                # 既に列がある場合などは無視
+                pass
         else:
             with self._sqlite_conn() as conn:
                 conn.execute(
@@ -133,10 +160,16 @@ class ShareStore:
                         title TEXT NOT NULL,
                         text TEXT NOT NULL,
                         items_json TEXT NOT NULL,
-                        created_at TEXT NOT NULL
+                        created_at TEXT NOT NULL,
+                        expires_at TEXT NOT NULL
                     )
                     """
                 )
+                # 既存テーブルに列が無い場合は追加
+                cur = conn.execute("PRAGMA table_info(shares)")
+                cols = [row[1] for row in cur.fetchall()]
+                if "expires_at" not in cols:
+                    conn.execute("ALTER TABLE shares ADD COLUMN expires_at TEXT NOT NULL DEFAULT ''")
 
     # -------------------------------
     # Private helpers
@@ -154,7 +187,7 @@ class ShareStore:
         }
 
     def _d1_query(self, sql: str, params: list[Any] | None = None) -> list[list[Any]]:
-        payload = {"sql": sql}
+        payload: dict[str, Any] = {"sql": sql}
         if params:
             payload["params"] = params
         resp = requests.post(self._d1_base(), headers=self._d1_headers(), json=payload, timeout=15)
@@ -173,7 +206,7 @@ class ShareStore:
         return [list(row.values()) for row in rows]
 
     def _d1_execute(self, sql: str, params: list[Any] | None = None) -> None:
-        payload = {"sql": sql}
+        payload: dict[str, Any] = {"sql": sql}
         if params:
             payload["params"] = params
         resp = requests.post(self._d1_base(), headers=self._d1_headers(), json=payload, timeout=15)

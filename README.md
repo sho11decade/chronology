@@ -80,6 +80,15 @@ cd chronology
 
 （macOS / Linux の場合は `source .venv/bin/activate` 後に `python -m pytest`）
 
+## フロントエンド実装ガイド
+
+フロントからの呼び出し手順、型定義、Reactサンプル、キャッシュ/ETagの扱いなどは `docs/frontend-integration.md` を参照してください。
+
+主なポイント:
+- 生成・検索・共有のAPIを一連のフローで利用可能
+- 共有の公開用エンドポイント（`/api/share/{id}/items`）は ETag 対応でキャッシュしやすい
+- CORSは `CHRONOLOGY_ALLOWED_ORIGINS` で制御（`*` やカンマ区切り、JSON表記のどちらも可）
+
 ## API エンドポイント一覧
 
 | メソッド | パス                     | 説明                                                 |
@@ -212,6 +221,7 @@ POST /api/import/wikipedia
 - `CHRONOLOGY_D1_ACCOUNT_ID`（D1 使用時必須）Cloudflare アカウントID
 - `CHRONOLOGY_D1_DATABASE_ID`（D1 使用時必須）D1 データベースID（UUID）
 - `CHRONOLOGY_D1_API_TOKEN`（D1 使用時必須）Cloudflare API トークン
+- `CHRONOLOGY_SHARE_TTL_DAYS`（任意、既定30）共有の有効期限（日）。30で約1カ月。
 
 Cloudflare D1 を有効化すると、作成・取得クエリは D1 の HTTP API に対して発行されます（外形監視やフェイルオーバーのため、ローカルSQLite実装も併存しています）。
 
@@ -250,7 +260,8 @@ GET /api/share/{id}
 	"title": "テスト共有",
 	"text": "2020年1月1日にテストイベントがありました。次は2021年2月3日です。",
 	"items": [ { /* TimelineItem */ } ],
-	"created_at": "2025-10-28T00:00:00+00:00"
+	"created_at": "2025-10-28T00:00:00+00:00",
+	"expires_at": "2025-11-27T00:00:00+00:00"
 }
 ```
 
@@ -261,6 +272,7 @@ GET /api/share/{id}/items
 ```
 
 - ETag/Cache-Control ヘッダが付与され、CDNやブラウザキャッシュで効率よく配信できます。
+	期限切れ後は 404 を返します。
 
 JSONダウンロード（添付ファイル）:
 
@@ -269,6 +281,7 @@ GET /api/share/{id}/export
 ```
 
 - `Content-Disposition: attachment` を付与して `timeline-{id}.json` をダウンロードできます。
+	期限切れ後は 404 を返します。
 
 ## Docker / Render での利用
 

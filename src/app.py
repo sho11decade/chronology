@@ -3,7 +3,8 @@ from __future__ import annotations
 import logging
 import sys
 import time
-from datetime import datetime
+import os
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any, Dict
 from uuid import uuid4
@@ -145,6 +146,9 @@ async def startup() -> None:
         database_id=getattr(settings, "d1_database_id", ""),
         api_token=getattr(settings, "d1_api_token", ""),
     )
+    # テスト実行時はD1を強制無効化（外部依存を避ける）
+    if os.environ.get("PYTEST_CURRENT_TEST"):
+        d1_cfg.enabled = False
     app.state.share_store = ShareStore(d1=d1_cfg)
 
 
@@ -249,10 +253,16 @@ async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
 
     items = generate_timeline(request.text)
     store: ShareStore = app.state.share_store
-    share_id = store.create_share(
+    # 有効期限
+    ttl_days = int(getattr(settings, "share_ttl_days", 30) or 30)
+    expires_at_dt = datetime.now(timezone.utc) + timedelta(days=ttl_days)
+    expires_at_iso = expires_at_dt.isoformat()
+
+    share_id, created_at_iso, expires_at_iso_out = store.create_share(
         text=request.text,
         title=request.title or "",
         items=[item.dict() for item in items],
+        expires_at_iso=expires_at_iso,
     )
 
     base = (settings.public_base_url or "").rstrip("/")
@@ -262,8 +272,9 @@ async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
     return ShareCreateResponse(
         id=share_id,
         url=url,
-        created_at=datetime.utcnow(),
+        created_at=datetime.fromisoformat(created_at_iso),
         total_events=len(items),
+        expires_at=datetime.fromisoformat(expires_at_iso_out),
     )
 
 
@@ -275,12 +286,20 @@ async def get_share(share_id: str) -> ShareGetResponse:
     rec = store.get_share(share_id)
     if not rec:
         raise HTTPException(status_code=404, detail="共有が見つかりませんでした。")
+    # 期限切れ判定
+    try:
+        exp = datetime.fromisoformat(rec["expires_at"]).astimezone(timezone.utc)
+    except Exception:
+        exp = datetime.now(timezone.utc)  # 異常値は期限切れ扱い
+    if datetime.now(timezone.utc) > exp:
+        raise HTTPException(status_code=404, detail="共有の有効期限が切れています。")
     return ShareGetResponse(
         id=rec["id"],
         title=rec["title"],
         text=rec["text"],
         items=[item for item in rec["items"]],
         created_at=datetime.fromisoformat(rec["created_at"]),
+        expires_at=exp,
     )
 
 
@@ -298,6 +317,13 @@ async def get_share_public(share_id: str, request: Request) -> JSONResponse:
     rec = store.get_share(share_id)
     if not rec:
         raise HTTPException(status_code=404, detail="共有が見つかりませんでした。")
+    # 期限切れ
+    try:
+        exp = datetime.fromisoformat(rec["expires_at"]).astimezone(timezone.utc)
+    except Exception:
+        exp = datetime.now(timezone.utc)
+    if datetime.now(timezone.utc) > exp:
+        raise HTTPException(status_code=404, detail="共有の有効期限が切れています。")
 
     created_at_iso = rec["created_at"]
     etag = _share_etag(share_id, created_at_iso)
@@ -312,6 +338,7 @@ async def get_share_public(share_id: str, request: Request) -> JSONResponse:
         title=rec["title"],
         items=[item for item in rec["items"]],
         created_at=datetime.fromisoformat(created_at_iso),
+        expires_at=exp,
     )
     return JSONResponse(
         status_code=200,
@@ -332,6 +359,12 @@ async def export_share_json(share_id: str) -> JSONResponse:
     rec = store.get_share(share_id)
     if not rec:
         raise HTTPException(status_code=404, detail="共有が見つかりませんでした。")
+    try:
+        exp = datetime.fromisoformat(rec["expires_at"]).astimezone(timezone.utc)
+    except Exception:
+        exp = datetime.now(timezone.utc)
+    if datetime.now(timezone.utc) > exp:
+        raise HTTPException(status_code=404, detail="共有の有効期限が切れています。")
 
     content = {
         "id": rec["id"],
@@ -339,6 +372,7 @@ async def export_share_json(share_id: str) -> JSONResponse:
         "text": rec["text"],
         "items": rec["items"],
         "created_at": rec["created_at"],
+        "expires_at": rec["expires_at"],
     }
     headers = {
         "Content-Disposition": f'attachment; filename="timeline-{share_id}.json"'

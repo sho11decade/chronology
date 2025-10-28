@@ -267,6 +267,7 @@ class ShareCreateResponse(BaseModel):
     url: str = Field(..., description="共有URL（base設定がない場合はAPIのパス）")
     created_at: datetime
     total_events: int
+    expires_at: datetime
 
 
 class ShareGetResponse(BaseModel):
@@ -275,6 +276,7 @@ class ShareGetResponse(BaseModel):
     text: str
     items: List[TimelineItem]
     created_at: datetime
+    expires_at: datetime
 
 
 class SharePublicResponse(BaseModel):
@@ -284,5 +286,6 @@ class SharePublicResponse(BaseModel):
     title: str
     items: List[TimelineItem]
     created_at: datetime
+    expires_at: datetime
 
 

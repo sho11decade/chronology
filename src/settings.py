@@ -32,6 +32,12 @@ class Settings(BaseSettings):
         default=True,
         description="共有機能を有効化するかどうか",
     )
+    share_ttl_days: int = Field(
+        default=30,
+        description="共有の有効期限（日単位）。既定は30日",
+        ge=1,
+        le=3650,
+    )
     d1_enabled: bool = Field(
         default=False,
         description="Cloudflare D1 を使用する（True の場合、HTTP API 経由で実行）",
