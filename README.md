@@ -91,6 +91,8 @@ cd chronology
 | POST     | `/api/generate`          | テキストから年表を生成して返す                        |
 | POST     | `/api/search`            | 生成した年表をキーワードや日付でフィルタリング        |
 | POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |
+| POST     | `/api/share`             | 本文から年表を生成し、共有IDを発行して保存            |
+| GET      | `/api/share/{id}`        | 共有IDに紐づく本文と年表を取得                         |
 
 ### `/api/generate` レスポンス例
 
@@ -188,6 +190,65 @@ POST /api/import/wikipedia
 	],
 	"total_events": 20,
 	"generated_at": "2025-09-27T09:00:00.000000"
+}
+```
+
+## 共有機能（Cloudflare D1 対応）
+
+本APIは、生成した年表を「共有ID」として保存し、後から取得できる共有機能を提供します。保存先は次の2通りです。
+
+- 既定: ローカルの SQLite（`./data/chronology.db`）
+- オプション: Cloudflare D1（HTTP API）
+
+### 環境変数
+
+`.env` あるいはデプロイ先の環境変数で次を設定します。
+
+- `CHRONOLOGY_ENABLE_SHARING`（既定: `true`）共有APIの有効・無効
+- `CHRONOLOGY_PUBLIC_BASE_URL`（任意）共有URLのベース（例: `https://example.com`）
+- `CHRONOLOGY_D1_ENABLED`（任意）`true` で Cloudflare D1 を使用
+- `CHRONOLOGY_D1_ACCOUNT_ID`（D1 使用時必須）Cloudflare アカウントID
+- `CHRONOLOGY_D1_DATABASE_ID`（D1 使用時必須）D1 データベースID（UUID）
+- `CHRONOLOGY_D1_API_TOKEN`（D1 使用時必須）Cloudflare API トークン
+
+Cloudflare D1 を有効化すると、作成・取得クエリは D1 の HTTP API に対して発行されます（外形監視やフェイルオーバーのため、ローカルSQLite実装も併存しています）。
+
+### API 使用例
+
+```http
+POST /api/share
+Content-Type: application/json
+
+{
+	"text": "2020年1月1日にテストイベントがありました。次は2021年2月3日です。",
+	"title": "テスト共有"
+}
+```
+
+レスポンス例:
+
+```json
+{
+	"id": "a2e5...",
+	"url": "/api/share/a2e5...",  // CHRONOLOGY_PUBLIC_BASE_URL を設定している場合はフルURL
+	"created_at": "2025-10-28T00:00:00+00:00",
+	"total_events": 2
+}
+```
+
+取得:
+
+```http
+GET /api/share/{id}
+```
+
+```json
+{
+	"id": "a2e5...",
+	"title": "テスト共有",
+	"text": "2020年1月1日にテストイベントがありました。次は2021年2月3日です。",
+	"items": [ { /* TimelineItem */ } ],
+	"created_at": "2025-10-28T00:00:00+00:00"
 }
 ```
 

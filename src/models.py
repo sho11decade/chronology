@@ -248,3 +248,32 @@ class WikipediaImportResponse(GenerateResponse):
     text_preview: str = Field(..., description="本文の先頭 200 文字のプレビュー")
 
 
+class ShareCreateRequest(BaseModel):
+    """共有データ作成のためのリクエスト。"""
+
+    text: str = Field(..., max_length=50000, description="共有対象の本文")
+    title: str = Field(default="", max_length=200, description="任意のタイトル")
+
+    @validator("text")
+    def ensure_non_empty(cls, value: str) -> str:  # type: ignore[override]
+        cleaned = value.strip()
+        if not cleaned:
+            raise ValueError("テキストが空です。内容を入力してください。")
+        return cleaned
+
+
+class ShareCreateResponse(BaseModel):
+    id: str = Field(..., description="共有ID")
+    url: str = Field(..., description="共有URL（base設定がない場合はAPIのパス）")
+    created_at: datetime
+    total_events: int
+
+
+class ShareGetResponse(BaseModel):
+    id: str
+    title: str
+    text: str
+    items: List[TimelineItem]
+    created_at: datetime
+
+

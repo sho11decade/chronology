@@ -31,6 +31,8 @@ try:
     from .timeline_generator import generate_timeline
     from .search import search_timeline_items
     from .wikipedia_importer import fetch_wikipedia_article
+    from .models import ShareCreateRequest, ShareCreateResponse, ShareGetResponse
+    from .share_store import ShareStore, D1Config
 except ImportError:
     # Fallback to absolute imports when running as script
     from settings import settings
@@ -46,6 +48,8 @@ except ImportError:
     from timeline_generator import generate_timeline
     from search import search_timeline_items
     from wikipedia_importer import fetch_wikipedia_article
+    from models import ShareCreateRequest, ShareCreateResponse, ShareGetResponse
+    from share_store import ShareStore, D1Config
 
 
 LOG_LEVEL = getattr(logging, settings.log_level.upper(), logging.INFO)
@@ -123,6 +127,14 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONR
 async def startup() -> None:
     app.state.started_at = datetime.utcnow()
     app.state.settings = settings
+    # 共有ストア初期化
+    d1_cfg = D1Config(
+        enabled=bool(getattr(settings, "d1_enabled", False)),
+        account_id=getattr(settings, "d1_account_id", ""),
+        database_id=getattr(settings, "d1_database_id", ""),
+        api_token=getattr(settings, "d1_api_token", ""),
+    )
+    app.state.share_store = ShareStore(d1=d1_cfg)
 
 
 @app.get("/health")
@@ -214,4 +226,48 @@ async def import_wikipedia(request: WikipediaImportRequest) -> WikipediaImportRe
         items=items,
         total_events=len(items),
         generated_at=datetime.utcnow(),
+    )
+
+
+@app.post("/api/share", response_model=ShareCreateResponse)
+async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
+    if not settings.enable_sharing:
+        raise HTTPException(status_code=403, detail="共有機能は無効化されています。")
+    if len(request.text) > MAX_CHARACTERS:
+        raise HTTPException(status_code=400, detail="文字数が制限を超えています (最大50,000文字)")
+
+    items = generate_timeline(request.text)
+    store: ShareStore = app.state.share_store
+    share_id = store.create_share(
+        text=request.text,
+        title=request.title or "",
+        items=[item.dict() for item in items],
+    )
+
+    base = (settings.public_base_url or "").rstrip("/")
+    path = f"/api/share/{share_id}"
+    url = f"{base}{path}" if base else path
+
+    return ShareCreateResponse(
+        id=share_id,
+        url=url,
+        created_at=datetime.utcnow(),
+        total_events=len(items),
+    )
+
+
+@app.get("/api/share/{share_id}", response_model=ShareGetResponse)
+async def get_share(share_id: str) -> ShareGetResponse:
+    if not settings.enable_sharing:
+        raise HTTPException(status_code=403, detail="共有機能は無効化されています。")
+    store: ShareStore = app.state.share_store
+    rec = store.get_share(share_id)
+    if not rec:
+        raise HTTPException(status_code=404, detail="共有が見つかりませんでした。")
+    return ShareGetResponse(
+        id=rec["id"],
+        title=rec["title"],
+        text=rec["text"],
+        items=[item for item in rec["items"]],
+        created_at=datetime.fromisoformat(rec["created_at"]),
     )

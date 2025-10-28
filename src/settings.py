@@ -26,6 +26,31 @@ class Settings(BaseSettings):
         default=True,
         description="各リクエストのログ出力を有効化",
     )
+    # --- Cloudflare D1 / 共有機能設定 ---
+    enable_sharing: bool = Field(
+        default=True,
+        description="共有機能を有効化するかどうか",
+    )
+    d1_enabled: bool = Field(
+        default=False,
+        description="Cloudflare D1 を使用する（True の場合、HTTP API 経由で実行）",
+    )
+    d1_account_id: str = Field(
+        default="",
+        description="Cloudflare アカウントID（D1 HTTP API 用）",
+    )
+    d1_database_id: str = Field(
+        default="",
+        description="Cloudflare D1 データベースID（UUID）",
+    )
+    d1_api_token: str = Field(
+        default="",
+        description="Cloudflare API トークン（D1 HTTP API 用）",
+    )
+    public_base_url: str = Field(
+        default="",
+        description="クライアント向けの公開ベースURL。共有URL生成に使用（例: https://example.com）",
+    )
 
     class Config:
         env_prefix = "CHRONOLOGY_"
