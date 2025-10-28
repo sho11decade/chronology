@@ -277,3 +277,12 @@ class ShareGetResponse(BaseModel):
     created_at: datetime
 
 
+class SharePublicResponse(BaseModel):
+    """公開用の共有レスポンス（本文は含めない）。"""
+
+    id: str
+    title: str
+    items: List[TimelineItem]
+    created_at: datetime
+
+

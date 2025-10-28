@@ -9,6 +9,7 @@ from typing import Any, Dict
 from uuid import uuid4
 
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.concurrency import run_in_threadpool
@@ -31,7 +32,12 @@ try:
     from .timeline_generator import generate_timeline
     from .search import search_timeline_items
     from .wikipedia_importer import fetch_wikipedia_article
-    from .models import ShareCreateRequest, ShareCreateResponse, ShareGetResponse
+    from .models import (
+        ShareCreateRequest,
+        ShareCreateResponse,
+        ShareGetResponse,
+        SharePublicResponse,
+    )
     from .share_store import ShareStore, D1Config
 except ImportError:
     # Fallback to absolute imports when running as script
@@ -48,7 +54,12 @@ except ImportError:
     from timeline_generator import generate_timeline
     from search import search_timeline_items
     from wikipedia_importer import fetch_wikipedia_article
-    from models import ShareCreateRequest, ShareCreateResponse, ShareGetResponse
+    from models import (
+        ShareCreateRequest,
+        ShareCreateResponse,
+        ShareGetResponse,
+        SharePublicResponse,
+    )
     from share_store import ShareStore, D1Config
 
 
@@ -271,3 +282,65 @@ async def get_share(share_id: str) -> ShareGetResponse:
         items=[item for item in rec["items"]],
         created_at=datetime.fromisoformat(rec["created_at"]),
     )
+
+
+def _share_etag(share_id: str, created_at_iso: str) -> str:
+    # 弱いETagで十分
+    return f'W/"{share_id}-{created_at_iso}"'
+
+
+@app.get("/api/share/{share_id}/items", response_model=SharePublicResponse)
+async def get_share_public(share_id: str, request: Request) -> JSONResponse:
+    """公開用：本文を含まず items のみ返す。キャッシュヘッダを付与。"""
+    if not settings.enable_sharing:
+        raise HTTPException(status_code=403, detail="共有機能は無効化されています。")
+    store: ShareStore = app.state.share_store
+    rec = store.get_share(share_id)
+    if not rec:
+        raise HTTPException(status_code=404, detail="共有が見つかりませんでした。")
+
+    created_at_iso = rec["created_at"]
+    etag = _share_etag(share_id, created_at_iso)
+
+    # If-None-Match 処理
+    inm = request.headers.get("If-None-Match")
+    if inm and inm == etag:
+        return JSONResponse(status_code=304, content=None, headers={"ETag": etag})
+
+    payload = SharePublicResponse(
+        id=rec["id"],
+        title=rec["title"],
+        items=[item for item in rec["items"]],
+        created_at=datetime.fromisoformat(created_at_iso),
+    )
+    return JSONResponse(
+        status_code=200,
+        content=jsonable_encoder(payload),
+        headers={
+            "Cache-Control": "public, max-age=300",
+            "ETag": etag,
+        },
+    )
+
+
+@app.get("/api/share/{share_id}/export")
+async def export_share_json(share_id: str) -> JSONResponse:
+    """ダウンロード用：全文（text + items）をJSONとして添付返却。"""
+    if not settings.enable_sharing:
+        raise HTTPException(status_code=403, detail="共有機能は無効化されています。")
+    store: ShareStore = app.state.share_store
+    rec = store.get_share(share_id)
+    if not rec:
+        raise HTTPException(status_code=404, detail="共有が見つかりませんでした。")
+
+    content = {
+        "id": rec["id"],
+        "title": rec["title"],
+        "text": rec["text"],
+        "items": rec["items"],
+        "created_at": rec["created_at"],
+    }
+    headers = {
+        "Content-Disposition": f'attachment; filename="timeline-{share_id}.json"'
+    }
+    return JSONResponse(status_code=200, content=content, headers=headers)

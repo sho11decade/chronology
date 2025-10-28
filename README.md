@@ -93,6 +93,8 @@ cd chronology
 | POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |
 | POST     | `/api/share`             | 本文から年表を生成し、共有IDを発行して保存            |
 | GET      | `/api/share/{id}`        | 共有IDに紐づく本文と年表を取得                         |
+| GET      | `/api/share/{id}/items`  | 公開用。本文を除いた年表（items）だけを返す            |
+| GET      | `/api/share/{id}/export` | ダウンロード用。本文と年表の JSON を添付で返す        |
 
 ### `/api/generate` レスポンス例
 
@@ -251,6 +253,22 @@ GET /api/share/{id}
 	"created_at": "2025-10-28T00:00:00+00:00"
 }
 ```
+
+公開JSON（本文なし、キャッシュ対応）:
+
+```http
+GET /api/share/{id}/items
+```
+
+- ETag/Cache-Control ヘッダが付与され、CDNやブラウザキャッシュで効率よく配信できます。
+
+JSONダウンロード（添付ファイル）:
+
+```http
+GET /api/share/{id}/export
+```
+
+- `Content-Disposition: attachment` を付与して `timeline-{id}.json` をダウンロードできます。
 
 ## Docker / Render での利用
 
