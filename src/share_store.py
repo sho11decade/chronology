@@ -8,15 +8,23 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional
 from uuid import uuid4
 
-import requests
+try:  # pragma: no cover - optional dependency for Firestore mode
+    from google.cloud import firestore as firestore_client  # type: ignore
+except ImportError:  # pragma: no cover - fall back to SQLite only
+    firestore_client = None
+
+try:  # pragma: no cover - created lazily when credentials file is provided
+    from google.oauth2 import service_account  # type: ignore
+except ImportError:  # pragma: no cover - handled when Firestore credentials are required
+    service_account = None
 
 
 @dataclass
-class D1Config:
+class FirestoreConfig:
     enabled: bool
-    account_id: str
-    database_id: str
-    api_token: str
+    project_id: str = ""
+    credentials_path: str = ""
+    collection: str = "shares"
 
 
 def now_utc_iso() -> str:
@@ -30,14 +38,32 @@ def plus_days_utc_iso(days: int) -> str:
 class ShareStore:
     """
     共有データの永続化レイヤ。
-    - Cloudflare D1 が有効な場合: D1 HTTP API を使用
-    - 無効な場合: ローカル SQLite ファイルに保存（./data/chronology.db）
+    - Firestore を有効にした場合: 指定コレクションへドキュメント保存
+    - 無効時: ローカル SQLite ファイルに保存（./data/chronology.db）
     """
 
-    def __init__(self, d1: D1Config | None = None, db_path: Optional[str] = None):
-        self._d1 = d1 or D1Config(False, "", "", "")
-        self._db_path = db_path or os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "chronology.db"))
-        if not self._d1.enabled:
+    def __init__(self, firestore: FirestoreConfig | None = None, db_path: Optional[str] = None):
+        self._firestore_cfg = firestore or FirestoreConfig(False)
+        self._firestore_client = None
+        self._firestore_collection = self._firestore_cfg.collection or "shares"
+        if self._firestore_cfg.enabled:
+            if firestore_client is None:
+                raise RuntimeError(
+                    "Firestore モードが有効ですが google-cloud-firestore がインストールされていません。"
+                )
+            credentials = None
+            creds_path = (self._firestore_cfg.credentials_path or "").strip()
+            if creds_path:
+                if service_account is None:
+                    raise RuntimeError("Firestore 認証用に google-auth が必要です。")
+                credentials = service_account.Credentials.from_service_account_file(creds_path)
+            project_id = (self._firestore_cfg.project_id or "").strip() or None
+            self._firestore_client = firestore_client.Client(project=project_id, credentials=credentials)
+            self._db_path = None
+        else:
+            self._db_path = db_path or os.path.abspath(
+                os.path.join(os.path.dirname(__file__), "..", "data", "chronology.db")
+            )
             os.makedirs(os.path.dirname(self._db_path), exist_ok=True)
         self.init_schema()
 
@@ -59,14 +85,16 @@ class ShareStore:
         created_at = now_utc_iso()
         expires_at = expires_at_iso or plus_days_utc_iso(30)
         items_json = json.dumps(items, ensure_ascii=False)
-        if self._d1.enabled:
-            self._d1_execute(
-                """
-                INSERT INTO shares (id, title, text, items_json, created_at, expires_at)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                [share_id, title, text, items_json, created_at, expires_at],
-            )
+        if self._firestore_client:
+            payload = {
+                "id": share_id,
+                "title": title,
+                "text": text,
+                "items": items,
+                "created_at": created_at,
+                "expires_at": expires_at,
+            }
+            self._firestore_client.collection(self._firestore_collection).document(share_id).set(payload)
         else:
             with self._sqlite_conn() as conn:
                 conn.execute(
@@ -91,22 +119,22 @@ class ShareStore:
         return share_id, created_at, expires_at
 
     def get_share(self, share_id: str) -> Optional[Dict[str, Any]]:
-        if self._d1.enabled:
-            rows = self._d1_query(
-                "SELECT id, title, text, items_json, created_at, expires_at FROM shares WHERE id = ? LIMIT 1",
-                [share_id],
-            )
-            row = rows[0] if rows else None
-            if not row:
+        if self._firestore_client:
+            doc_ref = self._firestore_client.collection(self._firestore_collection).document(share_id)
+            try:
+                snapshot = doc_ref.get()
+            except Exception as exc:  # pragma: no cover - surface Firestore failure
+                raise RuntimeError("Firestore から共有データを取得できませんでした。") from exc
+            if not snapshot.exists:
                 return None
-            items = json.loads(row[3]) if row[3] else []
+            data = snapshot.to_dict() or {}
             return {
-                "id": row[0],
-                "title": row[1],
-                "text": row[2],
-                "items": items,
-                "created_at": row[4],
-                "expires_at": row[5],
+                "id": data.get("id", share_id),
+                "title": data.get("title", ""),
+                "text": data.get("text", ""),
+                "items": data.get("items", []) or [],
+                "created_at": data.get("created_at", now_utc_iso()),
+                "expires_at": data.get("expires_at", now_utc_iso()),
             }
         else:
             with self._sqlite_conn() as conn:
@@ -128,30 +156,9 @@ class ShareStore:
             }
 
     def init_schema(self) -> None:
-        if self._d1.enabled:
-            # D1: IF NOT EXISTS で初期化 → 既存にexpires_atが無ければ追加
-            self._d1_execute(
-                """
-                CREATE TABLE IF NOT EXISTS shares (
-                    id TEXT PRIMARY KEY,
-                    title TEXT NOT NULL,
-                    text TEXT NOT NULL,
-                    items_json TEXT NOT NULL,
-                    created_at TEXT NOT NULL,
-                    expires_at TEXT NOT NULL
-                )
-                """,
-                [],
-            )
-            try:
-                # 既存行がある場合に備え、DEFAULT を付けて追加
-                self._d1_execute(
-                    "ALTER TABLE shares ADD COLUMN expires_at TEXT NOT NULL DEFAULT ''",
-                    [],
-                )
-            except Exception:
-                # 既に列がある場合などは無視
-                pass
+        if self._firestore_client:
+            # Firestore はスキーマレスのため初期化不要。
+            return
         else:
             with self._sqlite_conn() as conn:
                 conn.execute(
@@ -176,42 +183,6 @@ class ShareStore:
     # Private helpers
     # -------------------------------
     def _sqlite_conn(self):
+        if not self._db_path:
+            raise RuntimeError("SQLite モードが無効です。")
         return sqlite3.connect(self._db_path)
-
-    def _d1_base(self) -> str:
-        return f"https://api.cloudflare.com/client/v4/accounts/{self._d1.account_id}/d1/database/{self._d1.database_id}/query"
-
-    def _d1_headers(self) -> dict[str, str]:
-        return {
-            "Authorization": f"Bearer {self._d1.api_token}",
-            "Content-Type": "application/json",
-        }
-
-    def _d1_query(self, sql: str, params: list[Any] | None = None) -> list[list[Any]]:
-        payload: dict[str, Any] = {"sql": sql}
-        if params:
-            payload["params"] = params
-        resp = requests.post(self._d1_base(), headers=self._d1_headers(), json=payload, timeout=15)
-        resp.raise_for_status()
-        data = resp.json()
-        if not data.get("success", False):
-            raise RuntimeError(f"D1 query failed: {data}")
-        # D1 returns results in data['result'][0]['results'] as array of objects keyed by column names.
-        result_sets = data.get("result") or []
-        if not result_sets:
-            return []
-        first = result_sets[0]
-        rows = first.get("results") or []
-        # Convert dict rows to list ordered by select columns index; since we can't know reliably,
-        # keep values order by dict iteration (Python 3.7+ preserves insertion which matches D1 order).
-        return [list(row.values()) for row in rows]
-
-    def _d1_execute(self, sql: str, params: list[Any] | None = None) -> None:
-        payload: dict[str, Any] = {"sql": sql}
-        if params:
-            payload["params"] = params
-        resp = requests.post(self._d1_base(), headers=self._d1_headers(), json=payload, timeout=15)
-        resp.raise_for_status()
-        data = resp.json()
-        if not data.get("success", False):
-            raise RuntimeError(f"D1 execute failed: {data}")

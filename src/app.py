@@ -39,7 +39,7 @@ try:
         ShareGetResponse,
         SharePublicResponse,
     )
-    from .share_store import ShareStore, D1Config
+    from .share_store import ShareStore, FirestoreConfig
 except ImportError:
     # Fallback to absolute imports when running as script
     from settings import settings
@@ -61,7 +61,7 @@ except ImportError:
         ShareGetResponse,
         SharePublicResponse,
     )
-    from share_store import ShareStore, D1Config
+    from share_store import ShareStore, FirestoreConfig
 
 
 LOG_LEVEL = getattr(logging, settings.log_level.upper(), logging.INFO)
@@ -140,16 +140,16 @@ async def startup() -> None:
     app.state.started_at = datetime.utcnow()
     app.state.settings = settings
     # 共有ストア初期化
-    d1_cfg = D1Config(
-        enabled=bool(getattr(settings, "d1_enabled", False)),
-        account_id=getattr(settings, "d1_account_id", ""),
-        database_id=getattr(settings, "d1_database_id", ""),
-        api_token=getattr(settings, "d1_api_token", ""),
+    fs_cfg = FirestoreConfig(
+        enabled=bool(getattr(settings, "firestore_enabled", False)),
+        project_id=getattr(settings, "firestore_project_id", ""),
+        credentials_path=getattr(settings, "firestore_credentials_path", ""),
+        collection=getattr(settings, "firestore_collection", "shares"),
     )
-    # テスト実行時はD1を強制無効化（外部依存を避ける）
+    # テスト実行時は外部ストレージを強制無効化（外部依存を避ける）
     if os.environ.get("PYTEST_CURRENT_TEST"):
-        d1_cfg.enabled = False
-    app.state.share_store = ShareStore(d1=d1_cfg)
+        fs_cfg.enabled = False
+    app.state.share_store = ShareStore(firestore=fs_cfg)
 
 
 @app.get("/health")

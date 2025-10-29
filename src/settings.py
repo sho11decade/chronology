@@ -27,7 +27,7 @@ class Settings(BaseSettings):
         default=True,
         description="各リクエストのログ出力を有効化",
     )
-    # --- Cloudflare D1 / 共有機能設定 ---
+    # --- 共有機能設定（Firestore / SQLite フォールバック） ---
     enable_sharing: bool = Field(
         default=True,
         description="共有機能を有効化するかどうか",
@@ -56,21 +56,21 @@ class Settings(BaseSettings):
         ge=50,
         le=5_000,
     )
-    d1_enabled: bool = Field(
+    firestore_enabled: bool = Field(
         default=False,
-        description="Cloudflare D1 を使用する（True の場合、HTTP API 経由で実行）",
+        description="Firestore を使用して共有データを保存するかどうか",
     )
-    d1_account_id: str = Field(
+    firestore_project_id: str = Field(
         default="",
-        description="Cloudflare アカウントID（D1 HTTP API 用）",
+        description="Firestore クライアントで使用する GCP プロジェクトID（省略可）",
     )
-    d1_database_id: str = Field(
+    firestore_credentials_path: str = Field(
         default="",
-        description="Cloudflare D1 データベースID（UUID）",
+        description="サービスアカウントJSONのパス。空の場合は Application Default Credentials を利用",
     )
-    d1_api_token: str = Field(
-        default="",
-        description="Cloudflare API トークン（D1 HTTP API 用）",
+    firestore_collection: str = Field(
+        default="shares",
+        description="共有ドキュメントを格納する Firestore コレクション名",
     )
     public_base_url: str = Field(
         default="",

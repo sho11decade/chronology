@@ -8,7 +8,7 @@
 - **人物・場所の自動抽出**: 接尾辞辞書と形態的ヒューリスティクスで人物・場所を判別し、イベントごとに整理。
 - **信頼度スコア**: 抽出したメタ情報（ISO 日付化の可否、人物・場所の数、文脈量）から 0〜1 の信頼度を算出。
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
-- **大容量テキストとファイルアップロード**: 50,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
+- **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
 - **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
 
@@ -207,12 +207,12 @@ POST /api/import/wikipedia
 }
 ```
 
-## 共有機能（Cloudflare D1 対応）
+## 共有機能（Firestore / SQLite 対応）
 
 本APIは、生成した年表を「共有ID」として保存し、後から取得できる共有機能を提供します。保存先は次の2通りです。
 
 - 既定: ローカルの SQLite（`./data/chronology.db`）
-- オプション: Cloudflare D1（HTTP API）
+- オプション: Google Cloud Firestore
 
 ### 環境変数
 
@@ -220,16 +220,16 @@ POST /api/import/wikipedia
 
 - `CHRONOLOGY_ENABLE_SHARING`（既定: `true`）共有APIの有効・無効
 - `CHRONOLOGY_PUBLIC_BASE_URL`（任意）共有URLのベース（例: `https://example.com`）
-- `CHRONOLOGY_D1_ENABLED`（任意）`true` で Cloudflare D1 を使用
-- `CHRONOLOGY_D1_ACCOUNT_ID`（D1 使用時必須）Cloudflare アカウントID
-- `CHRONOLOGY_D1_DATABASE_ID`（D1 使用時必須）D1 データベースID（UUID）
-- `CHRONOLOGY_D1_API_TOKEN`（D1 使用時必須）Cloudflare API トークン
+- `CHRONOLOGY_FIRESTORE_ENABLED`（任意）`true` で Firestore を使用（既定はローカル SQLite）
+- `CHRONOLOGY_FIRESTORE_PROJECT_ID`（Firestore 使用時推奨）Firestore クライアントで使用する GCP プロジェクトID
+- `CHRONOLOGY_FIRESTORE_CREDENTIALS_PATH`（任意）サービスアカウントJSONのパス。省略時は ADC を利用
+- `CHRONOLOGY_FIRESTORE_COLLECTION`（任意、既定 shares）共有データを格納するコレクション名
 - `CHRONOLOGY_SHARE_TTL_DAYS`（任意、既定30）共有の有効期限（日）。30で約1カ月。
 - `CHRONOLOGY_MAX_INPUT_CHARACTERS`（任意、既定200000）共有APIが受け付ける本文の最大文字数
 - `CHRONOLOGY_MAX_TIMELINE_EVENTS`（任意、既定500）共有生成時に保存するイベント数の上限
 - `CHRONOLOGY_MAX_SEARCH_RESULTS`（任意、既定500）共有検索時に返却する結果数の上限
 
-Cloudflare D1 を有効化すると、作成・取得クエリは D1 の HTTP API に対して発行されます（外形監視やフェイルオーバーのため、ローカルSQLite実装も併存しています）。
+Firestore を有効化すると、共有データは指定したコレクションにドキュメントとして保存されます（ローカル開発やスタンドアロン運用では SQLite をそのまま利用可能です）。
 
 ### API 使用例
 

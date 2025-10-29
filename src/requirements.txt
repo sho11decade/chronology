@@ -6,3 +6,4 @@ python-multipart==0.0.9
 pydantic==1.10.15
 requests==2.32.3
 pytest==8.3.2
+google-cloud-firestore==2.16.1

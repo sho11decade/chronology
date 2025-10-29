@@ -5,3 +5,4 @@ pdfplumber==0.11.4
 python-multipart==0.0.9
 pydantic==1.10.15
 requests==2.32.3
+google-cloud-firestore==2.16.1
