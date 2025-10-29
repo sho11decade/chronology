@@ -38,6 +38,24 @@ class Settings(BaseSettings):
         ge=1,
         le=3650,
     )
+    max_input_characters: int = Field(
+        default=200_000,
+        description="入力テキストの最大文字数上限。共有・生成・検索すべてに適用",
+        ge=10_000,
+        le=1_000_000,
+    )
+    max_timeline_events: int = Field(
+        default=500,
+        description="年表生成時に保持する最大イベント数",
+        ge=50,
+        le=5_000,
+    )
+    max_search_results: int = Field(
+        default=500,
+        description="検索レスポンスとして返却する最大件数の上限",
+        ge=50,
+        le=5_000,
+    )
     d1_enabled: bool = Field(
         default=False,
         description="Cloudflare D1 を使用する（True の場合、HTTP API 経由で実行）",

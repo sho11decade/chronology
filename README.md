@@ -61,6 +61,9 @@ pip install -r src/requirements.txt
 - `CHRONOLOGY_ALLOWED_ORIGINS`: CORS で許可するオリジン（カンマ区切り）
 - `CHRONOLOGY_LOG_LEVEL`: ログレベル（`DEBUG`/`INFO`/`WARNING`/`ERROR`/`CRITICAL`）
 - `CHRONOLOGY_ENABLE_REQUEST_LOGGING`: リクエストログの有効・無効（`true`/`false`）
+- `CHRONOLOGY_MAX_INPUT_CHARACTERS`: テキスト入力の最大文字数（既定: 200000）
+- `CHRONOLOGY_MAX_TIMELINE_EVENTS`: 年表生成で保持する最大イベント数（既定: 500）
+- `CHRONOLOGY_MAX_SEARCH_RESULTS`: 検索レスポンスの最大件数（既定: 500）
 
 ## ローカル起動
 
@@ -222,6 +225,9 @@ POST /api/import/wikipedia
 - `CHRONOLOGY_D1_DATABASE_ID`（D1 使用時必須）D1 データベースID（UUID）
 - `CHRONOLOGY_D1_API_TOKEN`（D1 使用時必須）Cloudflare API トークン
 - `CHRONOLOGY_SHARE_TTL_DAYS`（任意、既定30）共有の有効期限（日）。30で約1カ月。
+- `CHRONOLOGY_MAX_INPUT_CHARACTERS`（任意、既定200000）共有APIが受け付ける本文の最大文字数
+- `CHRONOLOGY_MAX_TIMELINE_EVENTS`（任意、既定500）共有生成時に保存するイベント数の上限
+- `CHRONOLOGY_MAX_SEARCH_RESULTS`（任意、既定500）共有検索時に返却する結果数の上限
 
 Cloudflare D1 を有効化すると、作成・取得クエリは D1 の HTTP API に対して発行されます（外形監視やフェイルオーバーのため、ローカルSQLite実装も併存しています）。
 

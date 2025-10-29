@@ -809,7 +809,7 @@ def compute_confidence(entry: dict) -> float:
 
 def generate_timeline(
     text: str,
-    max_events: int = 150,
+    max_events: int = 500,
     reference_date: Optional[date] = None,
 ) -> List[TimelineItem]:
     preprocessed = normalise_input_text(text)

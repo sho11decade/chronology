@@ -8,12 +8,12 @@ from starlette.status import HTTP_413_REQUEST_ENTITY_TOO_LARGE
 from fastapi import HTTPException, UploadFile
 
 SUPPORTED_EXTENSIONS = {".txt", ".docx", ".pdf"}
-MAX_CHARACTERS = 50_000
+MAX_CHARACTERS = 200_000
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
 READ_CHUNK_SIZE = 1 * 1024 * 1024  # 1 MB
 
 
-async def extract_text_from_upload(upload: UploadFile) -> Tuple[str, str]:
+async def extract_text_from_upload(upload: UploadFile, *, max_characters: int = MAX_CHARACTERS) -> Tuple[str, str]:
     filename = upload.filename or "uploaded"
     extension = _infer_extension(filename)
 
@@ -35,8 +35,8 @@ async def extract_text_from_upload(upload: UploadFile) -> Tuple[str, str]:
     text = text.strip()
     if not text:
         raise HTTPException(status_code=400, detail="ファイルからテキストを抽出できませんでした。")
-    if len(text) > MAX_CHARACTERS:
-        text = text[:MAX_CHARACTERS]
+    if len(text) > max_characters:
+        text = text[:max_characters]
 
     preview = text[:200].replace("\n", " ")
     return text, preview

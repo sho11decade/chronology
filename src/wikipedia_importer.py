@@ -36,6 +36,7 @@ def fetch_wikipedia_article(
     topic: Optional[str] = None,
     url: Optional[str] = None,
     language: str = "ja",
+    max_characters: int = MAX_CHARACTERS,
 ) -> WikipediaArticle:
     """Fetch plain text from Wikipedia using the public API.
 
@@ -56,8 +57,8 @@ def fetch_wikipedia_article(
     if not cleaned_text:
         raise HTTPException(status_code=404, detail="Wikipediaページから本文を取得できませんでした。")
 
-    if len(cleaned_text) > MAX_CHARACTERS:
-        cleaned_text = cleaned_text[:MAX_CHARACTERS]
+    if len(cleaned_text) > max_characters:
+        cleaned_text = cleaned_text[:max_characters]
 
     preview = cleaned_text[:200].replace("\n", " ")
     canonical_url = _build_canonical_url(resolved_language, title)

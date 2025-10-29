@@ -7,6 +7,8 @@ from uuid import uuid4
 
 from pydantic import BaseModel, Field, HttpUrl, root_validator, validator
 
+LARGE_TEXT_MAX_LENGTH = 200_000
+
 
 class TimelineItem(BaseModel):
     """Represents a single entry inside the generated chronology."""
@@ -54,7 +56,7 @@ class TimelineItem(BaseModel):
 class GenerateRequest(BaseModel):
     text: str = Field(
         ...,
-        max_length=50000,
+        max_length=LARGE_TEXT_MAX_LENGTH,
         description="Input text from which the timeline should be generated",
     )
 
@@ -149,7 +151,7 @@ class SearchRequest(BaseModel):
 
     text: str = Field(
         ...,
-        max_length=50000,
+        max_length=LARGE_TEXT_MAX_LENGTH,
         description="検索対象となる本文。タイムライン生成と同じ前処理を行います。",
     )
     keywords: List[str] = Field(
@@ -181,7 +183,7 @@ class SearchRequest(BaseModel):
     max_results: int = Field(
         default=50,
         ge=1,
-        le=200,
+        le=5_000,
         description="返却する最大件数。スコアの高い順に切り詰められます。",
     )
 
@@ -251,7 +253,7 @@ class WikipediaImportResponse(GenerateResponse):
 class ShareCreateRequest(BaseModel):
     """共有データ作成のためのリクエスト。"""
 
-    text: str = Field(..., max_length=50000, description="共有対象の本文")
+    text: str = Field(..., max_length=LARGE_TEXT_MAX_LENGTH, description="共有対象の本文")
     title: str = Field(default="", max_length=200, description="任意のタイトル")
 
     @validator("text")

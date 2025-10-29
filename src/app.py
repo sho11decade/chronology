@@ -29,7 +29,7 @@ try:
         UploadResponse,
     )
     from .models import WikipediaImportRequest, WikipediaImportResponse
-    from .text_extractor import extract_text_from_upload, MAX_CHARACTERS
+    from .text_extractor import extract_text_from_upload
     from .timeline_generator import generate_timeline
     from .search import search_timeline_items
     from .wikipedia_importer import fetch_wikipedia_article
@@ -51,7 +51,7 @@ except ImportError:
         UploadResponse,
     )
     from models import WikipediaImportRequest, WikipediaImportResponse
-    from text_extractor import extract_text_from_upload, MAX_CHARACTERS
+    from text_extractor import extract_text_from_upload
     from timeline_generator import generate_timeline
     from search import search_timeline_items
     from wikipedia_importer import fetch_wikipedia_article
@@ -173,7 +173,10 @@ async def health_ready() -> Dict[str, Any]:
 
 @app.post("/api/upload", response_model=UploadResponse)
 async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
-    text, preview = await extract_text_from_upload(file)
+    text, preview = await extract_text_from_upload(
+        file,
+        max_characters=settings.max_input_characters,
+    )
     return UploadResponse(
         filename=file.filename or "uploaded",
         characters=len(text),
@@ -184,10 +187,16 @@ async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
 
 @app.post("/api/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest) -> GenerateResponse:
-    if len(request.text) > MAX_CHARACTERS:
-        raise HTTPException(status_code=400, detail="文字数が制限を超えています (最大50,000文字)")
+    if len(request.text) > settings.max_input_characters:
+        raise HTTPException(
+            status_code=400,
+            detail=f"文字数が制限を超えています (最大{settings.max_input_characters:,}文字)",
+        )
 
-    items = generate_timeline(request.text)
+    items = generate_timeline(
+        request.text,
+        max_events=settings.max_timeline_events,
+    )
 
     return GenerateResponse(
         items=items,
@@ -198,7 +207,11 @@ async def generate(request: GenerateRequest) -> GenerateResponse:
 
 @app.post("/api/search", response_model=SearchResponse)
 async def search(request: SearchRequest) -> SearchResponse:
-    items = generate_timeline(request.text)
+    items = generate_timeline(
+        request.text,
+        max_events=settings.max_timeline_events,
+    )
+    capped_results = min(request.max_results, settings.max_search_results)
     results = search_timeline_items(
         items,
         keywords=request.keywords,
@@ -206,7 +219,7 @@ async def search(request: SearchRequest) -> SearchResponse:
         date_from=request.date_from,
         date_to=request.date_to,
         match_mode=request.match_mode,
-        max_results=request.max_results,
+        max_results=capped_results,
     )
 
     return SearchResponse(
@@ -229,9 +242,13 @@ async def import_wikipedia(request: WikipediaImportRequest) -> WikipediaImportRe
         topic=request.topic,
         url=str(request.url) if request.url else None,
         language=request.language,
+        max_characters=settings.max_input_characters,
     )
 
-    items = generate_timeline(article.text)
+    items = generate_timeline(
+        article.text,
+        max_events=settings.max_timeline_events,
+    )
 
     return WikipediaImportResponse(
         source_title=article.title,
@@ -248,10 +265,16 @@ async def import_wikipedia(request: WikipediaImportRequest) -> WikipediaImportRe
 async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
     if not settings.enable_sharing:
         raise HTTPException(status_code=403, detail="共有機能は無効化されています。")
-    if len(request.text) > MAX_CHARACTERS:
-        raise HTTPException(status_code=400, detail="文字数が制限を超えています (最大50,000文字)")
+    if len(request.text) > settings.max_input_characters:
+        raise HTTPException(
+            status_code=400,
+            detail=f"文字数が制限を超えています (最大{settings.max_input_characters:,}文字)",
+        )
 
-    items = generate_timeline(request.text)
+    items = generate_timeline(
+        request.text,
+        max_events=settings.max_timeline_events,
+    )
     store: ShareStore = app.state.share_store
     # 有効期限
     ttl_days = int(getattr(settings, "share_ttl_days", 30) or 30)
