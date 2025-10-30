@@ -21,8 +21,8 @@ def test_generate_timeline_extracts_events():
     assert "2021-04-01" in iso_dates
 
     categories = {item.category for item in items}
-    assert "education" in categories
-    assert "economy" in categories or "politics" in categories
+    assert "教育" in categories
+    assert "経済" in categories or "政治" in categories
 
     for item in items:
         assert 0.0 <= item.confidence <= 1.0

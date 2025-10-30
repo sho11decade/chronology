@@ -18,7 +18,24 @@ def client() -> Iterable[TestClient]:
 
 
 def _create_share(client: TestClient) -> str:
-    payload = {"text": "2020年1月1日にテスト。2021年2月3日もテスト。", "title": "公開テスト"}
+    payload = {
+        "text": "2020年1月1日にテスト。2021年2月3日もテスト。",
+        "title": "公開テスト",
+        "items": [
+            {
+                "id": "public-item",
+                "date_text": "2020年1月1日",
+                "date_iso": "2020-01-01",
+                "title": "共有イベント",
+                "description": "共有のテストイベントです。",
+                "people": [],
+                "locations": [],
+                "category": "general",
+                "importance": 0.5,
+                "confidence": 0.5,
+            }
+        ],
+    }
     res = client.post("/api/share", json=payload)
     assert res.status_code == 200, res.text
     return res.json()["id"]
@@ -33,7 +50,7 @@ def test_get_share_items_and_export(client: TestClient) -> None:
     data = res.json()
     assert data["id"] == sid
     assert data["title"] == "公開テスト"
-    assert isinstance(data["items"], list) and len(data["items"]) >= 1
+    assert isinstance(data["items"], list) and len(data["items"]) == 1
     assert "Cache-Control" in res.headers and "ETag" in res.headers
 
     # 304 with If-None-Match

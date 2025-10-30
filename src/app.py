@@ -271,10 +271,6 @@ async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
             detail=f"文字数が制限を超えています (最大{settings.max_input_characters:,}文字)",
         )
 
-    items = generate_timeline(
-        request.text,
-        max_events=settings.max_timeline_events,
-    )
     store: ShareStore = app.state.share_store
     # 有効期限
     ttl_days = int(getattr(settings, "share_ttl_days", 30) or 30)
@@ -284,7 +280,7 @@ async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
     share_id, created_at_iso, expires_at_iso_out = store.create_share(
         text=request.text,
         title=request.title or "",
-        items=[item.dict() for item in items],
+        items=[item.dict() for item in request.items],
         expires_at_iso=expires_at_iso,
     )
 
@@ -296,7 +292,7 @@ async def create_share(request: ShareCreateRequest) -> ShareCreateResponse:
         id=share_id,
         url=url,
         created_at=datetime.fromisoformat(created_at_iso),
-        total_events=len(items),
+        total_events=len(request.items),
         expires_at=datetime.fromisoformat(expires_at_iso_out),
     )
 

@@ -1,5 +1,5 @@
 CATEGORY_KEYWORDS = {
-    "politics": [
+    "政治": [
         "政府",
         "政権",
         "法案",
@@ -15,7 +15,7 @@ CATEGORY_KEYWORDS = {
         "条約",
         "自治体",
     ],
-    "economy": [
+    "経済": [
         "経済",
         "市場",
         "企業",
@@ -61,7 +61,7 @@ CATEGORY_KEYWORDS = {
         "スーパーコンピュータ",
         "革新",
     ],
-    "education": [
+    "教育": [
         "学校",
         "教育",
         "大学",

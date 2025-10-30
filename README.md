@@ -9,6 +9,7 @@
 - **信頼度スコア**: 抽出したメタ情報（ISO 日付化の可否、人物・場所の数、文脈量）から 0〜1 の信頼度を算出。
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
+- **柔軟な共有API**: クライアントが生成した年表項目をそのまま保存でき、レスポンスでは共有URLとメタ情報だけを返します。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
 - **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
 
@@ -121,7 +122,7 @@ cd chronology
 			"description": "令和三年四月一日、京都で新しい政策が発表された。",
 			"people": ["山田太郎"],
 			"locations": ["京都"],
-			"category": "politics",
+			"category": "政治",
 			"importance": 0.78,
 			"confidence": 0.74
 		}
@@ -197,7 +198,7 @@ POST /api/import/wikipedia
 			"description": "1867年11月15日、京都・近江屋で坂本龍馬が暗殺された。",
 			"people": ["坂本龍馬"],
 			"locations": ["京都"],
-			"category": "politics",
+			"category": "政治",
 			"importance": 0.82,
 			"confidence": 0.75
 		}
@@ -213,6 +214,8 @@ POST /api/import/wikipedia
 
 - 既定: ローカルの SQLite（`./data/chronology.db`）
 - オプション: Google Cloud Firestore
+
+クライアントが年表を生成し、本文とともに `items` 配列として送信する前提です。サーバー側では受け取った項目をそのまま保存し、レスポンスでは共有 ID・URL・期限のみ返却します。
 
 ### 環境変数
 
@@ -239,7 +242,21 @@ Content-Type: application/json
 
 {
 	"text": "2020年1月1日にテストイベントがありました。次は2021年2月3日です。",
-	"title": "テスト共有"
+	"title": "テスト共有",
+	"items": [
+		{
+			"id": "item-1",
+			"date_text": "2020年1月1日",
+			"date_iso": "2020-01-01",
+			"title": "テストイベント",
+			"description": "テキストから抽出したイベントの説明。",
+			"people": ["山田太郎"],
+			"locations": ["東京"],
+			"category": "general",
+			"importance": 0.7,
+			"confidence": 0.6
+		}
+	]
 }
 ```
 

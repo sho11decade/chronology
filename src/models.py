@@ -254,6 +254,10 @@ class ShareCreateRequest(BaseModel):
     """共有データ作成のためのリクエスト。"""
 
     text: str = Field(..., max_length=LARGE_TEXT_MAX_LENGTH, description="共有対象の本文")
+    items: List[TimelineItem] = Field(
+        default_factory=list,
+        description="クライアント側で用意した年表項目の一覧",
+    )
     title: str = Field(default="", max_length=200, description="任意のタイトル")
 
     @validator("text")
@@ -262,6 +266,12 @@ class ShareCreateRequest(BaseModel):
         if not cleaned:
             raise ValueError("テキストが空です。内容を入力してください。")
         return cleaned
+
+    @validator("items")
+    def ensure_items_not_empty(cls, value: List[TimelineItem]) -> List[TimelineItem]:
+        if not value:
+            raise ValueError("共有する年表項目を1件以上指定してください。")
+        return value
 
 
 class ShareCreateResponse(BaseModel):
