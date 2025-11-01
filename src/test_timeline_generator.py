@@ -72,6 +72,18 @@ def test_generate_timeline_detects_sports_category():
     assert any(item.category == "sports" for item in items)
 
 
+def test_generate_timeline_prioritises_politics_category():
+    text = "2024年5月20日、国会で防衛予算に関する法案が可決され、与党と野党の攻防が続いた。"
+    items = generate_timeline(text)
+    assert any(item.category == "政治" for item in items)
+
+
+def test_generate_timeline_detects_health_policy_context():
+    text = "2023年11月12日、厚労省がワクチン接種の新指針を発表し、医療機関に通知した。"
+    items = generate_timeline(text)
+    assert any(item.category == "health" for item in items)
+
+
 def test_generate_timeline_strips_wikipedia_markers():
     text = (
         "2020年1月1日、首都圏で大規模な式典が開催された[1]。"

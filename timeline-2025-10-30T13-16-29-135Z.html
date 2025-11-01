@@ -1,0 +1,4121 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>年表メーカー Timeline</title>
+    <style>
+      :root {
+        font-family: "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+        --page-bg: #ffffff;
+        --card-bg: #ffffff;
+        --text-color: #111827;
+        --thead-bg: #f9fafb;
+        --thead-color: #111827;
+        --chip-bg: #e5e7eb;
+        --chip-color: #374151;
+        --border-color: #d1d5db;
+        --zebra-color: #f9fafb;
+        --accent-color: #3b82f6;
+        --iso-color: #6b7280;
+        --description-color: #6b7280;
+        --font-size: 1rem;
+        --row-padding: 1rem;
+      }
+      body {
+        margin: 0;
+        background: var(--page-bg);
+        color: var(--text-color);
+      }
+      header {
+        background: var(--accent-color);
+        color: #ffffff;
+        padding: 2rem 1.5rem;
+      }
+      header h1 {
+        margin: 0 0 0.5rem;
+        font-size: 1.75rem;
+      }
+      header p {
+        margin: 0.25rem 0;
+      }
+      .export-root {
+        max-width: 960px;
+        margin: -2rem auto 2rem;
+        padding: 0 1.5rem 3rem;
+      }
+      .filters-box {
+        background: var(--card-bg);
+        border-radius: 14px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 24px 60px -35px rgba(15, 23, 42, 0.35);
+        border: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+      }
+      .filters-box h2 {
+        margin-top: 0;
+      }
+      .filters-box ul {
+        margin: 0;
+        padding-left: 1.1rem;
+        color: var(--description-color);
+      }
+      .event {
+        background: var(--card-bg);
+        border-radius: 16px;
+        padding: calc(var(--row-padding) * 2) 1.5rem;
+        box-shadow: 0 24px 60px -35px rgba(15, 23, 42, 0.35);
+        border: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+        font-size: var(--font-size);
+      }
+      .export-root.striped .event:nth-of-type(odd) {
+        background: var(--zebra-color);
+      }
+      .event-header {
+        display: flex;
+        gap: 1rem;
+        align-items: baseline;
+      }
+      .event-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 999px;
+        background: var(--accent-color);
+        color: #ffffff;
+        font-weight: 700;
+      }
+      .event-header h2 {
+        margin: 0;
+        font-size: calc(var(--font-size) * 1.3);
+      }
+      .event-date {
+        margin: 0.2rem 0 0;
+        color: var(--iso-color);
+        font-weight: 600;
+      }
+      .event-meta {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+        display: grid;
+        gap: 0.4rem;
+      }
+      .event-meta li {
+        color: var(--description-color);
+      }
+      .event-meta strong {
+        margin-right: 0.25rem;
+      }
+      .event-description {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--text-color);
+      }
+      footer {
+        text-align: center;
+        padding: 2rem 1.5rem;
+        color: var(--description-color);
+        font-size: 0.9rem;
+      }
+      @media print {
+        body {
+          background: var(--card-bg);
+        }
+        header {
+          background: var(--text-color);
+          color: var(--card-bg);
+        }
+        .event {
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>年表メーカー 年表</h1>
+      <p>エクスポート日時: 2025/10/30 22:16:29</p>
+      <p>イベント数: 233</p>
+    </header>
+    <main class="export-root">
+      <section class="filters-box">
+        <h2>適用中のフィルタと設定</h2>
+        
+      <ul>
+        <li>カテゴリ: all</li>
+        <li>開始年: 未指定</li>
+        <li>終了年: 未指定</li>
+        <li>最小重要度: 0</li>
+        <li>ソートモード: chronological</li>
+      </ul>
+    
+      </section>
+      
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">1</span>
+            <div>
+              <h2>乾退助は武力討幕の意見を曲げず、大政奉還論を「空名無実」と批判し「徳川300年の幕藩体制は、戦争によって作られた秩序である</h2>
+              <p class="event-date">0300-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            <li><strong>関係者:</strong> 空名無実</li>
+            
+          </ul>
+          <p class="event-description">しかし乾退助は武力討幕の意見を曲げず、大政奉還論を「空名無実」と批判し「徳川300年の幕藩体制は、戦争によって作られた秩序である。<br />世の先覚者は率先して三百年の惰眠を打破せねばならぬ。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">2</span>
+            <div>
+              <h2>天保6年11月15日（1836年1月3日）、龍馬は土佐国土佐郡上街本町一丁目（現：高知県高知市上町一丁目）の土佐藩郷士（下級武士 ・ 足軽）坂本家に父 ・ 坂本…</h2>
+              <p class="event-date">1836-01-03</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.95</li>
+            <li><strong>関係者:</strong> 坂本, 龍馬, 志士, 経営者, 下級武士</li>
+            <li><strong>場所:</strong> 佐国土佐郡, 上街本町, 高知県, 高知市上町</li>
+          </ul>
+          <p class="event-description">坂本 龍馬（さかもと りょうま、天保6年11月15日〈1836年1月3日〉- 慶応3年11月15日〈1867年12月10日〉）は、日本の幕末の土佐藩士、志士、経営者。<br />天保6年11月15日（1836年1月3日）、龍馬は土佐国土佐郡上街本町一丁目（現：高知県高知市上町一丁目）の土佐藩郷士（下級武士 ・ 足軽）坂本家に父 ・ 坂本直足（八平）、母 ・ 幸の間の二男として生まれた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">3</span>
+            <div>
+              <h2>武術で小栗流目録を得た嘉永6年（1853年）、龍馬は武術修行のための1年間の江戸自費遊学を藩に願い出て許された</h2>
+              <p class="event-date">1853-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.54</li>
+            
+            
+          </ul>
+          <p class="event-description">武術で小栗流目録を得た嘉永6年（1853年）、龍馬は武術修行のための1年間の江戸自費遊学を藩に願い出て許された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">4</span>
+            <div>
+              <h2>安政元年（1854年）6月23日、龍馬は15か月の江戸修行を終えて土佐へ帰国した</h2>
+              <p class="event-date">1854-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.55</li>
+            <li><strong>関係者:</strong> 安政元年</li>
+            
+          </ul>
+          <p class="event-description">安政元年（1854年）6月23日、龍馬は15か月の江戸修行を終えて土佐へ帰国した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">5</span>
+            <div>
+              <h2>安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した</h2>
+              <p class="event-date">1855-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.55</li>
+            
+            
+          </ul>
+          <p class="event-description">安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">6</span>
+            <div>
+              <h2>安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した</h2>
+              <p class="event-date">1856-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.55</li>
+            
+            
+          </ul>
+          <p class="event-description">安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">7</span>
+            <div>
+              <h2>安政4年（1857年）に藩に一年の修行延長を願い出て許された</h2>
+              <p class="event-date">1857-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.45</li>
+            
+            
+          </ul>
+          <p class="event-description">安政4年（1857年）に藩に一年の修行延長を願い出て許された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">8</span>
+            <div>
+              <h2>安政5年（1858年）4月に井伊直弼が幕府大老に就任すると、幕府は一橋派を退けて徳川慶福（家茂）を将軍継嗣に定め、開国を強行して反対派の弾圧に乗り出した（安政の…</h2>
+              <p class="event-date">1858-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            <li><strong>関係者:</strong> 家茂</li>
+            <li><strong>場所:</strong> 千葉, 幕府</li>
+          </ul>
+          <p class="event-description">安政5年（1858年）1月、師匠の千葉定吉から「北辰一刀流長刀兵法目録」を授けられる。<br />同年9月に土佐へ帰国した。<br />しかし、安政5年（1858年）4月に井伊直弼が幕府大老に就任すると、幕府は一橋派を退けて徳川慶福（家茂）を将軍継嗣に定め、開国を強行して反対派の弾圧に乗り出した（安政の大獄）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">9</span>
+            <div>
+              <h2>一橋派の容堂も安政6年（1859年）2月に家督を養子 ・ 山内豊範に譲り、隠居を余儀なくされた</h2>
+              <p class="event-date">1859-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.51</li>
+            
+            
+          </ul>
+          <p class="event-description">一橋派の容堂も安政6年（1859年）2月に家督を養子 ・ 山内豊範に譲り、隠居を余儀なくされた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">10</span>
+            <div>
+              <h2>安政7年（1860年）3月3日、井伊直弼が江戸城へ登城途中の桜田門外で水戸脱藩浪士らの襲撃を受けて暗殺される（桜田門外の変）</h2>
+              <p class="event-date">1860-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.61</li>
+            
+            <li><strong>場所:</strong> 水戸</li>
+          </ul>
+          <p class="event-description">安政7年（1860年）3月3日、井伊直弼が江戸城へ登城途中の桜田門外で水戸脱藩浪士らの襲撃を受けて暗殺される（桜田門外の変）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">11</span>
+            <div>
+              <h2>文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文…</h2>
+              <p class="event-date">1861-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 文久元年, 長州, 剣術詮議, 剣術修行, 草莽崛起</li>
+            <li><strong>場所:</strong> 井口村, 水戸, 武市</li>
+          </ul>
+          <p class="event-description">文久元年（1861年）3月、土佐で井口村刃傷事件（永福寺事件）が起こり、下士と上士の間で対立が深まった。<br />同年4月、武市半平太は江戸に上り、水戸 ・ 長州 ・ 薩摩などの諸藩の藩士と交流を持った。<br />文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文久2年（1862年）1月に長州萩を訪れ、長州藩における尊王運動の主要人物である久坂玄瑞と面会し、久坂から「草莽崛起、糾合義挙」を促す武市宛の書簡を託されている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">12</span>
+            <div>
+              <h2>文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文…</h2>
+              <p class="event-date">1862-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 文久元年, 剣術詮議, 剣術修行, 草莽崛起, 糾合義挙</li>
+            <li><strong>場所:</strong> 武市, 沢村, 小千葉道, 千葉</li>
+          </ul>
+          <p class="event-description">文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文久2年（1862年）1月に長州萩を訪れ、長州藩における尊王運動の主要人物である久坂玄瑞と面会し、久坂から「草莽崛起、糾合義挙」を促す武市宛の書簡を託されている。<br />龍馬の脱藩は文久2年（1862年）3月24日のことで、当時既に脱藩していた沢村惣之丞や、那須信吾（のちに吉田東洋を暗殺して脱藩し天誅組の変に参加）の助けを受けて土佐を抜け出した 龍馬が脱藩を決意すると、兄 ・ 権平は彼の異状に気づいて強く警戒し、身内や親戚友人に龍馬の挙動に特別に注意することを要求し、龍馬の佩刀を全て取り上げてしまった。<br />龍馬は文久2年（1862年）8月に江戸に到着して小千葉道場に寄宿した。<br />龍馬の性格を鮮やかに描写している逸話として有名だが、当事者の檜垣清治は文久2年（1862年）に人を殺めて投獄され、維新後に赦免されるまで獄中にあり、龍馬と再会することはなく、大正3年（1914年）に著された千頭清臣『坂本龍馬』における創作である。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">13</span>
+            <div>
+              <h2>勝海舟は山内容堂に取りなして、文久3年（1863年）2月25日に龍馬の脱藩の罪は赦免され、さらに土佐藩士が海舟の私塾に入門することを追認した</h2>
+              <p class="event-date">1863-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 0.59</li>
+            
+            
+          </ul>
+          <p class="event-description">勝海舟は山内容堂に取りなして、文久3年（1863年）2月25日に龍馬の脱藩の罪は赦免され、さらに土佐藩士が海舟の私塾に入門することを追認した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">14</span>
+            <div>
+              <h2>翌元治元年（1864年）2月に前年に申請した帰国延期申請が拒否されると、龍馬は海軍操練所設立の仕事を続けるために再び藩に拘束されることを好まず、藩命を無視して帰…</h2>
+              <p class="event-date">1864-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            
+          </ul>
+          <p class="event-description">翌元治元年（1864年）2月に前年に申請した帰国延期申請が拒否されると、龍馬は海軍操練所設立の仕事を続けるために再び藩に拘束されることを好まず、藩命を無視して帰国を拒絶して再度の脱藩をする。<br />長州藩では前年の元治元年（1864年）12月に高杉晋作が挙兵し、恭順派政権を倒して再び尊攘派が政権を掌握していた（功山寺挙兵）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">15</span>
+            <div>
+              <h2>龍馬ら塾生の庇護を引き受けた薩摩藩は彼らの航海術の専門知識を重視しており、五代友厚らは慶応元年（1865年）5月頃に龍馬らに出資した（亀山社中）</h2>
+              <p class="event-date">1865-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.65</li>
+            <li><strong>関係者:</strong> 慶応元年, 亀山社中</li>
+            <li><strong>場所:</strong> 神戸</li>
+          </ul>
+          <p class="event-description">慶応元年（1865年）3月12日に神戸海軍操練所は廃止になった。<br />龍馬ら塾生の庇護を引き受けた薩摩藩は彼らの航海術の専門知識を重視しており、五代友厚らは慶応元年（1865年）5月頃に龍馬らに出資した（亀山社中）。<br />慶応元年（1865年）5月、まず土方と龍馬が協同して桂を説諭し、下関で薩摩の西郷隆盛と会談することを承服させる。<br />同時に中岡は薩摩に赴き、西郷に会談を応じるよう説いた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">16</span>
+            <div>
+              <h2>龍馬の変名としては、慶応2年（1866年）11月16日付で溝淵広之丞に宛てた手紙に、初めて記された「才谷梅太郎（さいたに うめたろう）」とあるが、慶応元年9月9…</h2>
+              <p class="event-date">1866-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">慶応2年（1866年）1月8日、小松帯刀の京都屋敷において、桂と西郷の会談が開かれた。<br />慶応2年（1866年）7月28日付の三吉慎蔵宛の手紙で龍馬は「水夫たちに暇を出したが、大方は離れようとしない」と窮状を伝えている。<br />亀山社中創設後に薩摩藩小松帯刀の支援で洋帆船「ワイルウェフ号」を購入したが、1866年（慶応2年）5月2日に暴風雨により沈没し、社中のメンバー12人も遭難死してしまう。<br />龍馬の変名としては、慶応2年（1866年）11月16日付で溝淵広之丞に宛てた手紙に、初めて記された「才谷梅太郎（さいたに うめたろう）」とあるが、慶応元年9月9日付で乙女とおやべに宛てた手紙には「西郷伊三郎」と名乗っていることが記されている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">17</span>
+            <div>
+              <h2>他に龍馬が所有していた刀剣として、三吉慎蔵に形見として与えられた伝相州正宗の無銘刀、姉の岡上乙女に形見として与えられた刃渡り二尺四分直刀の銘備前修理亮盛光と刃渡…</h2>
+              <p class="event-date">1867-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.96</li>
+            <li><strong>関係者:</strong> 明光丸, 自然堂, 吉行, 直刃無銘</li>
+            <li><strong>場所:</strong> 長崎, 広島, 鎌倉, 高知</li>
+          </ul>
+          <p class="event-description">航海と通商の専門技術があり、薩長とも関係の深い龍馬に注目した土佐藩は11月頃から溝淵広之丞を介して龍馬と接触を取り、翌慶応3年（1867年）1月13日に龍馬と後藤が会談した（清風亭会談）。<br />龍馬は大洲藩籍の蒸気船いろは丸を1航海500両で契約して運用していたが、1867年（慶応3年）4月23日の晩、瀬戸内海中部の備後国鞆の浦沖ではるかに大型の紀州藩船「明光丸」と衝突し、大きく損傷して沈没してしまった。<br />1867年（慶応3年）11月10日、死の直前の林謙三宛ての手紙は大極丸のことが述べられていた。<br />なお、これは変名ではないが、慶応3年（1867年）11月13日付と推定される陸奥宗光に宛てた手紙では、「自然堂（じねんどう）」の号を署名している。<br />彼が兄 ・ 権平に求めた先祖伝来の一品で、慶応3年（1867年）2月、山内容堂に会見するため土佐を訪れた西郷隆盛に「吉行」の刀をことづけ、3月中旬ごろ長崎の龍馬のもとに届いた。<br />他に龍馬が所有していた刀剣として、三吉慎蔵に形見として与えられた伝相州正宗の無銘刀、姉の岡上乙女に形見として与えられた刃渡り二尺四分直刀の銘備前修理亮盛光と刃渡り八寸二分半 直刃無銘（1867年に毛利敬親に謁見した際に拝領した粟田口吉光の短刀と福永酔剣は推察している）、お竜が形見としていたものの明治時代に手放したあと、宮内省へ献上され射撃コンクール優勝者の松永正敏に下賜されたのち軍刀として拵え直された磨り上げ無銘 伝備前元重、晩年のお竜が世話になった旧広島藩（安芸藩か広島新田藩かは不明）士族西原只乃進へ贈与し大正元年に山内豊中が購入した刃渡り二尺 大磨り上げ無銘 鞘書き相州秋広、同じくお竜が手放したと思われる田内宇吉氏所蔵の左行秀の短刀、第二次世界大戦前に高知城懐徳館が龍馬の佩刀として陳列していた刃渡り二尺六寸六分 銘相州鎌倉住国秀 嘉永七歳八月日、生前の龍馬が薩摩志士吉井幸輔に贈った大磨り上げ無銘 茎に「神崎則休指料」の銀象眼入り（明治四十年に本阿弥成善が肥後の延寿物と鑑定、鞘書き）が確認されている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">18</span>
+            <div>
+              <h2>慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之…</h2>
+              <p class="event-date">1867-06-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.9</li>
+            <li><strong>関係者:</strong> 近安楼</li>
+            <li><strong>場所:</strong> 京都, 福岡, 広島</li>
+          </ul>
+          <p class="event-description">慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之助らとともに中岡と会見して武力討幕を議した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">19</span>
+            <div>
+              <h2>慶応3年6月（1867年7月）、龍馬の提示を受けた後藤はただちに京都へ出向し、建白書の形式で山内容堂へ上書しようとしたが、これより1ヶ月前の5月21日の時点で既…</h2>
+              <p class="event-date">1867-07-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.92</li>
+            <li><strong>関係者:</strong> 毛利恭助, 吉井友実</li>
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">慶応3年6月（1867年7月）、龍馬の提示を受けた後藤はただちに京都へ出向し、建白書の形式で山内容堂へ上書しようとしたが、これより1ヶ月前の5月21日の時点で既に中岡慎太郎の仲介によって乾退助、毛利恭助、谷干城らが薩摩藩の西郷隆盛、吉井友実、小松帯刀らと薩土討幕の密約を結び、翌日容堂はこれを承認したうえで、乾らとともに大坂で武器300挺の買い付けを指示して土佐に帰藩していた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">20</span>
+            <div>
+              <h2>いろは丸事件の談判を終えた龍馬と後藤象二郎は慶応3年6月9日(1867年7月10日)に藩船「夕顔」に乗船して長崎を発ち、兵庫へ向かった</h2>
+              <p class="event-date">1867-07-10</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.69</li>
+            <li><strong>関係者:</strong> 夕顔, 後述</li>
+            <li><strong>場所:</strong> 長崎, 新政府</li>
+          </ul>
+          <p class="event-description">いろは丸事件の談判を終えた龍馬と後藤象二郎は慶応3年6月9日(1867年7月10日)に藩船「夕顔」に乗船して長崎を発ち、兵庫へ向かった。<br />同年11月に書かれた新政府綱領八策（後述）の自筆本は実在しており、思想や主張の内容はこれをと基に遡及して作られたものとされる。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">21</span>
+            <div>
+              <h2>慶応3年9月6日(1867年10月3日)、大監察に復職した退助は薩土討幕の密約をもとに藩内で武力討幕論を推し進め、佐々木高行らと藩庁を動かし、土佐勤王党弾圧で投…</h2>
+              <p class="event-date">1867-10-03</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.78</li>
+            
+            <li><strong>場所:</strong> 島村</li>
+          </ul>
+          <p class="event-description">慶応3年9月6日(1867年10月3日)、大監察に復職した退助は薩土討幕の密約をもとに藩内で武力討幕論を推し進め、佐々木高行らと藩庁を動かし、土佐勤王党弾圧で投獄されていた島村寿之助、安岡覚之助ら旧土佐勤王党員らを釈放させた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">22</span>
+            <div>
+              <h2>坂本 龍馬（さかもと りょうま、天保6年11月15日〈1836年1月3日〉- 慶応3年11月15日〈1867年12月10日〉）は、日本の幕末の土佐藩士、志士、経…</h2>
+              <p class="event-date">1867-12-10</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.81</li>
+            <li><strong>関係者:</strong> 坂本, 龍馬, 志士, 経営者</li>
+            <li><strong>場所:</strong> 京都河原町, 京都, 河原町</li>
+          </ul>
+          <p class="event-description">坂本 龍馬（さかもと りょうま、天保6年11月15日〈1836年1月3日〉- 慶応3年11月15日〈1867年12月10日〉）は、日本の幕末の土佐藩士、志士、経営者。<br />大政奉還成立後の慶応3年11月15日（1867年12月10日）に京都河原町通蛸薬師下ルの近江屋において暗殺された。<br />慶応3年11月15日（1867年12月10日）、龍馬は宿にしていた河原町の蛸薬師で醤油商を営む近江屋新助宅母屋の二階にいた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">23</span>
+            <div>
+              <h2>慶応4年（1868年）4月、下総国流山で出頭して捕縛された新選組局長の近藤勇は、部隊の小監察であった土佐藩士 ・ 谷干城の強い主張によって斬首に処された</h2>
+              <p class="event-date">1868-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.61</li>
+            
+            
+          </ul>
+          <p class="event-description">慶応4年（1868年）4月、下総国流山で出頭して捕縛された新選組局長の近藤勇は、部隊の小監察であった土佐藩士 ・ 谷干城の強い主張によって斬首に処された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">24</span>
+            <div>
+              <h2>箱館戦争で降伏して捕虜になった元見廻組の今井信郎が、取り調べ最中に、与頭 ・ 佐々木只三郎とその部下6人（今井信郎、渡辺吉太郎、高橋安次郎、桂早之助、土肥伴蔵…</h2>
+              <p class="event-date">1870-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.93</li>
+            <li><strong>関係者:</strong> 与頭, 今井信郎, 桂早之助, 土肥伴蔵</li>
+            
+          </ul>
+          <p class="event-description">明治3年（1870年）、箱館戦争で降伏して捕虜になった元見廻組の今井信郎が、取り調べ最中に、与頭 ・ 佐々木只三郎とその部下6人（今井信郎、渡辺吉太郎、高橋安次郎、桂早之助、土肥伴蔵、桜井大三郎）が坂本龍馬を殺害したと供述し、現在では見廻組犯人説が定説になっている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">25</span>
+            <div>
+              <h2>龍馬の死後、この吉行は明治4年（1871年）に坂本家を継いだ甥の小野淳輔の手元に残された</h2>
+              <p class="event-date">1871-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.5</li>
+            
+            
+          </ul>
+          <p class="event-description">龍馬の死後、この吉行は明治4年（1871年）に坂本家を継いだ甥の小野淳輔の手元に残された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">26</span>
+            <div>
+              <h2>『近世史畧</h2>
+              <p class="event-date">1872-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.53</li>
+            <li><strong>関係者:</strong> 近世史畧</li>
+            
+          </ul>
+          <p class="event-description">『近世史畧. 卷ニ』椒山野史著、紀伊国屋才輔 ・ 紀伊国屋徳蔵（明治5年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">27</span>
+            <div>
+              <h2>『近事紀略』石津賢勤編</h2>
+              <p class="event-date">1873-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.59</li>
+            <li><strong>関係者:</strong> 近事紀略</li>
+            <li><strong>場所:</strong> 北村, 津</li>
+          </ul>
+          <p class="event-description">『近事紀略』石津賢勤編、北村四郎兵衛（明治6年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">28</span>
+            <div>
+              <h2>『近世事情</h2>
+              <p class="event-date">1874-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.61</li>
+            <li><strong>関係者:</strong> 近世事情, 三篇, 山田俊蔵, 著者刊</li>
+            
+          </ul>
+          <p class="event-description">『近世事情.三篇』 山田俊蔵 著者刊 （明治7年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">29</span>
+            <div>
+              <h2>『近世紀聞</h2>
+              <p class="event-date">1875-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            <li><strong>関係者:</strong> 近世紀聞, 七編巻一, 条野伝平</li>
+            
+          </ul>
+          <p class="event-description">『近世紀聞.七編巻一』条野伝平、染崎延房共著金松堂（明治8年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">30</span>
+            <div>
+              <h2>『近世内国史略</h2>
+              <p class="event-date">1877-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.57</li>
+            <li><strong>関係者:</strong> 太田秀敬, 万笈書屋</li>
+            
+          </ul>
+          <p class="event-description">『近世内国史略. 利』太田秀敬 編、万笈書屋（明治10年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">31</span>
+            <div>
+              <h2>教科書検定制度確立以降（明治20年〜）</h2>
+              <p class="event-date">1887-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.41</li>
+            
+            
+          </ul>
+          <p class="event-description">教科書検定制度確立以降（明治20年〜）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">32</span>
+            <div>
+              <h2>龍馬と千葉重太郎が開国論者の海舟を斬るために訪れたが、逆に世界情勢と海軍の必要性を説かれた龍馬が大いに感服し、己の固陋を恥じてその場で海舟の弟子になったという話…</h2>
+              <p class="event-date">1890-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.86</li>
+            <li><strong>関係者:</strong> 追賛一話</li>
+            <li><strong>場所:</strong> 千葉</li>
+          </ul>
+          <p class="event-description">龍馬と千葉重太郎が開国論者の海舟を斬るために訪れたが、逆に世界情勢と海軍の必要性を説かれた龍馬が大いに感服し、己の固陋を恥じてその場で海舟の弟子になったという話が広く知られており、この話は海舟本人が明治23年に『追賛一話』で語ったものが出典である。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">33</span>
+            <div>
+              <h2>『皇國史要</h2>
+              <p class="event-date">1894-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.56</li>
+            <li><strong>関係者:</strong> 皇國史要, 勝浦鞆雄</li>
+            
+          </ul>
+          <p class="event-description">『皇國史要.下』勝浦鞆雄 著、吉川半七版（明治27年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">34</span>
+            <div>
+              <h2>弘松宣枝『坂本龍馬』（民友社</h2>
+              <p class="event-date">1896-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.6</li>
+            <li><strong>関係者:</strong> 弘松宣枝, 坂本龍馬, 民友社</li>
+            
+          </ul>
+          <p class="event-description">弘松宣枝『坂本龍馬』（民友社、1896年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">35</span>
+            <div>
+              <h2>代に佐伯理一郎氏に譲渡される）を鞘ごと受けた際に匁の部分を三寸ほど、刀身に至るまで削られている</h2>
+              <p class="event-date">1897-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.53</li>
+            
+            
+          </ul>
+          <p class="event-description">明治三十年代に佐伯理一郎氏に譲渡される）を鞘ごと受けた際に匁の部分を三寸ほど、刀身に至るまで削られている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">36</span>
+            <div>
+              <h2>『中学日本史』重田定一 ・ 高山栄一著</h2>
+              <p class="event-date">1899-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.52</li>
+            <li><strong>関係者:</strong> 重田定一</li>
+            
+          </ul>
+          <p class="event-description">『中学日本史』重田定一 ・ 高山栄一著、内田老鶴圃（明治32年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">37</span>
+            <div>
+              <h2>『中学日本史 下巻』箕田申之著</h2>
+              <p class="event-date">1900-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.56</li>
+            <li><strong>関係者:</strong> 下巻, 吉川半七</li>
+            
+          </ul>
+          <p class="event-description">『中学日本史 下巻』箕田申之著、吉川半七（明治33年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">38</span>
+            <div>
+              <h2>国定教科書（明治36年～昭和20年）</h2>
+              <p class="event-date">1903-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.41</li>
+            
+            
+          </ul>
+          <p class="event-description">国定教科書（明治36年～昭和20年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">39</span>
+            <div>
+              <h2>1904年（明治37年）2月、「日露戦争の前夜、葉山の御用邸に滞在の折、37、38歳の武士が白衣で皇后の夢枕に立ち、戦いの際の海軍守護を誓った」という</h2>
+              <p class="event-date">1904-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.6</li>
+            
+            
+          </ul>
+          <p class="event-description">1904年（明治37年）2月、「日露戦争の前夜、葉山の御用邸に滞在の折、37、38歳の武士が白衣で皇后の夢枕に立ち、戦いの際の海軍守護を誓った」という。<br />『高等小學校.尋常小學校用唱歌科教科書.國母陛下の御瑞夢』加藤義清作歌、寺田伊助編（明治37年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">40</span>
+            <div>
+              <h2>他に龍馬が所有していた刀剣として、三吉慎蔵に形見として与えられた伝相州正宗の無銘刀、姉の岡上乙女に形見として与えられた刃渡り二尺四分直刀の銘備前修理亮盛光と刃渡…</h2>
+              <p class="event-date">1907-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.96</li>
+            <li><strong>関係者:</strong> 直刃無銘</li>
+            <li><strong>場所:</strong> 広島, 鎌倉, 高知</li>
+          </ul>
+          <p class="event-description">他に龍馬が所有していた刀剣として、三吉慎蔵に形見として与えられた伝相州正宗の無銘刀、姉の岡上乙女に形見として与えられた刃渡り二尺四分直刀の銘備前修理亮盛光と刃渡り八寸二分半 直刃無銘（1867年に毛利敬親に謁見した際に拝領した粟田口吉光の短刀と福永酔剣は推察している）、お竜が形見としていたものの明治時代に手放したあと、宮内省へ献上され射撃コンクール優勝者の松永正敏に下賜されたのち軍刀として拵え直された磨り上げ無銘 伝備前元重、晩年のお竜が世話になった旧広島藩（安芸藩か広島新田藩かは不明）士族西原只乃進へ贈与し大正元年に山内豊中が購入した刃渡り二尺 大磨り上げ無銘 鞘書き相州秋広、同じくお竜が手放したと思われる田内宇吉氏所蔵の左行秀の短刀、第二次世界大戦前に高知城懐徳館が龍馬の佩刀として陳列していた刃渡り二尺六寸六分 銘相州鎌倉住国秀 嘉永七歳八月日、生前の龍馬が薩摩志士吉井幸輔に贈った大磨り上げ無銘 茎に「神崎則休指料」の銀象眼入り（明治四十年に本阿弥成善が肥後の延寿物と鑑定、鞘書き）が確認されている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">41</span>
+            <div>
+              <h2>『日本史』島村東洋編</h2>
+              <p class="event-date">1908-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.59</li>
+            <li><strong>関係者:</strong> 日本史, 修学堂</li>
+            <li><strong>場所:</strong> 島村</li>
+          </ul>
+          <p class="event-description">『日本史』島村東洋編、修学堂（明治41年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">42</span>
+            <div>
+              <h2>他に龍馬が所有していた刀剣として、三吉慎蔵に形見として与えられた伝相州正宗の無銘刀、姉の岡上乙女に形見として与えられた刃渡り二尺四分直刀の銘備前修理亮盛光と刃渡…</h2>
+              <p class="event-date">1912-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.96</li>
+            <li><strong>関係者:</strong> 直刃無銘, 日本通史, 弘道館, 大正元年, 瑞山会</li>
+            <li><strong>場所:</strong> 広島, 鎌倉, 高知, 弘道</li>
+          </ul>
+          <p class="event-description">他に龍馬が所有していた刀剣として、三吉慎蔵に形見として与えられた伝相州正宗の無銘刀、姉の岡上乙女に形見として与えられた刃渡り二尺四分直刀の銘備前修理亮盛光と刃渡り八寸二分半 直刃無銘（1867年に毛利敬親に謁見した際に拝領した粟田口吉光の短刀と福永酔剣は推察している）、お竜が形見としていたものの明治時代に手放したあと、宮内省へ献上され射撃コンクール優勝者の松永正敏に下賜されたのち軍刀として拵え直された磨り上げ無銘 伝備前元重、晩年のお竜が世話になった旧広島藩（安芸藩か広島新田藩かは不明）士族西原只乃進へ贈与し大正元年に山内豊中が購入した刃渡り二尺 大磨り上げ無銘 鞘書き相州秋広、同じくお竜が手放したと思われる田内宇吉氏所蔵の左行秀の短刀、第二次世界大戦前に高知城懐徳館が龍馬の佩刀として陳列していた刃渡り二尺六寸六分 銘相州鎌倉住国秀 嘉永七歳八月日、生前の龍馬が薩摩志士吉井幸輔に贈った大磨り上げ無銘 茎に「神崎則休指料」の銀象眼入り（明治四十年に本阿弥成善が肥後の延寿物と鑑定、鞘書き）が確認されている。<br />『日本通史』高桑駒吉著、弘道館（大正元年）<br />瑞山会『維新土佐勤王史』 （冨山房、1912年）<br />瑞山会編『維新土佐勤王史』（冨山房、1912年、睦書房、1969年、日本図書センター、1977年。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">43</span>
+            <div>
+              <h2>龍馬が西郷に見せた新政府職制案の名簿に西郷の名はあったが龍馬の名が欠けており、新政府に入ってはどうかと勧めると龍馬は「わしは世界の海援隊をやります」と答えたとい…</h2>
+              <p class="event-date">1914-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.86</li>
+            <li><strong>関係者:</strong> 坂本竜馬, 坂本龍馬, 千頭清臣, 博文館, 寺石正路</li>
+            <li><strong>場所:</strong> 新政府</li>
+          </ul>
+          <p class="event-description">龍馬が西郷に見せた新政府職制案の名簿に西郷の名はあったが龍馬の名が欠けており、新政府に入ってはどうかと勧めると龍馬は「わしは世界の海援隊をやります」と答えたという有名な逸話があるが、尾崎の史料には龍馬の名は参議候補者として記載されており、この逸話は大正3年に書かれた千頭清臣作の『坂本竜馬』が出典の創作の可能性がある。<br />龍馬の性格を鮮やかに描写している逸話として有名だが、当事者の檜垣清治は文久2年（1862年）に人を殺めて投獄され、維新後に赦免されるまで獄中にあり、龍馬と再会することはなく、大正3年（1914年）に著された千頭清臣『坂本龍馬』における創作である。<br />千頭清臣『坂本龍馬』（博文館、1914年、土佐史談会、1985年、新人物往来社、1995年－新版は『坂本龍馬伝』に改題） 寺石正路『土佐偉人伝』（沢本書店、1914年、歴史図書社、1976年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">44</span>
+            <div>
+              <h2>『国民日本歴史』高橋俊乗</h2>
+              <p class="event-date">1918-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.54</li>
+            <li><strong>関係者:</strong> 高橋俊乗, 藤山房</li>
+            
+          </ul>
+          <p class="event-description">『国民日本歴史』高橋俊乗、藤山房（大正7年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">45</span>
+            <div>
+              <h2>『新日本史』中等教科研究会</h2>
+              <p class="event-date">1919-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> science</li>
+            <li><strong>重要度:</strong> 0.5</li>
+            <li><strong>関係者:</strong> 新日本史</li>
+            
+          </ul>
+          <p class="event-description">『新日本史』中等教科研究会、 有精堂書店（大正8年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">46</span>
+            <div>
+              <h2>『高等小學國史下巻』文部省編纂</h2>
+              <p class="event-date">1924-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.52</li>
+            <li><strong>関係者:</strong> 日本書籍</li>
+            
+          </ul>
+          <p class="event-description">『高等小學國史下巻』文部省編纂、日本書籍（大正13年～昭和15年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">47</span>
+            <div>
+              <h2>尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集</h2>
+              <p class="event-date">1925-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 0.87</li>
+            <li><strong>関係者:</strong> 尾佐竹猛, 象山社</li>
+            
+          </ul>
+          <p class="event-description">尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集.1』に収録、実業之日本社、1948年、『尾佐竹猛著作集9』に収録、ゆまに書房、2006年） 坂本中岡銅像建設会編『雋傑坂本龍馬』（坂本中岡銅像建設会事務所、1927年、象山社、1981年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">48</span>
+            <div>
+              <h2>岩崎鏡川「坂本龍馬先生に就て」（『土佐史談』15号</h2>
+              <p class="event-date">1926-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.58</li>
+            <li><strong>関係者:</strong> 岩崎鏡川, 土佐史談</li>
+            
+          </ul>
+          <p class="event-description">日本史籍協会、1926年刊の複製、1967年、1988年12月〜1989年1月<br />日本史籍協会、1926年刊の複製、1996年9月<br />岩崎鏡川「坂本龍馬先生に就て」（『土佐史談』15号、1926年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">49</span>
+            <div>
+              <h2>尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集</h2>
+              <p class="event-date">1927-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.87</li>
+            <li><strong>関係者:</strong> 尾佐竹猛, 象山社</li>
+            
+          </ul>
+          <p class="event-description">『雋傑坂本先生傳』今幡西衛著、坂本中岡両先生銅像建設会、1927年<br />尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集.1』に収録、実業之日本社、1948年、『尾佐竹猛著作集9』に収録、ゆまに書房、2006年） 坂本中岡銅像建設会編『雋傑坂本龍馬』（坂本中岡銅像建設会事務所、1927年、象山社、1981年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">50</span>
+            <div>
+              <h2>通称「エヘンの手紙」と呼ばれる文久3年5月の手紙は、龍馬の亡き後、元宮内大臣だった田中光顕の手に渡り、昭和3年の昭和天皇即位の御物として献上され、天皇が崩御した…</h2>
+              <p class="event-date">1928-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.72</li>
+            <li><strong>関係者:</strong> 通称</li>
+            
+          </ul>
+          <p class="event-description">なお、通称「エヘンの手紙」と呼ばれる文久3年5月の手紙は、龍馬の亡き後、元宮内大臣だった田中光顕の手に渡り、昭和3年の昭和天皇即位の御物として献上され、天皇が崩御した後は国へ寄贈された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">51</span>
+            <div>
+              <h2>平尾道雄『坂本龍馬 海援隊始末』（万里閣書房</h2>
+              <p class="event-date">1929-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.71</li>
+            <li><strong>関係者:</strong> 第六学年, 京文社, 徳富蘇峰, 土佐の勤王, 民友社</li>
+            <li><strong>場所:</strong> 平尾道</li>
+          </ul>
+          <p class="event-description">『検定小學唱歌.第六学年 皇后陛下御瑞夢』納所弁次郎 編、京文社（昭和4年）<br />徳富蘇峰『土佐の勤王』（民友社、1929年）<br />白柳秀湖『坂本龍馬』（平凡社「現代大衆文学全集 第二十巻」、1929年、作品社、2009年）<br />平尾道雄『坂本龍馬 海援隊始末』（万里閣書房、1929年、白竜社、1968年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">52</span>
+            <div>
+              <h2>平尾道雄『維新暗殺秘録』（民友社、1930年</h2>
+              <p class="event-date">1930-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.6</li>
+            <li><strong>関係者:</strong> 冨山房, 平尾道雄, 民友社</li>
+            <li><strong>場所:</strong> 平尾道</li>
+          </ul>
+          <p class="event-description">『増訂国民日本歴史』高橋俊乗著、冨山房（昭和5年）<br />平尾道雄『維新暗殺秘録』（民友社、1930年。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">53</span>
+            <div>
+              <h2>時には朱鞘を帯びたることもありし</h2>
+              <p class="event-date">1931-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.64</li>
+            
+            
+          </ul>
+          <p class="event-description">時には朱鞘を帯びたることもありし、帯刀は一体に長刀なりし、撃剣の盛なる時代にて稽古に面をかぶる為め、頭髪乱れがちなれば、紙縒りもて髷を結ひ居たり」(原の談話 昭和6年聞き取り)</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">54</span>
+            <div>
+              <h2>尾佐竹猛「坂本龍馬の『藩論』」（『明治文化研究』9号</h2>
+              <p class="event-date">1934-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 0.7</li>
+            <li><strong>関係者:</strong> 尾佐竹猛, 藩論, 土佐史談</li>
+            
+          </ul>
+          <p class="event-description">尾佐竹猛「坂本龍馬の『藩論』」（『明治文化研究』9号、1934年、『土佐史談』46号、1934年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">55</span>
+            <div>
+              <h2>河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集</h2>
+              <p class="event-date">1935-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 経済</li>
+            <li><strong>重要度:</strong> 0.91</li>
+            <li><strong>関係者:</strong> 坂本龍馬, 河出文庫, 尾佐竹猛, 学而書院, 維新史</li>
+            
+          </ul>
+          <p class="event-description">尾佐竹猛解題 『近世社会経済学説大系〈第14〉 坂本龍馬 ・ 由利公正集』、誠文堂新光社、1935年<br />河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集.20』に収録、ゆまに書房、2006年） 維新史料編纂事務局編『維新史』全5巻（明治書院、1939〜1941年、吉川弘文館、1983年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">56</span>
+            <div>
+              <h2>『大日本青年教科書</h2>
+              <p class="event-date">1936-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 経済</li>
+            <li><strong>重要度:</strong> 0.47</li>
+            
+            
+          </ul>
+          <p class="event-description">『大日本青年教科書.巻2』大日本図書株式会社編、大日本図書（昭和11年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">57</span>
+            <div>
+              <h2>松村巌「坂本龍馬」（『土佐史談』68号</h2>
+              <p class="event-date">1939-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            <li><strong>関係者:</strong> 新修国史, 初学年用, 星野書店, 松村巌, 坂本龍馬</li>
+            <li><strong>場所:</strong> 松村</li>
+          </ul>
+          <p class="event-description">『新修国史 初学年用』及川儀右衛門著、星野書店（昭和14年）<br />松村巌「坂本龍馬」（『土佐史談』68号、1939年、『続新選組史料集』新人物往来社、2006年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">58</span>
+            <div>
+              <h2>『高等小學國史下巻』文部省編纂</h2>
+              <p class="event-date">1940-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.52</li>
+            <li><strong>関係者:</strong> 日本書籍</li>
+            
+          </ul>
+          <p class="event-description">『高等小學國史下巻』文部省編纂、日本書籍（大正13年～昭和15年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">59</span>
+            <div>
+              <h2>河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集</h2>
+              <p class="event-date">1941-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.91</li>
+            <li><strong>関係者:</strong> 河出文庫, 尾佐竹猛, 学而書院, 維新史, 明治書院</li>
+            <li><strong>場所:</strong> 平尾道, 大道</li>
+          </ul>
+          <p class="event-description">河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集.20』に収録、ゆまに書房、2006年） 維新史料編纂事務局編『維新史』全5巻（明治書院、1939〜1941年、吉川弘文館、1983年）<br />平尾道雄『海援隊始末記』（大道書房、1941年。<br />赤尾藤一「幕末に於ける薩長両藩の提携成立と坂本龍馬等土州藩士の周旋運動に就いて」（『中部日本歴史地理学会論文集』1号、飯島書店、1941年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">60</span>
+            <div>
+              <h2>森銑三「坂本龍馬」（『伝記』1月号</h2>
+              <p class="event-date">1943-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.71</li>
+            <li><strong>関係者:</strong> 東京書籍, 平尾道雄, 森銑三, 坂本龍馬, 伝記</li>
+            <li><strong>場所:</strong> 東京, 平尾道, 武市</li>
+          </ul>
+          <p class="event-description">『初等科国史 下』文部省編纂、東京書籍（昭和18年）<br />平尾道雄『武市瑞山と土佐勤王党』（大日本出版社峯文荘、1943年）<br />森銑三「坂本龍馬」（『伝記』1月号、1943年、『森銑三著作集 続編』第1巻、中央公論社、1992年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">61</span>
+            <div>
+              <h2>白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年…</h2>
+              <p class="event-date">1944-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.93</li>
+            <li><strong>関係者:</strong> 白竜社, 中公文庫, 尾佐竹猛, 明治維新, 白揚社</li>
+            
+          </ul>
+          <p class="event-description">白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年、宗高書房、1978年、『尾佐竹猛著作集 16 ・ 17』に収む、ゆまに書房、2006年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">62</span>
+            <div>
+              <h2>国定教科書（明治36年～昭和20年）</h2>
+              <p class="event-date">1945-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.41</li>
+            
+            
+          </ul>
+          <p class="event-description">国定教科書（明治36年～昭和20年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">63</span>
+            <div>
+              <h2>尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集</h2>
+              <p class="event-date">1948-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 0.87</li>
+            <li><strong>関係者:</strong> 尾佐竹猛, 象山社</li>
+            
+          </ul>
+          <p class="event-description">尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集.1』に収録、実業之日本社、1948年、『尾佐竹猛著作集9』に収録、ゆまに書房、2006年） 坂本中岡銅像建設会編『雋傑坂本龍馬』（坂本中岡銅像建設会事務所、1927年、象山社、1981年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">64</span>
+            <div>
+              <h2>白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年…</h2>
+              <p class="event-date">1949-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.93</li>
+            <li><strong>関係者:</strong> 白竜社, 中公文庫, 尾佐竹猛, 明治維新, 白揚社</li>
+            
+          </ul>
+          <p class="event-description">白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年、宗高書房、1978年、『尾佐竹猛著作集 16 ・ 17』に収む、ゆまに書房、2006年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">65</span>
+            <div>
+              <h2>遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集</h2>
+              <p class="event-date">1951-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 遠山茂樹, 明治維新, 岩波全書, 岩波書店, 井上清</li>
+            <li><strong>場所:</strong> 高知市, 東京</li>
+          </ul>
+          <p class="event-description">遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集.1巻』に収録、岩波書店、1991年、岩波同時代ライブラリー、1995年、岩波現代文庫、2000年） 、 井上清『日本現代史I 明治維新』（東京大学出版会、1951年、新装版2001年） 高橋信司『土佐藩憲政思想成立史』（高知市民図書館、1958年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">66</span>
+            <div>
+              <h2>塩見薫「才谷屋のことなど」（『寧楽史苑』8号</h2>
+              <p class="event-date">1952-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.57</li>
+            <li><strong>関係者:</strong> 塩見薫, 寧楽史苑</li>
+            
+          </ul>
+          <p class="event-description">塩見薫「才谷屋のことなど」（『寧楽史苑』8号、1952年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">67</span>
+            <div>
+              <h2>高橋信司「いわゆる「藩論」」（『高知短期大学社会科学論集』2号</h2>
+              <p class="event-date">1956-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.65</li>
+            <li><strong>関係者:</strong> 塩見薫, 日本歴史, 高橋信司, 藩論</li>
+            <li><strong>場所:</strong> 高知</li>
+          </ul>
+          <p class="event-description">塩見薫「文久年間の大政返上論-坂本龍馬伝の一説-」（『日本歴史』95号、1956年）<br />高橋信司「いわゆる「藩論」」（『高知短期大学社会科学論集』2号、1956年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">68</span>
+            <div>
+              <h2>池田敬正「土佐藩における討幕運動の展開」（『史林』40巻5号</h2>
+              <p class="event-date">1957-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.72</li>
+            <li><strong>関係者:</strong> 塩見薫, 英将秘訣, 日本歴史, 池田敬正, 史林</li>
+            
+          </ul>
+          <p class="event-description">塩見薫「坂本龍馬語録と伝えられる『英将秘訣』について」（『歴史学研究』208号、1957年）<br />塩見薫「坂本龍馬の元治元年-薩摩藩への結びつきを中心に-」（『日本歴史』108号、1957年）<br />池田敬正「土佐藩における討幕運動の展開」（『史林』40巻5号、1957年、三宅紹宣編『幕末維新論集4 幕末の変動と諸藩』吉川弘文館、2001年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">69</span>
+            <div>
+              <h2>遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集</h2>
+              <p class="event-date">1958-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 遠山茂樹, 明治維新, 岩波全書, 岩波書店, 井上清</li>
+            <li><strong>場所:</strong> 高知市, 東京, 平尾道</li>
+          </ul>
+          <p class="event-description">遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集.1巻』に収録、岩波書店、1991年、岩波同時代ライブラリー、1995年、岩波現代文庫、2000年） 、 井上清『日本現代史I 明治維新』（東京大学出版会、1951年、新装版2001年） 高橋信司『土佐藩憲政思想成立史』（高知市民図書館、1958年）<br />平尾道雄「龍馬と勝海舟書翰」（『土佐史談』93号、1958年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">70</span>
+            <div>
+              <h2>井上清「坂本龍馬」（『朝日ジャーナル』157号</h2>
+              <p class="event-date">1962-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            <li><strong>関係者:</strong> 井上清, 坂本龍馬</li>
+            
+          </ul>
+          <p class="event-description">井上清「坂本龍馬」（『朝日ジャーナル』157号、1962年、『日本の思想家』I、朝日新聞社、1962年、および『新版日本の思想家』上、朝日新聞社、1975年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">71</span>
+            <div>
+              <h2>原口清「「藩論」覚え書」（『日本歴史』176号</h2>
+              <p class="event-date">1963-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            <li><strong>関係者:</strong> 市井三郎, 岩波書店, 原口清, 藩論, 日本歴史</li>
+            
+          </ul>
+          <p class="event-description">市井三郎『哲学的分析』（岩波書店、1963年）<br />原口清「「藩論」覚え書」（『日本歴史』176号、1963年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">72</span>
+            <div>
+              <h2>池田諭『坂本竜馬』（大和書房〈大和選書〉</h2>
+              <p class="event-date">1964-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.65</li>
+            <li><strong>関係者:</strong> 池田諭, 坂本竜馬, 大和書房, 大和選書</li>
+            
+          </ul>
+          <p class="event-description">池田諭『坂本竜馬』（大和書房〈大和選書〉、1964年、新装版1990年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">73</span>
+            <div>
+              <h2>池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年…</h2>
+              <p class="event-date">1965-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 池田敬正, 坂本龍馬, 中公新書, マリアス, ジャンセン</li>
+            <li><strong>場所:</strong> 平尾道</li>
+          </ul>
+          <p class="event-description">池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年/2009年） 平尾道雄『土佐藩』（吉川弘文館、1965年、新装版1995年） 平尾道雄『龍馬のすべて』（久保書店、1966年。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">74</span>
+            <div>
+              <h2>池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年…</h2>
+              <p class="event-date">1966-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 池田敬正, 坂本龍馬, 中公新書, マリアス, ジャンセン</li>
+            <li><strong>場所:</strong> 平尾道, 高知, 神戸</li>
+          </ul>
+          <p class="event-description">池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年/2009年） 平尾道雄『土佐藩』（吉川弘文館、1965年、新装版1995年） 平尾道雄『龍馬のすべて』（久保書店、1966年。<br />高知新聞社、1985年/1995年） 小西四郎『日本の歴史 19.開国と攘夷』（中央公論社、1966年、中公文庫、1974年. 文庫改版2006年。<br />土居晴夫「神戸海軍操練所考」（『土佐史談』115号、1966年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">75</span>
+            <div>
+              <h2>土居晴夫「兵庫海軍局始末」（『歴史と神戸』25号</h2>
+              <p class="event-date">1967-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.56</li>
+            <li><strong>関係者:</strong> 白竜社, 土居晴夫</li>
+            <li><strong>場所:</strong> 神戸</li>
+          </ul>
+          <p class="event-description">日本史籍協会、1926年刊の複製、1967年、1988年12月〜1989年1月<br />白竜社、1967年、新人物往来社、1978年。<br />土居晴夫「兵庫海軍局始末」（『歴史と神戸』25号、1967年）<br />土居晴夫「海軍操練所始末」（『歴史と神戸』26号、1967年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">76</span>
+            <div>
+              <h2>白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年…</h2>
+              <p class="event-date">1968-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.93</li>
+            <li><strong>関係者:</strong> 平尾道雄, 坂本龍馬, 白竜社, 中公文庫, 尾佐竹猛</li>
+            <li><strong>場所:</strong> 平尾道, 飛鳥井雅道, 高知市, 神戸</li>
+          </ul>
+          <p class="event-description">平尾道雄『坂本龍馬 海援隊始末』（万里閣書房、1929年、白竜社、1968年）<br />白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年、宗高書房、1978年、『尾佐竹猛著作集 16 ・ 17』に収む、ゆまに書房、2006年）<br />中公バックス、1984年） 、 山本大『真説坂本竜馬』（人物往来社、1968年。<br />土居晴夫『坂本家系考』（土佐史談会、1968年）<br />松浦玲『勝海舟』（中公新書、1968年） 今井幸彦『坂本竜馬を斬った男』（新人物往来社、1971年、文庫版2009年） 石井孝『勝海舟』（吉川弘文館、1974年） 飛鳥井雅道『坂本龍馬』（平凡社、1975年。<br />土居晴夫「神戸海軍操練所史考」（『軍事史学』13号、1968年、「坂本龍馬の神戸時代」と改題の上、1980年発行の高知市民図書館編『平尾道雄追悼記念論文集』に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">77</span>
+            <div>
+              <h2>瑞山会編『維新土佐勤王史』（冨山房、1912年、睦書房、1969年、日本図書センター、1977年</h2>
+              <p class="event-date">1969-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.69</li>
+            <li><strong>関係者:</strong> 瑞山会編, 冨山房, 睦書房, 土佐史談</li>
+            
+          </ul>
+          <p class="event-description">瑞山会編『維新土佐勤王史』（冨山房、1912年、睦書房、1969年、日本図書センター、1977年。<br />広谷喜十郎「勃興期の才谷屋に関する一考察」（『土佐史談』122号、1969年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">78</span>
+            <div>
+              <h2>土居晴夫「神戸海軍塾の青年群像」（『神戸史談』226号</h2>
+              <p class="event-date">1970-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            <li><strong>関係者:</strong> 土居晴夫, 神戸史談, 鵜沢義行</li>
+            <li><strong>場所:</strong> 神戸</li>
+          </ul>
+          <p class="event-description">土居晴夫「神戸海軍塾の青年群像」（『神戸史談』226号、1970年）<br />鵜沢義行「幕末における尊攘的開明論と坂本龍馬の周辺について」（『日本法学紀要』11 ・ 12号、1970年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">79</span>
+            <div>
+              <h2>松浦玲『勝海舟』（中公新書、1968年） 今井幸彦『坂本竜馬を斬った男』（新人物往来社、1971年、文庫版2009年） 石井孝『勝海舟』（吉川弘文館、1974年…</h2>
+              <p class="event-date">1971-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.93</li>
+            <li><strong>関係者:</strong> 松浦玲, 勝海舟, 中公新書, 今井幸彦, 石井孝</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 平尾道, 津</li>
+          </ul>
+          <p class="event-description">松浦玲『勝海舟』（中公新書、1968年） 今井幸彦『坂本竜馬を斬った男』（新人物往来社、1971年、文庫版2009年） 石井孝『勝海舟』（吉川弘文館、1974年） 飛鳥井雅道『坂本龍馬』（平凡社、1975年。<br />平尾道雄「高杉晋作と坂本龍馬」（『中央公論』86巻5号、1971年）<br />飯田嘉郎「伊呂波丸事件について」（『海事史研究』16号、1971年）<br />船津功「「大政奉還」をめぐる政権構想の再検討-坂本龍馬「新官制案」の史料批判を中心に-」（『歴史学研究』375号、1971年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">80</span>
+            <div>
+              <h2>石井孝「船津功氏「『大政奉還』をめぐる政権構想の再検討」を読んで」（『歴史学研究』380号</h2>
+              <p class="event-date">1972-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            <li><strong>関係者:</strong> 井上勲, 史学雑誌, 石井孝, 船津功氏, 大政奉還</li>
+            <li><strong>場所:</strong> 津</li>
+          </ul>
+          <p class="event-description">井上勲「大政奉還運動の形成過程（一）（二）」（『史学雑誌』81巻11号 ・ 81巻12号、1972年）<br />石井孝「船津功氏「『大政奉還』をめぐる政権構想の再検討」を読んで」（『歴史学研究』380号、1972年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">81</span>
+            <div>
+              <h2>勝安芳 『勝海舟全集〈21〉氷川清話』（講談社</h2>
+              <p class="event-date">1973-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            <li><strong>関係者:</strong> 勝安芳, 氷川清話, 講談社, 井上勲, エコノミスト</li>
+            
+          </ul>
+          <p class="event-description">勝安芳 『勝海舟全集〈21〉氷川清話』（講談社、1973年）<br />井上勲「激動期の政治リーダー-坂本龍馬と中岡慎太郎-」（『エコノミスト』51巻42号、1973年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">82</span>
+            <div>
+              <h2>松浦玲『勝海舟』（中公新書、1968年） 今井幸彦『坂本竜馬を斬った男』（新人物往来社、1971年、文庫版2009年） 石井孝『勝海舟』（吉川弘文館、1974年…</h2>
+              <p class="event-date">1974-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.93</li>
+            <li><strong>関係者:</strong> 小西四郎, 中公文庫, 坂本竜馬, 松浦玲, 勝海舟</li>
+            <li><strong>場所:</strong> 高知, 飛鳥井雅道</li>
+          </ul>
+          <p class="event-description">高知新聞社、1985年/1995年） 小西四郎『日本の歴史 19.開国と攘夷』（中央公論社、1966年、中公文庫、1974年. 文庫改版2006年。<br />新人物往来社、1974年－新版は『坂本竜馬』に改題）<br />松浦玲『勝海舟』（中公新書、1968年） 今井幸彦『坂本竜馬を斬った男』（新人物往来社、1971年、文庫版2009年） 石井孝『勝海舟』（吉川弘文館、1974年） 飛鳥井雅道『坂本龍馬』（平凡社、1975年。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">83</span>
+            <div>
+              <h2>尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（…</h2>
+              <p class="event-date">1975-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 松浦玲, 勝海舟, 中公新書, 今井幸彦, 石井孝</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 平尾道</li>
+          </ul>
+          <p class="event-description">松浦玲『勝海舟』（中公新書、1968年） 今井幸彦『坂本竜馬を斬った男』（新人物往来社、1971年、文庫版2009年） 石井孝『勝海舟』（吉川弘文館、1974年） 飛鳥井雅道『坂本龍馬』（平凡社、1975年。<br />福武文庫、1992年、講談社学術文庫、2000年） 、 絲屋寿雄『坂本龍馬』（汐文社、1975年）<br />尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（中公文庫、1977年、改版2010年） 嶋岡晨『龍馬追跡』（新人物往来社、1977年。<br />井上清「坂本龍馬」（『朝日ジャーナル』157号、1962年、『日本の思想家』I、朝日新聞社、1962年、および『新版日本の思想家』上、朝日新聞社、1975年に再録）<br />山本大「坂本龍馬の大義料」（『日本歴史』322号、1975年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">84</span>
+            <div>
+              <h2>尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（…</h2>
+              <p class="event-date">1976-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 千頭清臣, 坂本龍馬, 博文館, 寺石正路, 沢本書店</li>
+            <li><strong>場所:</strong> 高知市, 平尾道, 飛鳥井雅道, 京都</li>
+          </ul>
+          <p class="event-description">千頭清臣『坂本龍馬』（博文館、1914年、土佐史談会、1985年、新人物往来社、1995年－新版は『坂本龍馬伝』に改題） 寺石正路『土佐偉人伝』（沢本書店、1914年、歴史図書社、1976年）<br />白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年、宗高書房、1978年、『尾佐竹猛著作集 16 ・ 17』に収む、ゆまに書房、2006年）<br />山本大『近世土佐と民権思想』（高知市民図書館、1976年）<br />尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（中公文庫、1977年、改版2010年） 嶋岡晨『龍馬追跡』（新人物往来社、1977年。<br />池田敬正「司馬遼太郎『竜馬がゆく』をめぐって」（『歴史評論』317号、1976年）<br />絲屋寿雄「竜馬の虚像 ・ 実像－司馬遼太郎『竜馬がゆく』によせて－」（『歴史評論』317号、1976年）<br />飛鳥井雅道「「奉還」と「討幕」-坂本龍馬の三つの文書- (上)」（京都大学『人文学報』4号1、1976年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">85</span>
+            <div>
+              <h2>尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（…</h2>
+              <p class="event-date">1977-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 瑞山会編, 冨山房, 睦書房, 尾崎秀樹, 勁草書房</li>
+            <li><strong>場所:</strong> 平尾道</li>
+          </ul>
+          <p class="event-description">瑞山会編『維新土佐勤王史』（冨山房、1912年、睦書房、1969年、日本図書センター、1977年。<br />尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（中公文庫、1977年、改版2010年） 嶋岡晨『龍馬追跡』（新人物往来社、1977年。<br />鹿野政直「国民の歴史意識 ・ 歴史像と歴史学」（『岩波講座日本歴史24別巻1』岩波書店、1977年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">86</span>
+            <div>
+              <h2>白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年…</h2>
+              <p class="event-date">1978-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.93</li>
+            <li><strong>関係者:</strong> 白竜社, 中公文庫, 尾佐竹猛, 明治維新, 白揚社</li>
+            
+          </ul>
+          <p class="event-description">白竜社、1967年、新人物往来社、1978年。<br />白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年、宗高書房、1978年、『尾佐竹猛著作集 16 ・ 17』に収む、ゆまに書房、2006年）<br />市井三郎『歴史を創るもの』（第三文明社、レグルス文庫、1978年） X<br />尾崎秀樹「龍馬像の変遷」（『歴史と人物』80号、1978年）<br />井上勲「坂本龍馬の可能性」（『歴史と人物』80号、1978年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">87</span>
+            <div>
+              <h2>限定版、1978年5月、坂本龍馬年譜 ・ 坂本龍馬関係書誌： pp</h2>
+              <p class="event-date">1978-05-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.55</li>
+            <li><strong>関係者:</strong> 限定版</li>
+            
+          </ul>
+          <p class="event-description">限定版、1978年5月、坂本龍馬年譜 ・ 坂本龍馬関係書誌： pp.907 - 952</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">88</span>
+            <div>
+              <h2>松岡英夫『大久保一翁』（中公新書</h2>
+              <p class="event-date">1979-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 松岡英夫, 中公新書, 石尾芳久, 三一書房, 入交好脩</li>
+            <li><strong>場所:</strong> 平尾道, 武市, 鈴木教道</li>
+          </ul>
+          <p class="event-description">松岡英夫『大久保一翁』（中公新書、1979年） 石尾芳久『大政奉還と討幕の密勅』（三一書房、1979年） 平尾道雄編『坂本龍馬のすべて』（新人物往来社、1979年） 入交好脩『武市半平太』（中公新書、1982年） 嶋岡晨『坂本龍馬の手紙』（名著刊行会、1983年）<br />亀掛川博正「公議政体論と土佐藩の動向 」（『政治経済史学』154 ・ 156 ・ 157号、1979年）<br />鈴木教道「西郷隆盛の思想と人格－幕末における坂本龍馬の人間像との比較において－」（『現代科学論叢』13号、1979年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">89</span>
+            <div>
+              <h2>池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年…</h2>
+              <p class="event-date">1980-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 池田敬正, 坂本龍馬, 中公新書, マリアス, ジャンセン</li>
+            <li><strong>場所:</strong> 平尾道, 高知市, 神戸</li>
+          </ul>
+          <p class="event-description">池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年/2009年） 平尾道雄『土佐藩』（吉川弘文館、1965年、新装版1995年） 平尾道雄『龍馬のすべて』（久保書店、1966年。<br />土居晴夫「神戸海軍操練所史考」（『軍事史学』13号、1968年、「坂本龍馬の神戸時代」と改題の上、1980年発行の高知市民図書館編『平尾道雄追悼記念論文集』に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">90</span>
+            <div>
+              <h2>増補改訂版、1980年5月</h2>
+              <p class="event-date">1980-05-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.39</li>
+            
+            
+          </ul>
+          <p class="event-description">増補改訂版、1980年5月</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">91</span>
+            <div>
+              <h2>尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集</h2>
+              <p class="event-date">1981-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 0.87</li>
+            <li><strong>関係者:</strong> 尾佐竹猛, 象山社</li>
+            
+          </ul>
+          <p class="event-description">尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集.1』に収録、実業之日本社、1948年、『尾佐竹猛著作集9』に収録、ゆまに書房、2006年） 坂本中岡銅像建設会編『雋傑坂本龍馬』（坂本中岡銅像建設会事務所、1927年、象山社、1981年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">92</span>
+            <div>
+              <h2>松岡英夫『大久保一翁』（中公新書</h2>
+              <p class="event-date">1982-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 松岡英夫, 中公新書, 石尾芳久, 三一書房, 入交好脩</li>
+            <li><strong>場所:</strong> 平尾道, 武市</li>
+          </ul>
+          <p class="event-description">松岡英夫『大久保一翁』（中公新書、1979年） 石尾芳久『大政奉還と討幕の密勅』（三一書房、1979年） 平尾道雄編『坂本龍馬のすべて』（新人物往来社、1979年） 入交好脩『武市半平太』（中公新書、1982年） 嶋岡晨『坂本龍馬の手紙』（名著刊行会、1983年）<br />山本大「坂本龍馬の思想と行動」（『歴史と人物』129号、1982年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">93</span>
+            <div>
+              <h2>増補3訂版、1982年11月、坂本龍馬年譜 ・ 坂本龍馬関係書誌： pp</h2>
+              <p class="event-date">1982-11-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.51</li>
+            
+            
+          </ul>
+          <p class="event-description">増補3訂版、1982年11月、坂本龍馬年譜 ・ 坂本龍馬関係書誌： pp.987 - 1032</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">94</span>
+            <div>
+              <h2>松岡英夫『大久保一翁』（中公新書</h2>
+              <p class="event-date">1983-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 河出文庫, 尾佐竹猛, 学而書院, 維新史, 明治書院</li>
+            <li><strong>場所:</strong> 平尾道, 武市</li>
+          </ul>
+          <p class="event-description">河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集.20』に収録、ゆまに書房、2006年） 維新史料編纂事務局編『維新史』全5巻（明治書院、1939〜1941年、吉川弘文館、1983年）<br />復刊『坂本龍馬の生涯』新人物往来社、1983年）<br />松岡英夫『大久保一翁』（中公新書、1979年） 石尾芳久『大政奉還と討幕の密勅』（三一書房、1979年） 平尾道雄編『坂本龍馬のすべて』（新人物往来社、1979年） 入交好脩『武市半平太』（中公新書、1982年） 嶋岡晨『坂本龍馬の手紙』（名著刊行会、1983年）<br />宮地佐一郎『坂本龍馬 男の行動論』（PHP研究所、1983年）（PHP文庫、1985年） 吉永豊海『土佐海事法制史』（山海堂出版、1983年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">95</span>
+            <div>
+              <h2>坂本藤良『幕末維新の経済人』（中公新書</h2>
+              <p class="event-date">1984-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 解説, 関係文書, 詠草, 山本大, 坂本藤良</li>
+            <li><strong>場所:</strong> 平尾道</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『龍馬の手紙 坂本龍馬全書簡集．付.関係文書 ・ 詠草』、旺文社文庫、1984年<br />中公バックス、1984年） 、 山本大『真説坂本竜馬』（人物往来社、1968年。<br />坂本藤良『幕末維新の経済人』（中公新書、1984年） 坂本藤良 『坂本龍馬と海援隊 - 日本を変えた男のビジネス魂』（講談社、1985年） 土居晴夫『坂本龍馬とその一族』（新人物往来社、1985年） 平尾道雄『明治維新と坂本龍馬』（新人物往来社、1985年） 平尾道雄他『坂本龍馬読本』（新人物往来社、1985年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">96</span>
+            <div>
+              <h2>坂本藤良『幕末維新の経済人』（中公新書</h2>
+              <p class="event-date">1985-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 千頭清臣, 坂本龍馬, 博文館, 寺石正路, 沢本書店</li>
+            <li><strong>場所:</strong> 高知, 平尾道, 長崎</li>
+          </ul>
+          <p class="event-description">千頭清臣『坂本龍馬』（博文館、1914年、土佐史談会、1985年、新人物往来社、1995年－新版は『坂本龍馬伝』に改題） 寺石正路『土佐偉人伝』（沢本書店、1914年、歴史図書社、1976年）<br />高知新聞社、1985年/1995年） 小西四郎『日本の歴史 19.開国と攘夷』（中央公論社、1966年、中公文庫、1974年. 文庫改版2006年。<br />宮地佐一郎『坂本龍馬 男の行動論』（PHP研究所、1983年）（PHP文庫、1985年） 吉永豊海『土佐海事法制史』（山海堂出版、1983年）<br />坂本藤良『幕末維新の経済人』（中公新書、1984年） 坂本藤良 『坂本龍馬と海援隊 - 日本を変えた男のビジネス魂』（講談社、1985年） 土居晴夫『坂本龍馬とその一族』（新人物往来社、1985年） 平尾道雄『明治維新と坂本龍馬』（新人物往来社、1985年） 平尾道雄他『坂本龍馬読本』（新人物往来社、1985年）<br />古川薫『坂本竜馬』（講談社、1985年）<br />井上勝生「維新変革と後発国型権力の形成－王政復古クーデタを中心に－」（『日本史研究』271号、1985年、井上勝生著『幕末維新政治史の研究』塙書房、1994年に再録）<br />マリアス ・ ジャンセン、秦郁彦訳「坂本龍馬と近代日本」（『土佐史談』170号、1985年）<br />山本大「海援隊と長崎商会」（『土佐史談』170号、1985年）<br />土居晴夫「坂本龍馬と「北辰一刀流長刀兵法目録」」（『土佐史談』170号、1985年）<br />広谷喜十郎「坂本龍馬と立川関」（『土佐史談』170号、1985年）<br />小西四郎「坂本龍馬とその時代」（『別冊歴史読本－坂本龍馬の謎－』新人物往来社、1985年）<br />山本大「藩意識をなぜ持たなかったか」（『別冊歴史読本－坂本龍馬の謎－』新人物往来社、1985年）<br />毛利敏彦「薩長同盟をなぜ画策したか」（『別冊歴史読本－坂本龍馬の謎－』新人物往来社、1985年）<br />松浦玲「「船中八策」の真意は」（『別冊歴史読本－坂本龍馬の謎－』新人物往来社、1985年）<br />井上勲「大政奉還立案の真相は」（『別冊歴史読本－坂本龍馬の謎－』新人物往来社、1985年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">97</span>
+            <div>
+              <h2>関家新助『近代日本の反権力思想』（法律文化社</h2>
+              <p class="event-date">1986-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 関家新助, 山田一郎, 坂本龍馬, 新潮社, 鹿野政直</li>
+            <li><strong>場所:</strong> 下関市, 立長府</li>
+          </ul>
+          <p class="event-description">関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）<br />青山忠正「薩長盟約の成立とその背景」（『歴史学研究』557号、1986年）<br />石尾芳久「坂本龍馬の死－言論と暴力－」（『関西大学法学論集』36巻3 ・ 4 ・ 5合併号、1986年）<br />松岡司「初見の坂本龍馬書状と北辰一刀流兵法目録」（『日本歴史』454号、1986年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">98</span>
+            <div>
+              <h2>関家新助『近代日本の反権力思想』（法律文化社</h2>
+              <p class="event-date">1987-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 関家新助, 山田一郎, 坂本龍馬, 新潮社, 鹿野政直</li>
+            <li><strong>場所:</strong> 下関市, 立長府, 神戸</li>
+          </ul>
+          <p class="event-description">関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）<br />土居晴夫「検証 ・ 坂本龍馬の書状」（『歴史と神戸』144号、1987年）<br />荒尾親成「検証 ・ 坂本龍馬の書状－土居晴夫氏に答える－」（『歴史と神戸』145号、1987年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">99</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術…</h2>
+              <p class="event-date">1988-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 解説, 坂本龍馬, 松浦玲, 岩波新書, 菊地明</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 山村, 下関市, 立長府</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術文庫、2003年） 鈴木かほる『史料が語る 坂本龍馬の妻お龍』（新人物往来社、2007年） 松浦玲 『坂本龍馬』（岩波新書、2008年） 佐々木克 『坂本龍馬とその時代』（河出書房新社、2009年） 菊地明、伊東成郎、山村竜也 『坂本龍馬101の謎』（新人物往来社、2009年） 菊地明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か－幕末最大の謎を解く』（河出書房新社、2009年） 『坂本龍馬歴史大事典』（新人物往来社、2009年） 『坂本龍馬と海援隊』（新 ・ 歴史群像シリーズ 20）（学研パブリッシング、2009年） 『坂本龍馬伝』（新人物往来社、2009年） 『幕末土佐の群像』（学研パブリッシング、2009年） 山岡悦郎「薩長盟約と龍馬伝説」『人文論叢』第30巻、三重大学人文学部文化学科、2013年、107-122頁、NAID 120005228807。<br />関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）<br />遠山茂樹「坂本龍馬が活動した時代」（小西四郎他編『坂本龍馬事典』新人物往来社、1988年、のちに『遠山茂樹著作集』第1巻、岩波書店、1991年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">100</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』 光風社書店、 増補4訂版、1988年5月、坂本龍馬年譜 ・ 坂本龍馬関係書誌： pp</h2>
+              <p class="event-date">1988-05-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.66</li>
+            <li><strong>関係者:</strong> 解説</li>
+            
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』 光風社書店、 増補4訂版、1988年5月、坂本龍馬年譜 ・ 坂本龍馬関係書誌： pp.1045 - 1090</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">101</span>
+            <div>
+              <h2>日本史籍協会、1926年刊の複製、1967年、1988年12月〜1989年1月</h2>
+              <p class="event-date">1988-12-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.48</li>
+            
+            
+          </ul>
+          <p class="event-description">日本史籍協会、1926年刊の複製、1967年、1988年12月〜1989年1月</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">102</span>
+            <div>
+              <h2>関家新助『近代日本の反権力思想』（法律文化社</h2>
+              <p class="event-date">1989-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 関家新助, 山田一郎, 坂本龍馬, 新潮社, 鹿野政直</li>
+            <li><strong>場所:</strong> 下関市, 立長府</li>
+          </ul>
+          <p class="event-description">日本史籍協会、1926年刊の複製、1967年、1988年12月〜1989年1月<br />関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">103</span>
+            <div>
+              <h2>河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集</h2>
+              <p class="event-date">1990-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.91</li>
+            <li><strong>関係者:</strong> 河出文庫, 尾佐竹猛, 学而書院, 維新史, 明治書院</li>
+            <li><strong>場所:</strong> 北川村</li>
+          </ul>
+          <p class="event-description">河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集.20』に収録、ゆまに書房、2006年） 維新史料編纂事務局編『維新史』全5巻（明治書院、1939〜1941年、吉川弘文館、1983年）<br />池田諭『坂本竜馬』（大和書房〈大和選書〉、1964年、新装版1990年）<br />井上清「明治維新と中岡慎太郎－坂本龍馬とくらべて－」（北川村『明治維新と中岡慎太郎』1990年、『井上清史論集1明治維新』岩波現代文庫、2003年に再録）<br />松浦玲「坂本龍馬の実像」（『日本近代史の虚像と実像』第1巻、大月書店、1990年、松浦玲『検証 ・ 龍馬伝説』、論創社、2001年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">104</span>
+            <div>
+              <h2>遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集</h2>
+              <p class="event-date">1991-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 遠山茂樹, 明治維新, 岩波全書, 岩波書店, 井上清</li>
+            <li><strong>場所:</strong> 高知市, 東京, 下関市, 立長府</li>
+          </ul>
+          <p class="event-description">遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集.1巻』に収録、岩波書店、1991年、岩波同時代ライブラリー、1995年、岩波現代文庫、2000年） 、 井上清『日本現代史I 明治維新』（東京大学出版会、1951年、新装版2001年） 高橋信司『土佐藩憲政思想成立史』（高知市民図書館、1958年）<br />関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）<br />遠山茂樹「坂本龍馬が活動した時代」（小西四郎他編『坂本龍馬事典』新人物往来社、1988年、のちに『遠山茂樹著作集』第1巻、岩波書店、1991年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">105</span>
+            <div>
+              <h2>関家新助『近代日本の反権力思想』（法律文化社</h2>
+              <p class="event-date">1992-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 福武文庫, 絲屋寿雄, 坂本龍馬, 汐文社, 関家新助</li>
+            <li><strong>場所:</strong> 下関市, 立長府, 吉村, 木村, 山村</li>
+          </ul>
+          <p class="event-description">福武文庫、1992年、講談社学術文庫、2000年） 、 絲屋寿雄『坂本龍馬』（汐文社、1975年）<br />関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）<br />宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年） 宮地佐一郎『中岡慎太郎』（中公新書、1993年） 木村幸比古『龍馬暗殺の真犯人は誰か』（新人物往来社、1995年） 小美濃清明『坂本龍馬と刀剣』（新人物往来社、1995年） 田中彰『幕末維新史の研究』（吉川弘文館、1996年） 菊地明 ・ 山村竜也編『坂本龍馬日記』上 ・ 下（新人物往来社、1996年） 、 吉田常吉『幕末乱世の群像』（吉川弘文館、1996年） 青山忠正『幕末維新 / 奔流の時代』（文英堂、1996年） 木村幸比古『龍馬の時代』（高知新聞社、1997年、増補版高知新聞社、2000年。<br />森銑三「坂本龍馬」（『伝記』1月号、1943年、『森銑三著作集 続編』第1巻、中央公論社、1992年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">106</span>
+            <div>
+              <h2>関家新助『近代日本の反権力思想』（法律文化社</h2>
+              <p class="event-date">1993-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 関家新助, 山田一郎, 坂本龍馬, 新潮社, 鹿野政直</li>
+            <li><strong>場所:</strong> 下関市, 立長府, 吉村, 木村, 山村</li>
+          </ul>
+          <p class="event-description">関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）<br />宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年） 宮地佐一郎『中岡慎太郎』（中公新書、1993年） 木村幸比古『龍馬暗殺の真犯人は誰か』（新人物往来社、1995年） 小美濃清明『坂本龍馬と刀剣』（新人物往来社、1995年） 田中彰『幕末維新史の研究』（吉川弘文館、1996年） 菊地明 ・ 山村竜也編『坂本龍馬日記』上 ・ 下（新人物往来社、1996年） 、 吉田常吉『幕末乱世の群像』（吉川弘文館、1996年） 青山忠正『幕末維新 / 奔流の時代』（文英堂、1996年） 木村幸比古『龍馬の時代』（高知新聞社、1997年、増補版高知新聞社、2000年。<br />梶輝行「幕末土佐藩における西洋砲術の導入 ・ 伝習－徳弘孝蔵を中心に－」（『史叢』50号、1993年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">107</span>
+            <div>
+              <h2>平成5年11月に開館した三の丸尚蔵館にて、平成10年に一般公開されたことがある</h2>
+              <p class="event-date">1993-11-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.49</li>
+            
+            
+          </ul>
+          <p class="event-description">そして平成5年11月に開館した三の丸尚蔵館にて、平成10年に一般公開されたことがある。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">108</span>
+            <div>
+              <h2>井上勝生「維新変革と後発国型権力の形成－王政復古クーデタを中心に－」（『日本史研究』271号</h2>
+              <p class="event-date">1994-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> science</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            <li><strong>関係者:</strong> 井上勝生, 塙書房, 箱石大, 歴史評論</li>
+            
+          </ul>
+          <p class="event-description">井上勝生「維新変革と後発国型権力の形成－王政復古クーデタを中心に－」（『日本史研究』271号、1985年、井上勝生著『幕末維新政治史の研究』塙書房、1994年に再録）<br />箱石大「坂本龍馬の人物像をめぐって」（『歴史評論』530号、1994年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">109</span>
+            <div>
+              <h2>遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集</h2>
+              <p class="event-date">1995-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 千頭清臣, 坂本龍馬, 博文館, 寺石正路, 沢本書店</li>
+            <li><strong>場所:</strong> 高知市, 東京, 平尾道, 高知, 吉村</li>
+          </ul>
+          <p class="event-description">千頭清臣『坂本龍馬』（博文館、1914年、土佐史談会、1985年、新人物往来社、1995年－新版は『坂本龍馬伝』に改題） 寺石正路『土佐偉人伝』（沢本書店、1914年、歴史図書社、1976年）<br />遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集.1巻』に収録、岩波書店、1991年、岩波同時代ライブラリー、1995年、岩波現代文庫、2000年） 、 井上清『日本現代史I 明治維新』（東京大学出版会、1951年、新装版2001年） 高橋信司『土佐藩憲政思想成立史』（高知市民図書館、1958年）<br />池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年/2009年） 平尾道雄『土佐藩』（吉川弘文館、1965年、新装版1995年） 平尾道雄『龍馬のすべて』（久保書店、1966年。<br />高知新聞社、1985年/1995年） 小西四郎『日本の歴史 19.開国と攘夷』（中央公論社、1966年、中公文庫、1974年. 文庫改版2006年。<br />宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年） 宮地佐一郎『中岡慎太郎』（中公新書、1993年） 木村幸比古『龍馬暗殺の真犯人は誰か』（新人物往来社、1995年） 小美濃清明『坂本龍馬と刀剣』（新人物往来社、1995年） 田中彰『幕末維新史の研究』（吉川弘文館、1996年） 菊地明 ・ 山村竜也編『坂本龍馬日記』上 ・ 下（新人物往来社、1996年） 、 吉田常吉『幕末乱世の群像』（吉川弘文館、1996年） 青山忠正『幕末維新 / 奔流の時代』（文英堂、1996年） 木村幸比古『龍馬の時代』（高知新聞社、1997年、増補版高知新聞社、2000年。<br />堤克彦「横井小楠の交友関係－小楠と龍馬を中心として－」（『熊本史学』70 ・ 71合併号、1995年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">110</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『龍馬の手紙 坂本龍馬全書簡集 ・ 関係文書 ・ 詠草』</h2>
+              <p class="event-date">1995-08-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> science</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            <li><strong>関係者:</strong> 解説, 関係文書, 詠草</li>
+            
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『龍馬の手紙 坂本龍馬全書簡集 ・ 関係文書 ・ 詠草』、PHP研究所〈PHP文庫〉、1995年8月</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">111</span>
+            <div>
+              <h2>宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年…</h2>
+              <p class="event-date">1996-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> science</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 田中彰, 集英社, 吉村淑甫, 中公新書, 菊地明</li>
+            <li><strong>場所:</strong> 吉村, 木村, 山村, 高知</li>
+          </ul>
+          <p class="event-description">宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年） 宮地佐一郎『中岡慎太郎』（中公新書、1993年） 木村幸比古『龍馬暗殺の真犯人は誰か』（新人物往来社、1995年） 小美濃清明『坂本龍馬と刀剣』（新人物往来社、1995年） 田中彰『幕末維新史の研究』（吉川弘文館、1996年） 菊地明 ・ 山村竜也編『坂本龍馬日記』上 ・ 下（新人物往来社、1996年） 、 吉田常吉『幕末乱世の群像』（吉川弘文館、1996年） 青山忠正『幕末維新 / 奔流の時代』（文英堂、1996年） 木村幸比古『龍馬の時代』（高知新聞社、1997年、増補版高知新聞社、2000年。<br />一坂太郎「薩長同盟の新事実－坂本龍馬周旋説の虚実－」（『歴史読本』41巻19号、1996年、のちに新人物往来社編『共同研究 ・ 坂本龍馬』、新人物往来社、1997年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">112</span>
+            <div>
+              <h2>日本史籍協会、1926年刊の複製、1996年9月</h2>
+              <p class="event-date">1996-09-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.43</li>
+            
+            
+          </ul>
+          <p class="event-description">日本史籍協会、1926年刊の複製、1996年9月</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">113</span>
+            <div>
+              <h2>宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年…</h2>
+              <p class="event-date">1997-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> science</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 田中彰, 集英社, 吉村淑甫, 中公新書, 菊地明</li>
+            <li><strong>場所:</strong> 吉村, 木村, 山村, 高知, 武市</li>
+          </ul>
+          <p class="event-description">宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年） 宮地佐一郎『中岡慎太郎』（中公新書、1993年） 木村幸比古『龍馬暗殺の真犯人は誰か』（新人物往来社、1995年） 小美濃清明『坂本龍馬と刀剣』（新人物往来社、1995年） 田中彰『幕末維新史の研究』（吉川弘文館、1996年） 菊地明 ・ 山村竜也編『坂本龍馬日記』上 ・ 下（新人物往来社、1996年） 、 吉田常吉『幕末乱世の群像』（吉川弘文館、1996年） 青山忠正『幕末維新 / 奔流の時代』（文英堂、1996年） 木村幸比古『龍馬の時代』（高知新聞社、1997年、増補版高知新聞社、2000年。<br />淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最後の真実』（筑摩書房、1998年、ちくま文庫、2009年） 、 芳即正『坂本龍馬と薩長同盟』（髙城書房、1998年） 松岡司『中岡慎太郎伝』（新人物往来社、1999年） 小美濃清明『坂本龍馬 ・ 青春時代』（新人物往来社、1999年） 前田秀徳『龍馬からのメッセージ』（自費出版、2000年/発売: 南の風社）写真多数<br />一坂太郎「薩長同盟の新事実－坂本龍馬周旋説の虚実－」（『歴史読本』41巻19号、1996年、のちに新人物往来社編『共同研究 ・ 坂本龍馬』、新人物往来社、1997年に再録）<br />家近良樹「「大政奉還論」の系譜」（『歴史読本』42巻8号、1997年）<br />三上一夫「福井時代の坂本龍馬」（『歴史読本』42巻8号、1997年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">114</span>
+            <div>
+              <h2>淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最…</h2>
+              <p class="event-date">1998-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 淡交社, 共同研究, 坂本龍馬, 松岡司, 菊地明</li>
+            <li><strong>場所:</strong> 武市</li>
+          </ul>
+          <p class="event-description">そして平成5年11月に開館した三の丸尚蔵館にて、平成10年に一般公開されたことがある。<br />淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最後の真実』（筑摩書房、1998年、ちくま文庫、2009年） 、 芳即正『坂本龍馬と薩長同盟』（髙城書房、1998年） 松岡司『中岡慎太郎伝』（新人物往来社、1999年） 小美濃清明『坂本龍馬 ・ 青春時代』（新人物往来社、1999年） 前田秀徳『龍馬からのメッセージ』（自費出版、2000年/発売: 南の風社）写真多数<br />岸本覚「幕末海防論と「境界」意識－「志士」集う「場」を中心に－」（『江戸の思想9 空間の表象』ぺりかん社、1998年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">115</span>
+            <div>
+              <h2>淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最…</h2>
+              <p class="event-date">1999-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> science</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 淡交社, 共同研究, 坂本龍馬, 松岡司, 菊地明</li>
+            <li><strong>場所:</strong> 武市</li>
+          </ul>
+          <p class="event-description">淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最後の真実』（筑摩書房、1998年、ちくま文庫、2009年） 、 芳即正『坂本龍馬と薩長同盟』（髙城書房、1998年） 松岡司『中岡慎太郎伝』（新人物往来社、1999年） 小美濃清明『坂本龍馬 ・ 青春時代』（新人物往来社、1999年） 前田秀徳『龍馬からのメッセージ』（自費出版、2000年/発売: 南の風社）写真多数</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">116</span>
+            <div>
+              <h2>京都国立博物館編 『坂本龍馬関係資料』 京都国立博物館</h2>
+              <p class="event-date">1999-08-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.52</li>
+            
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">京都国立博物館編 『坂本龍馬関係資料』 京都国立博物館、1999年8月</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">117</span>
+            <div>
+              <h2>遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集</h2>
+              <p class="event-date">2000-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 遠山茂樹, 明治維新, 岩波全書, 岩波書店, 井上清</li>
+            <li><strong>場所:</strong> 高知市, 東京, 吉村, 木村, 山村</li>
+          </ul>
+          <p class="event-description">遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集.1巻』に収録、岩波書店、1991年、岩波同時代ライブラリー、1995年、岩波現代文庫、2000年） 、 井上清『日本現代史I 明治維新』（東京大学出版会、1951年、新装版2001年） 高橋信司『土佐藩憲政思想成立史』（高知市民図書館、1958年）<br />福武文庫、1992年、講談社学術文庫、2000年） 、 絲屋寿雄『坂本龍馬』（汐文社、1975年）<br />宮地佐一郎『中岡慎太郎』（PHP研究所、1992年） 田中彰『日本の歴史15 開国と倒幕』（集英社、1992年） 吉村淑甫『近藤長次郎』（毎日新聞社、1992年） 宮地佐一郎『中岡慎太郎』（中公新書、1993年） 木村幸比古『龍馬暗殺の真犯人は誰か』（新人物往来社、1995年） 小美濃清明『坂本龍馬と刀剣』（新人物往来社、1995年） 田中彰『幕末維新史の研究』（吉川弘文館、1996年） 菊地明 ・ 山村竜也編『坂本龍馬日記』上 ・ 下（新人物往来社、1996年） 、 吉田常吉『幕末乱世の群像』（吉川弘文館、1996年） 青山忠正『幕末維新 / 奔流の時代』（文英堂、1996年） 木村幸比古『龍馬の時代』（高知新聞社、1997年、増補版高知新聞社、2000年。<br />淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最後の真実』（筑摩書房、1998年、ちくま文庫、2009年） 、 芳即正『坂本龍馬と薩長同盟』（髙城書房、1998年） 松岡司『中岡慎太郎伝』（新人物往来社、1999年） 小美濃清明『坂本龍馬 ・ 青春時代』（新人物往来社、1999年） 前田秀徳『龍馬からのメッセージ』（自費出版、2000年/発売: 南の風社）写真多数<br />青山忠正『明治維新と国家形成』 （吉川弘文館、2000年） 菊地明『龍馬暗殺完結篇』（新人物往来社、2000年） 下関市立長府博物館編『三吉慎蔵と坂本龍馬』（下関市立長府博物館、2001年）<br />木村幸比古「龍馬関係資料について」（『霊山歴史館紀要』13号、2000年）<br />青山忠正「土佐山内家重臣 ・ 寺村左膳 -薩土盟約と政権奉還建白-」（佐々木克編『それぞれの明治維新』吉川弘文館、2000年、青山忠正『明治維新の言語と史料』清文堂出版、2006年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">118</span>
+            <div>
+              <h2>遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集</h2>
+              <p class="event-date">2001-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 遠山茂樹, 明治維新, 岩波全書, 岩波書店, 井上清</li>
+            <li><strong>場所:</strong> 高知市, 東京, 下関市, 立長府, 飛鳥井雅道</li>
+          </ul>
+          <p class="event-description">遠山茂樹『明治維新』（岩波全書、1951年、『遠山茂樹著作集.1巻』に収録、岩波書店、1991年、岩波同時代ライブラリー、1995年、岩波現代文庫、2000年） 、 井上清『日本現代史I 明治維新』（東京大学出版会、1951年、新装版2001年） 高橋信司『土佐藩憲政思想成立史』（高知市民図書館、1958年）<br />青山忠正『明治維新と国家形成』 （吉川弘文館、2000年） 菊地明『龍馬暗殺完結篇』（新人物往来社、2000年） 下関市立長府博物館編『三吉慎蔵と坂本龍馬』（下関市立長府博物館、2001年）<br />松浦玲『検証 ・ 龍馬伝説』（論創社、2001年） 山本栄一郎『真説 ・ 薩長同盟』（文芸社、2001年） 黒鉄ヒロシ『坂本竜馬』（PHP研究所、2001年） 菊地明『坂本龍馬進化論』（新人物往来社、2002年） 家近良樹『孝明天皇と「一会桑」』（文春新書、2002年） 井上勝生『日本の歴史18. 開国と幕末変革』（講談社、2002年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮川禎一『龍馬を読む愉しさ』（臨川選書、2003年） 松岡司『定本坂本龍馬伝』（新人物往来社、2003年） 成田龍一『司馬遼太郎の幕末 ・ 明治』（朝日選書、2003年） 宮地佐一郎『龍馬の手紙』（講談社学術文庫、2003年） 福井市立郷土歴史博物館企画 ・ 制作 ・ 編集『天下の事成就せり - 福井藩と坂本龍馬 - 』（同館刊、2004年）<br />池田敬正「土佐藩における討幕運動の展開」（『史林』40巻5号、1957年、三宅紹宣編『幕末維新論集4 幕末の変動と諸藩』吉川弘文館、2001年に再録）<br />松浦玲「坂本龍馬の実像」（『日本近代史の虚像と実像』第1巻、大月書店、1990年、松浦玲『検証 ・ 龍馬伝説』、論創社、2001年に再録）<br />青山忠正「文体と言語－坂本龍馬書簡を素材に－」（『佛教大学総合研究所紀要』8号、2001年、青山忠正『明治維新の言語と史料』清文堂出版、2006年に再録）<br />木村幸比古「海舟と龍馬」（『霊山龍馬歴史館紀要』14号、2001年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">119</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術…</h2>
+              <p class="event-date">2002-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 解説, 坂本龍馬, 松浦玲, 岩波新書, 菊地明</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 山村, 福井市, 木村, 京都</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術文庫、2003年） 鈴木かほる『史料が語る 坂本龍馬の妻お龍』（新人物往来社、2007年） 松浦玲 『坂本龍馬』（岩波新書、2008年） 佐々木克 『坂本龍馬とその時代』（河出書房新社、2009年） 菊地明、伊東成郎、山村竜也 『坂本龍馬101の謎』（新人物往来社、2009年） 菊地明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か－幕末最大の謎を解く』（河出書房新社、2009年） 『坂本龍馬歴史大事典』（新人物往来社、2009年） 『坂本龍馬と海援隊』（新 ・ 歴史群像シリーズ 20）（学研パブリッシング、2009年） 『坂本龍馬伝』（新人物往来社、2009年） 『幕末土佐の群像』（学研パブリッシング、2009年） 山岡悦郎「薩長盟約と龍馬伝説」『人文論叢』第30巻、三重大学人文学部文化学科、2013年、107-122頁、NAID 120005228807。<br />松浦玲『検証 ・ 龍馬伝説』（論創社、2001年） 山本栄一郎『真説 ・ 薩長同盟』（文芸社、2001年） 黒鉄ヒロシ『坂本竜馬』（PHP研究所、2001年） 菊地明『坂本龍馬進化論』（新人物往来社、2002年） 家近良樹『孝明天皇と「一会桑」』（文春新書、2002年） 井上勝生『日本の歴史18. 開国と幕末変革』（講談社、2002年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮川禎一『龍馬を読む愉しさ』（臨川選書、2003年） 松岡司『定本坂本龍馬伝』（新人物往来社、2003年） 成田龍一『司馬遼太郎の幕末 ・ 明治』（朝日選書、2003年） 宮地佐一郎『龍馬の手紙』（講談社学術文庫、2003年） 福井市立郷土歴史博物館企画 ・ 制作 ・ 編集『天下の事成就せり - 福井藩と坂本龍馬 - 』（同館刊、2004年）<br />福田一彰「大政奉還に至る坂本龍馬の尊王思想について」（『霊山歴史館紀要』15号、2002年）<br />木村幸比古「龍馬の剣術」（『霊山歴史館紀要』15号、2002年）<br />松下祐三「薩長商社計画と坂本龍馬－坂崎紫瀾の叙述をめぐって－」（『駒沢史学』59号、2002年、）<br />三宅紹宣「薩長盟約の歴史的意義」（『日本歴史』647号、2002年）<br />高橋秀直「「公議政体派」と薩摩倒幕派－王政復古クーデター再考－」（『京都大学文学部研究紀要』41号、2002年、高橋秀直『幕末維新の政治と天皇』吉川弘文館、2007年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">120</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術…</h2>
+              <p class="event-date">2003-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 解説, 坂本龍馬, 松浦玲, 岩波新書, 菊地明</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 山村, 福井市, 北川村</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術文庫、2003年） 鈴木かほる『史料が語る 坂本龍馬の妻お龍』（新人物往来社、2007年） 松浦玲 『坂本龍馬』（岩波新書、2008年） 佐々木克 『坂本龍馬とその時代』（河出書房新社、2009年） 菊地明、伊東成郎、山村竜也 『坂本龍馬101の謎』（新人物往来社、2009年） 菊地明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か－幕末最大の謎を解く』（河出書房新社、2009年） 『坂本龍馬歴史大事典』（新人物往来社、2009年） 『坂本龍馬と海援隊』（新 ・ 歴史群像シリーズ 20）（学研パブリッシング、2009年） 『坂本龍馬伝』（新人物往来社、2009年） 『幕末土佐の群像』（学研パブリッシング、2009年） 山岡悦郎「薩長盟約と龍馬伝説」『人文論叢』第30巻、三重大学人文学部文化学科、2013年、107-122頁、NAID 120005228807。<br />松浦玲『検証 ・ 龍馬伝説』（論創社、2001年） 山本栄一郎『真説 ・ 薩長同盟』（文芸社、2001年） 黒鉄ヒロシ『坂本竜馬』（PHP研究所、2001年） 菊地明『坂本龍馬進化論』（新人物往来社、2002年） 家近良樹『孝明天皇と「一会桑」』（文春新書、2002年） 井上勝生『日本の歴史18. 開国と幕末変革』（講談社、2002年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮川禎一『龍馬を読む愉しさ』（臨川選書、2003年） 松岡司『定本坂本龍馬伝』（新人物往来社、2003年） 成田龍一『司馬遼太郎の幕末 ・ 明治』（朝日選書、2003年） 宮地佐一郎『龍馬の手紙』（講談社学術文庫、2003年） 福井市立郷土歴史博物館企画 ・ 制作 ・ 編集『天下の事成就せり - 福井藩と坂本龍馬 - 』（同館刊、2004年）<br />井上清「明治維新と中岡慎太郎－坂本龍馬とくらべて－」（北川村『明治維新と中岡慎太郎』1990年、『井上清史論集1明治維新』岩波現代文庫、2003年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">121</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『龍馬の手紙 坂本龍馬全書簡集 ・ 関係文書 ・ 詠草』、講談社〈講談社学術文庫〉、2003年12月、 ：上記2冊を増補</h2>
+              <p class="event-date">2003-12-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.77</li>
+            <li><strong>関係者:</strong> 解説, 関係文書, 詠草, 講談社</li>
+            
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『龍馬の手紙 坂本龍馬全書簡集 ・ 関係文書 ・ 詠草』、講談社〈講談社学術文庫〉、2003年12月、 ：上記2冊を増補。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">122</span>
+            <div>
+              <h2>松浦玲『検証 ・ 龍馬伝説』（論創社、2001年） 山本栄一郎『真説 ・ 薩長同盟』（文芸社、2001年） 黒鉄ヒロシ『坂本竜馬』（PHP研究所、2001年）…</h2>
+              <p class="event-date">2004-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 松浦玲, 検証, 龍馬伝説, 論創社, 真説</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 福井市, 京都, 幕府, 津</li>
+          </ul>
+          <p class="event-description">マツノ書店、2004年）<br />松浦玲『検証 ・ 龍馬伝説』（論創社、2001年） 山本栄一郎『真説 ・ 薩長同盟』（文芸社、2001年） 黒鉄ヒロシ『坂本竜馬』（PHP研究所、2001年） 菊地明『坂本龍馬進化論』（新人物往来社、2002年） 家近良樹『孝明天皇と「一会桑」』（文春新書、2002年） 井上勝生『日本の歴史18. 開国と幕末変革』（講談社、2002年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮川禎一『龍馬を読む愉しさ』（臨川選書、2003年） 松岡司『定本坂本龍馬伝』（新人物往来社、2003年） 成田龍一『司馬遼太郎の幕末 ・ 明治』（朝日選書、2003年） 宮地佐一郎『龍馬の手紙』（講談社学術文庫、2003年） 福井市立郷土歴史博物館企画 ・ 制作 ・ 編集『天下の事成就せり - 福井藩と坂本龍馬 - 』（同館刊、2004年）<br />菅宗次『龍馬と新選組』（講談社選書メチエ、2004年） 佐々木克『幕末政治と薩摩藩』（吉川弘文館、2004年） オンデマンド版 2022年 小椋克己 ・ 土居晴夫監修『図説坂本龍馬』（戎光祥出版、2005年） 京都国立博物館編『龍馬の翔けた時代』（京都新聞社、2005年）<br />高橋秀直「幕末史の中の薩長同盟」（『幕末から明治へ』同志社大学人文科学研究所、2004年）<br />北野雄士「横井小楠と坂本龍馬－その共通性と異質性－」（『大坂産業大学人間環境論集』3号、2004年）<br />田中彰「天保の青年たちの「明」と「暗」」（『歴史読本』49巻7号、2004年）<br />三野行徳「坂本竜馬と幕府浪士取立計画－杉浦梅潭文庫「浪士一件」の紹介を兼ねて－」（『歴史読本』49巻7号、2004年）<br />松下祐三「薩長商社計画の虚実」（『歴史読本』49巻7号、2004年）<br />前田宣裕「竜馬暗殺と会津藩」（『歴史読本』49巻7号、2004年）<br />井上勲「開国と幕末の動乱」（井上勲編『日本の時代史20 開国と幕末の動乱』吉川弘文館、2004年）<br />中城正堯「龍馬ゆかりの襖絵や宣長の短冊－『中城文庫』誕生の発端と内容」（『大平山』30号、2004年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">123</span>
+            <div>
+              <h2>菅宗次『龍馬と新選組』（講談社選書メチエ</h2>
+              <p class="event-date">2005-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.92</li>
+            <li><strong>関係者:</strong> 菅宗次, 小椋克己, 小林和幸, 駒沢史学, 高橋秀直</li>
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">菅宗次『龍馬と新選組』（講談社選書メチエ、2004年） 佐々木克『幕末政治と薩摩藩』（吉川弘文館、2004年） オンデマンド版 2022年 小椋克己 ・ 土居晴夫監修『図説坂本龍馬』（戎光祥出版、2005年） 京都国立博物館編『龍馬の翔けた時代』（京都新聞社、2005年）<br />小林和幸「谷干城の慶応三年」（『駒沢史学』64号、2005年）<br />高橋秀直「薩長同盟の展開－六ヶ条盟約の成立－」（『史林』452号、2005年、高橋秀直『幕末維新の政治と天皇』吉川弘文館、2007年に再録）<br />青山忠正「文久 ・ 元治年間の政局と龍馬」（京都国立博物館編『龍馬の翔けた時代』京都新聞社、2005年）<br />宮川禎一「坂本龍馬の生涯と書簡」（京都国立博物館編『龍馬の翔けた時代』、京都新聞社、2005年）<br />三浦夏樹「土佐と坂本龍馬」（京都国立博物館編『龍馬の翔けた時代』京都新聞社、2005年）<br />古城春樹「下関と坂本龍馬」（京都国立博物館編『龍馬の翔けた時代』京都新聞社、2005年）<br />青山忠正「龍馬は『暗殺』されたのか」（NHK学園機関紙『れきし』92号、2005年）<br />京都国立博物館 坂本龍馬特別展覧会2005年</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">124</span>
+            <div>
+              <h2>淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最…</h2>
+              <p class="event-date">2006-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 尾佐竹猛, 象山社, 河出文庫, 学而書院, 維新史</li>
+            <li><strong>場所:</strong> 高知, 武市, 木村, 松村, 寺村</li>
+          </ul>
+          <p class="event-description">尾佐竹猛『維新前後に於ける立憲思想』（文化生活研究会、1925年、のち、『尾佐竹猛全集.1』に収録、実業之日本社、1948年、『尾佐竹猛著作集9』に収録、ゆまに書房、2006年） 坂本中岡銅像建設会編『雋傑坂本龍馬』（坂本中岡銅像建設会事務所、1927年、象山社、1981年）<br />河出文庫、1990年） 尾佐竹猛『幕末維新の人物』（学而書院、1935年、『尾佐竹猛著作集.20』に収録、ゆまに書房、2006年） 維新史料編纂事務局編『維新史』全5巻（明治書院、1939〜1941年、吉川弘文館、1983年）<br />白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年、宗高書房、1978年、『尾佐竹猛著作集 16 ・ 17』に収む、ゆまに書房、2006年）<br />高知新聞社、1985年/1995年） 小西四郎『日本の歴史 19.開国と攘夷』（中央公論社、1966年、中公文庫、1974年. 文庫改版2006年。<br />淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最後の真実』（筑摩書房、1998年、ちくま文庫、2009年） 、 芳即正『坂本龍馬と薩長同盟』（髙城書房、1998年） 松岡司『中岡慎太郎伝』（新人物往来社、1999年） 小美濃清明『坂本龍馬 ・ 青春時代』（新人物往来社、1999年） 前田秀徳『龍馬からのメッセージ』（自費出版、2000年/発売: 南の風社）写真多数<br />青山忠正『明治維新の言語と史料』（清文堂出版、2006年） 土居晴夫『坂本龍馬の系譜』 （新人物往来社、2006年） 井上勝生『シリーズ日本近現代史幕末 ・ 維新』（岩波新書、2006年） 高橋秀直『幕末維新の政治と天皇』（吉川弘文館、2007年） 木村幸比古『龍馬暗殺の謎』（PHP新書、2007年） 松浦玲『坂本龍馬』 （岩波新書、2008年） 『坂本龍馬歴史大事典』（新人物往来社、2008年） 新 ・ 歴史群像シリーズ 20『坂本龍馬と海援隊』（学研パブリッシング、2009年） 佐々木克『坂本龍馬とその時代』河出書房新社、2009年12月10日。<br />松村巌「坂本龍馬」（『土佐史談』68号、1939年、『続新選組史料集』新人物往来社、2006年に再録）<br />青山忠正「土佐山内家重臣 ・ 寺村左膳 -薩土盟約と政権奉還建白-」（佐々木克編『それぞれの明治維新』吉川弘文館、2000年、青山忠正『明治維新の言語と史料』清文堂出版、2006年に再録）<br />青山忠正「文体と言語－坂本龍馬書簡を素材に－」（『佛教大学総合研究所紀要』8号、2001年、青山忠正『明治維新の言語と史料』清文堂出版、2006年に再録）<br />松岡司「坂本龍馬「京都日誌」」（『歴史読本』51巻7号、2006年）<br />大塚桂「大政奉還論 ・ 再考」（『駒澤法学』18 ・ 19号、2006年）<br />桐野作人「龍馬遭難事件の新視角－海援隊士 ・ 佐々木多門書状の再検討－第1回 ・ 第2回 ・ 最終回」（『歴史読本』51巻10号 ・ 51巻11号 ・ 51巻12号、2006年）<br />」（『新 ・ 歴史群像シリーズ維新創世 坂本龍馬』学習研究社、2006年）<br />濱口裕介「師とともに目指したアジア諸国共有海軍への夢」（『新 ・ 歴史群像シリーズ維新創世 坂本龍馬』学習研究社、2006年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">125</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術…</h2>
+              <p class="event-date">2007-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 解説, 坂本龍馬, 松浦玲, 岩波新書, 菊地明</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 山村, 下関市, 立長府, 木村</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術文庫、2003年） 鈴木かほる『史料が語る 坂本龍馬の妻お龍』（新人物往来社、2007年） 松浦玲 『坂本龍馬』（岩波新書、2008年） 佐々木克 『坂本龍馬とその時代』（河出書房新社、2009年） 菊地明、伊東成郎、山村竜也 『坂本龍馬101の謎』（新人物往来社、2009年） 菊地明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か－幕末最大の謎を解く』（河出書房新社、2009年） 『坂本龍馬歴史大事典』（新人物往来社、2009年） 『坂本龍馬と海援隊』（新 ・ 歴史群像シリーズ 20）（学研パブリッシング、2009年） 『坂本龍馬伝』（新人物往来社、2009年） 『幕末土佐の群像』（学研パブリッシング、2009年） 山岡悦郎「薩長盟約と龍馬伝説」『人文論叢』第30巻、三重大学人文学部文化学科、2013年、107-122頁、NAID 120005228807。<br />関家新助『近代日本の反権力思想』（法律文化社、1986年） 山田一郎『坂本龍馬 隠された肖像』（新潮社、1987年） 鹿野政直『「鳥島」は入っているか』（岩波書店、1988年） 小西四郎他編『坂本龍馬事典』（新人物往来社、1988年、コンパクト版、2007年） 、 山田一郎他『坂本龍馬 海援隊隊士列伝』（新人物往来社、1988年） 石井寛治『大系日本の歴史12 開国と維新』（小学館、1989年、小学館ライブラリー、1993年） 山田一郎『海援隊遺文』（新潮社、1991年） 井上勲『王政復古』（中公新書、1991年） 宮地佐一郎『龍馬百話』（文春文庫、1991年） 下関市立長府博物館編『坂本龍馬と下関』（下関市立長府博物館、1992年）<br />青山忠正『明治維新の言語と史料』（清文堂出版、2006年） 土居晴夫『坂本龍馬の系譜』 （新人物往来社、2006年） 井上勝生『シリーズ日本近現代史幕末 ・ 維新』（岩波新書、2006年） 高橋秀直『幕末維新の政治と天皇』（吉川弘文館、2007年） 木村幸比古『龍馬暗殺の謎』（PHP新書、2007年） 松浦玲『坂本龍馬』 （岩波新書、2008年） 『坂本龍馬歴史大事典』（新人物往来社、2008年） 新 ・ 歴史群像シリーズ 20『坂本龍馬と海援隊』（学研パブリッシング、2009年） 佐々木克『坂本龍馬とその時代』河出書房新社、2009年12月10日。<br />高橋秀直「「公議政体派」と薩摩倒幕派－王政復古クーデター再考－」（『京都大学文学部研究紀要』41号、2002年、高橋秀直『幕末維新の政治と天皇』吉川弘文館、2007年に再録）<br />高橋秀直「薩長同盟の展開－六ヶ条盟約の成立－」（『史林』452号、2005年、高橋秀直『幕末維新の政治と天皇』吉川弘文館、2007年に再録）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">126</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術…</h2>
+              <p class="event-date">2008-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 解説, 坂本龍馬, 松浦玲, 岩波新書, 菊地明</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 山村, 木村</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術文庫、2003年） 鈴木かほる『史料が語る 坂本龍馬の妻お龍』（新人物往来社、2007年） 松浦玲 『坂本龍馬』（岩波新書、2008年） 佐々木克 『坂本龍馬とその時代』（河出書房新社、2009年） 菊地明、伊東成郎、山村竜也 『坂本龍馬101の謎』（新人物往来社、2009年） 菊地明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か－幕末最大の謎を解く』（河出書房新社、2009年） 『坂本龍馬歴史大事典』（新人物往来社、2009年） 『坂本龍馬と海援隊』（新 ・ 歴史群像シリーズ 20）（学研パブリッシング、2009年） 『坂本龍馬伝』（新人物往来社、2009年） 『幕末土佐の群像』（学研パブリッシング、2009年） 山岡悦郎「薩長盟約と龍馬伝説」『人文論叢』第30巻、三重大学人文学部文化学科、2013年、107-122頁、NAID 120005228807。<br />青山忠正『明治維新の言語と史料』（清文堂出版、2006年） 土居晴夫『坂本龍馬の系譜』 （新人物往来社、2006年） 井上勝生『シリーズ日本近現代史幕末 ・ 維新』（岩波新書、2006年） 高橋秀直『幕末維新の政治と天皇』（吉川弘文館、2007年） 木村幸比古『龍馬暗殺の謎』（PHP新書、2007年） 松浦玲『坂本龍馬』 （岩波新書、2008年） 『坂本龍馬歴史大事典』（新人物往来社、2008年） 新 ・ 歴史群像シリーズ 20『坂本龍馬と海援隊』（学研パブリッシング、2009年） 佐々木克『坂本龍馬とその時代』河出書房新社、2009年12月10日。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">127</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術…</h2>
+              <p class="event-date">2009-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 解説, 坂本龍馬, 松浦玲, 岩波新書, 菊地明</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 山村, 平尾道, 武市, 木村</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術文庫、2003年） 鈴木かほる『史料が語る 坂本龍馬の妻お龍』（新人物往来社、2007年） 松浦玲 『坂本龍馬』（岩波新書、2008年） 佐々木克 『坂本龍馬とその時代』（河出書房新社、2009年） 菊地明、伊東成郎、山村竜也 『坂本龍馬101の謎』（新人物往来社、2009年） 菊地明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か－幕末最大の謎を解く』（河出書房新社、2009年） 『坂本龍馬歴史大事典』（新人物往来社、2009年） 『坂本龍馬と海援隊』（新 ・ 歴史群像シリーズ 20）（学研パブリッシング、2009年） 『坂本龍馬伝』（新人物往来社、2009年） 『幕末土佐の群像』（学研パブリッシング、2009年） 山岡悦郎「薩長盟約と龍馬伝説」『人文論叢』第30巻、三重大学人文学部文化学科、2013年、107-122頁、NAID 120005228807。<br />白柳秀湖『坂本龍馬』（平凡社「現代大衆文学全集 第二十巻」、1929年、作品社、2009年）<br />白竜社、1968年、中公文庫 1976年、新版2009年） 、 尾佐竹猛『明治維新』上 ・ 中 ・ 下の一 ・ 二（白揚社、1942〜1944年 ・ 1949年、宗高書房、1978年、『尾佐竹猛著作集 16 ・ 17』に収む、ゆまに書房、2006年）<br />池田敬正『坂本龍馬』 （中公新書、1965年） マリアス ・ ジャンセン『坂本龍馬と明治維新』（平尾道雄 ・ 浜田亀吉訳、時事通信社、1965年、新版1980年/2009年） 平尾道雄『土佐藩』（吉川弘文館、1965年、新装版1995年） 平尾道雄『龍馬のすべて』（久保書店、1966年。<br />松浦玲『勝海舟』（中公新書、1968年） 今井幸彦『坂本竜馬を斬った男』（新人物往来社、1971年、文庫版2009年） 石井孝『勝海舟』（吉川弘文館、1974年） 飛鳥井雅道『坂本龍馬』（平凡社、1975年。<br />尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（中公文庫、1977年、改版2010年） 嶋岡晨『龍馬追跡』（新人物往来社、1977年。<br />淡交社、2006年） 新人物往来社編『共同研究 ・ 坂本龍馬』（新人物往来社、1997年） 松岡司『武市半平太伝』（新人物往来社、1997年） 菊地明『龍馬 最後の真実』（筑摩書房、1998年、ちくま文庫、2009年） 、 芳即正『坂本龍馬と薩長同盟』（髙城書房、1998年） 松岡司『中岡慎太郎伝』（新人物往来社、1999年） 小美濃清明『坂本龍馬 ・ 青春時代』（新人物往来社、1999年） 前田秀徳『龍馬からのメッセージ』（自費出版、2000年/発売: 南の風社）写真多数<br />青山忠正『明治維新の言語と史料』（清文堂出版、2006年） 土居晴夫『坂本龍馬の系譜』 （新人物往来社、2006年） 井上勝生『シリーズ日本近現代史幕末 ・ 維新』（岩波新書、2006年） 高橋秀直『幕末維新の政治と天皇』（吉川弘文館、2007年） 木村幸比古『龍馬暗殺の謎』（PHP新書、2007年） 松浦玲『坂本龍馬』 （岩波新書、2008年） 『坂本龍馬歴史大事典』（新人物往来社、2008年） 新 ・ 歴史群像シリーズ 20『坂本龍馬と海援隊』（学研パブリッシング、2009年） 佐々木克『坂本龍馬とその時代』河出書房新社、2009年12月10日。<br />菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社、2009年） 菊池明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か』（河出書房新社、2009年） 北影雄幸『龍馬伝説』（桜の花出版、2009年） 星 亮一『坂本龍馬 その偽りと真実』 （静山社、2009年） 坂崎紫瀾『坂本龍馬伝 明治のベストセラー「汗血千里の駒」』（東邦出版、2010年） 磯田道史『龍馬史』（文藝春秋、2013年） 佐々木克『坂本龍馬と京都（人をあるく）』吉川弘文館 2013年 宮川禎一『坂本龍馬からの手紙』（教育評論社、2014年） 坂本登 ・ 三吉治敬他監修、森重和雄 ・ 倉持基編『坂本龍馬関係写真集』（国書刊行会、2014年） 小美濃清明『龍馬の遺言 近代国家への道筋』（藤原書店、2015年） 山村竜也『世界一よくわかる新選組』（祥伝社、2017年） 論文</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">128</span>
+            <div>
+              <h2>青山忠正『明治維新の言語と史料』（清文堂出版、2006年） 土居晴夫『坂本龍馬の系譜』 （新人物往来社、2006年） 井上勝生『シリーズ日本近現代史幕末 ・ 維…</h2>
+              <p class="event-date">2009-12-10</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 青山忠正, 土居晴夫, 井上勝生, 維新, 岩波新書</li>
+            <li><strong>場所:</strong> 木村</li>
+          </ul>
+          <p class="event-description">青山忠正『明治維新の言語と史料』（清文堂出版、2006年） 土居晴夫『坂本龍馬の系譜』 （新人物往来社、2006年） 井上勝生『シリーズ日本近現代史幕末 ・ 維新』（岩波新書、2006年） 高橋秀直『幕末維新の政治と天皇』（吉川弘文館、2007年） 木村幸比古『龍馬暗殺の謎』（PHP新書、2007年） 松浦玲『坂本龍馬』 （岩波新書、2008年） 『坂本龍馬歴史大事典』（新人物往来社、2008年） 新 ・ 歴史群像シリーズ 20『坂本龍馬と海援隊』（学研パブリッシング、2009年） 佐々木克『坂本龍馬とその時代』河出書房新社、2009年12月10日。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">129</span>
+            <div>
+              <h2>菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社</h2>
+              <p class="event-date">2010-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 尾崎秀樹, 勁草書房, 平尾道雄, 中公文庫, 嶋岡晨</li>
+            <li><strong>場所:</strong> 平尾道, 坂本龍馬と京都, 山村, 磯田道, 京都</li>
+          </ul>
+          <p class="event-description">尾崎秀樹『歴史文学論』（勁草書房、1976年） 平尾道雄『坂本龍馬海援隊始末記』（中公文庫、1975年、改版2009年） 平尾道雄『中岡慎太郎 陸援隊始末記』（中公文庫、1977年、改版2010年） 嶋岡晨『龍馬追跡』（新人物往来社、1977年。<br />菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社、2009年） 菊池明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か』（河出書房新社、2009年） 北影雄幸『龍馬伝説』（桜の花出版、2009年） 星 亮一『坂本龍馬 その偽りと真実』 （静山社、2009年） 坂崎紫瀾『坂本龍馬伝 明治のベストセラー「汗血千里の駒」』（東邦出版、2010年） 磯田道史『龍馬史』（文藝春秋、2013年） 佐々木克『坂本龍馬と京都（人をあるく）』吉川弘文館 2013年 宮川禎一『坂本龍馬からの手紙』（教育評論社、2014年） 坂本登 ・ 三吉治敬他監修、森重和雄 ・ 倉持基編『坂本龍馬関係写真集』（国書刊行会、2014年） 小美濃清明『龍馬の遺言 近代国家への道筋』（藤原書店、2015年） 山村竜也『世界一よくわかる新選組』（祥伝社、2017年） 論文</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">130</span>
+            <div>
+              <h2>宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術…</h2>
+              <p class="event-date">2013-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> culture</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 解説, 坂本龍馬, 松浦玲, 岩波新書, 菊地明</li>
+            <li><strong>場所:</strong> 飛鳥井雅道, 山村, 坂本龍馬と京都, 磯田道, 京都</li>
+          </ul>
+          <p class="event-description">宮地佐一郎編 ・ 解説 『坂本龍馬全集』（光風社出版、1988年） 飛鳥井雅道『坂本龍馬』（講談社学術文庫、2002年） 宮地佐一郎 『龍馬の手紙』（講談社学術文庫、2003年） 鈴木かほる『史料が語る 坂本龍馬の妻お龍』（新人物往来社、2007年） 松浦玲 『坂本龍馬』（岩波新書、2008年） 佐々木克 『坂本龍馬とその時代』（河出書房新社、2009年） 菊地明、伊東成郎、山村竜也 『坂本龍馬101の謎』（新人物往来社、2009年） 菊地明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か－幕末最大の謎を解く』（河出書房新社、2009年） 『坂本龍馬歴史大事典』（新人物往来社、2009年） 『坂本龍馬と海援隊』（新 ・ 歴史群像シリーズ 20）（学研パブリッシング、2009年） 『坂本龍馬伝』（新人物往来社、2009年） 『幕末土佐の群像』（学研パブリッシング、2009年） 山岡悦郎「薩長盟約と龍馬伝説」『人文論叢』第30巻、三重大学人文学部文化学科、2013年、107-122頁、NAID 120005228807。<br />菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社、2009年） 菊池明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か』（河出書房新社、2009年） 北影雄幸『龍馬伝説』（桜の花出版、2009年） 星 亮一『坂本龍馬 その偽りと真実』 （静山社、2009年） 坂崎紫瀾『坂本龍馬伝 明治のベストセラー「汗血千里の駒」』（東邦出版、2010年） 磯田道史『龍馬史』（文藝春秋、2013年） 佐々木克『坂本龍馬と京都（人をあるく）』吉川弘文館 2013年 宮川禎一『坂本龍馬からの手紙』（教育評論社、2014年） 坂本登 ・ 三吉治敬他監修、森重和雄 ・ 倉持基編『坂本龍馬関係写真集』（国書刊行会、2014年） 小美濃清明『龍馬の遺言 近代国家への道筋』（藤原書店、2015年） 山村竜也『世界一よくわかる新選組』（祥伝社、2017年） 論文</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">131</span>
+            <div>
+              <h2>菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社</h2>
+              <p class="event-date">2014-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 菊地明, 伊東成郎, 山村竜也, 菊池明, 龍馬暗殺</li>
+            <li><strong>場所:</strong> 坂本龍馬と京都, 山村, 磯田道, 京都</li>
+          </ul>
+          <p class="event-description">菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社、2009年） 菊池明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か』（河出書房新社、2009年） 北影雄幸『龍馬伝説』（桜の花出版、2009年） 星 亮一『坂本龍馬 その偽りと真実』 （静山社、2009年） 坂崎紫瀾『坂本龍馬伝 明治のベストセラー「汗血千里の駒」』（東邦出版、2010年） 磯田道史『龍馬史』（文藝春秋、2013年） 佐々木克『坂本龍馬と京都（人をあるく）』吉川弘文館 2013年 宮川禎一『坂本龍馬からの手紙』（教育評論社、2014年） 坂本登 ・ 三吉治敬他監修、森重和雄 ・ 倉持基編『坂本龍馬関係写真集』（国書刊行会、2014年） 小美濃清明『龍馬の遺言 近代国家への道筋』（藤原書店、2015年） 山村竜也『世界一よくわかる新選組』（祥伝社、2017年） 論文</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">132</span>
+            <div>
+              <h2>菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社</h2>
+              <p class="event-date">2015-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 菊地明, 伊東成郎, 山村竜也, 菊池明, 龍馬暗殺</li>
+            <li><strong>場所:</strong> 坂本龍馬と京都, 山村, 磯田道, 京都</li>
+          </ul>
+          <p class="event-description">菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社、2009年） 菊池明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か』（河出書房新社、2009年） 北影雄幸『龍馬伝説』（桜の花出版、2009年） 星 亮一『坂本龍馬 その偽りと真実』 （静山社、2009年） 坂崎紫瀾『坂本龍馬伝 明治のベストセラー「汗血千里の駒」』（東邦出版、2010年） 磯田道史『龍馬史』（文藝春秋、2013年） 佐々木克『坂本龍馬と京都（人をあるく）』吉川弘文館 2013年 宮川禎一『坂本龍馬からの手紙』（教育評論社、2014年） 坂本登 ・ 三吉治敬他監修、森重和雄 ・ 倉持基編『坂本龍馬関係写真集』（国書刊行会、2014年） 小美濃清明『龍馬の遺言 近代国家への道筋』（藤原書店、2015年） 山村竜也『世界一よくわかる新選組』（祥伝社、2017年） 論文</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">133</span>
+            <div>
+              <h2>菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社</h2>
+              <p class="event-date">2017-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 菊地明, 伊東成郎, 山村竜也, 菊池明, 龍馬暗殺</li>
+            <li><strong>場所:</strong> 坂本龍馬と京都, 山村, 磯田道, 京都</li>
+          </ul>
+          <p class="event-description">菊地明 ・ 伊東成郎 ・ 山村竜也『坂本龍馬101の謎』（新人物往来社、2009年） 菊池明『龍馬暗殺 最後の謎』（新人物往来社、2009年） 相川司『龍馬を殺したのは誰か』（河出書房新社、2009年） 北影雄幸『龍馬伝説』（桜の花出版、2009年） 星 亮一『坂本龍馬 その偽りと真実』 （静山社、2009年） 坂崎紫瀾『坂本龍馬伝 明治のベストセラー「汗血千里の駒」』（東邦出版、2010年） 磯田道史『龍馬史』（文藝春秋、2013年） 佐々木克『坂本龍馬と京都（人をあるく）』吉川弘文館 2013年 宮川禎一『坂本龍馬からの手紙』（教育評論社、2014年） 坂本登 ・ 三吉治敬他監修、森重和雄 ・ 倉持基編『坂本龍馬関係写真集』（国書刊行会、2014年） 小美濃清明『龍馬の遺言 近代国家への道筋』（藤原書店、2015年） 山村竜也『世界一よくわかる新選組』（祥伝社、2017年） 論文</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">134</span>
+            <div>
+              <h2>菅宗次『龍馬と新選組』（講談社選書メチエ</h2>
+              <p class="event-date">2022-01-01</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.92</li>
+            <li><strong>関係者:</strong> 菅宗次, 小椋克己</li>
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">菅宗次『龍馬と新選組』（講談社選書メチエ、2004年） 佐々木克『幕末政治と薩摩藩』（吉川弘文館、2004年） オンデマンド版 2022年 小椋克己 ・ 土居晴夫監修『図説坂本龍馬』（戎光祥出版、2005年） 京都国立博物館編『龍馬の翔けた時代』（京都新聞社、2005年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">135</span>
+            <div>
+              <h2>佐々木克『坂本龍馬とその時代』吉川弘文館〈読みなおす日本史〉、2022年2月10日</h2>
+              <p class="event-date">2022-02-10</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.49</li>
+            
+            
+          </ul>
+          <p class="event-description">佐々木克『坂本龍馬とその時代』吉川弘文館〈読みなおす日本史〉、2022年2月10日。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">136</span>
+            <div>
+              <h2>文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文…</h2>
+              <p class="event-date">元年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 安政元年, 文久元年, 剣術詮議, 剣術修行, 草莽崛起</li>
+            <li><strong>場所:</strong> 井口村, 武市, 神戸</li>
+          </ul>
+          <p class="event-description">安政元年（1854年）6月23日、龍馬は15か月の江戸修行を終えて土佐へ帰国した。<br />文久元年（1861年）3月、土佐で井口村刃傷事件（永福寺事件）が起こり、下士と上士の間で対立が深まった。<br />文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文久2年（1862年）1月に長州萩を訪れ、長州藩における尊王運動の主要人物である久坂玄瑞と面会し、久坂から「草莽崛起、糾合義挙」を促す武市宛の書簡を託されている。<br />土佐では9月に武市半平太が投獄され、土佐勤王党は壊滅状態に陥っていた（武市は1年半の入牢後の慶応元年閏5月に切腹となっている）。<br />翌元治元年（1864年）2月に前年に申請した帰国延期申請が拒否されると、龍馬は海軍操練所設立の仕事を続けるために再び藩に拘束されることを好まず、藩命を無視して帰国を拒絶して再度の脱藩をする。<br />慶応元年（1865年）3月12日に神戸海軍操練所は廃止になった。<br />龍馬ら塾生の庇護を引き受けた薩摩藩は彼らの航海術の専門知識を重視しており、五代友厚らは慶応元年（1865年）5月頃に龍馬らに出資した（亀山社中）。<br />長州藩では前年の元治元年（1864年）12月に高杉晋作が挙兵し、恭順派政権を倒して再び尊攘派が政権を掌握していた（功山寺挙兵）。<br />慶応元年（1865年）5月、まず土方と龍馬が協同して桂を説諭し、下関で薩摩の西郷隆盛と会談することを承服させる。<br />塩見薫「坂本龍馬の元治元年-薩摩藩への結びつきを中心に-」（『日本歴史』108号、1957年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">137</span>
+            <div>
+              <h2>同年7月、龍馬は再度の江戸剣術修行を申請して8月に藩から1年間の修業が許され、9月に江戸に到着し、大石弥太郎 ・ 龍馬と親戚で土佐勤王党を結成した武市半平太らと…</h2>
+              <p class="event-date">1年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.73</li>
+            
+            <li><strong>場所:</strong> 武市</li>
+          </ul>
+          <p class="event-description">武術で小栗流目録を得た嘉永6年（1853年）、龍馬は武術修行のための1年間の江戸自費遊学を藩に願い出て許された。<br />同年7月、龍馬は再度の江戸剣術修行を申請して8月に藩から1年間の修業が許され、9月に江戸に到着し、大石弥太郎 ・ 龍馬と親戚で土佐勤王党を結成した武市半平太らとともに築地の土佐藩邸中屋敷に寄宿した。<br />土佐では9月に武市半平太が投獄され、土佐勤王党は壊滅状態に陥っていた（武市は1年半の入牢後の慶応元年閏5月に切腹となっている）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">138</span>
+            <div>
+              <h2>更に一年滞在延期の許可を得たとかで引き続いて道場に滞在し、父は坂本さんを塾頭に任じ、翌五年一月北辰一刀流目録を与えましたが、坂本さんは目録の中に私たち三姉妹の名…</h2>
+              <p class="event-date">一年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            
+          </ul>
+          <p class="event-description">安政4年（1857年）に藩に一年の修行延長を願い出て許された。<br />同年8月、盗みを働き切腹沙汰となった従兄弟同士にあたり、のちに日本ハリストス正教会の最初の日本人司祭になる山本琢磨を逃がす。<br />更に一年滞在延期の許可を得たとかで引き続いて道場に滞在し、父は坂本さんを塾頭に任じ、翌五年一月北辰一刀流目録を与えましたが、坂本さんは目録の中に私たち三姉妹の名も書き込む様に頼んでおりました。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">139</span>
+            <div>
+              <h2>慶応2年（1866年）1月8日、小松帯刀の京都屋敷において、桂と西郷の会談が開かれた</h2>
+              <p class="event-date">1月8日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.54</li>
+            
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">慶応2年（1866年）1月8日、小松帯刀の京都屋敷において、桂と西郷の会談が開かれた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">140</span>
+            <div>
+              <h2>航海と通商の専門技術があり、薩長とも関係の深い龍馬に注目した土佐藩は11月頃から溝淵広之丞を介して龍馬と接触を取り、翌慶応3年（1867年）1月13日に龍馬と後…</h2>
+              <p class="event-date">1月13日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> science</li>
+            <li><strong>重要度:</strong> 0.66</li>
+            
+            
+          </ul>
+          <p class="event-description">航海と通商の専門技術があり、薩長とも関係の深い龍馬に注目した土佐藩は11月頃から溝淵広之丞を介して龍馬と接触を取り、翌慶応3年（1867年）1月13日に龍馬と後藤が会談した（清風亭会談）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">141</span>
+            <div>
+              <h2>龍馬不在の長崎の亀山社中では、1月14日にユニオン号購入で活躍した近藤長次郎（上杉宗次郎）が独断で英国留学を企てて露見し、自刃させられる事件が起きていた</h2>
+              <p class="event-date">1月14日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.66</li>
+            
+            <li><strong>場所:</strong> 長崎</li>
+          </ul>
+          <p class="event-description">龍馬不在の長崎の亀山社中では、1月14日にユニオン号購入で活躍した近藤長次郎（上杉宗次郎）が独断で英国留学を企てて露見し、自刃させられる事件が起きていた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">142</span>
+            <div>
+              <h2>龍馬が1月20日に下関から 京都に到着すると未だ盟約が成立していないことに驚愕し、桂に問いただしたところ、長州はこれ以上頭を下げられないと答えた</h2>
+              <p class="event-date">1月20日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.64</li>
+            
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">龍馬が1月20日に下関から 京都に到着すると未だ盟約が成立していないことに驚愕し、桂に問いただしたところ、長州はこれ以上頭を下げられないと答えた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">143</span>
+            <div>
+              <h2>薩摩側が桂の帰藩を止め、1月22日、薩摩側からの6か条の条文が提示された</h2>
+              <p class="event-date">1月22日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.48</li>
+            
+            
+          </ul>
+          <p class="event-description">しかし薩摩側が桂の帰藩を止め、1月22日、薩摩側からの6か条の条文が提示された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">144</span>
+            <div>
+              <h2>盟約成立から程ない1月23日、龍馬は護衛役の長府藩士 ・ 三吉慎蔵と投宿していた伏見の寺田屋へ戻り祝杯を挙げた</h2>
+              <p class="event-date">1月23日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.59</li>
+            
+            <li><strong>場所:</strong> 長府</li>
+          </ul>
+          <p class="event-description">盟約成立から程ない1月23日、龍馬は護衛役の長府藩士 ・ 三吉慎蔵と投宿していた伏見の寺田屋へ戻り祝杯を挙げた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">145</span>
+            <div>
+              <h2>龍馬の変名としては、慶応2年（1866年）11月16日付で溝淵広之丞に宛てた手紙に、初めて記された「才谷梅太郎（さいたに うめたろう）」とあるが、慶応元年9月9…</h2>
+              <p class="event-date">元年9月9日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            
+            
+          </ul>
+          <p class="event-description">龍馬の変名としては、慶応2年（1866年）11月16日付で溝淵広之丞に宛てた手紙に、初めて記された「才谷梅太郎（さいたに うめたろう）」とあるが、慶応元年9月9日付で乙女とおやべに宛てた手紙には「西郷伊三郎」と名乗っていることが記されている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">146</span>
+            <div>
+              <h2>文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文…</h2>
+              <p class="event-date">2年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.98</li>
+            <li><strong>関係者:</strong> 文久元年, 剣術詮議, 剣術修行, 草莽崛起, 糾合義挙</li>
+            <li><strong>場所:</strong> 武市, 沢村, 小千葉道, 千葉, 京都</li>
+          </ul>
+          <p class="event-description">安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した。<br />文久元年（1861年）10月、日根野弁治から小栗流皆伝目録「小栗流和兵法三箇條」 を授かったあとに、龍馬は丸亀藩への「剣術詮議」（剣術修行）の名目で土佐を出て文久2年（1862年）1月に長州萩を訪れ、長州藩における尊王運動の主要人物である久坂玄瑞と面会し、久坂から「草莽崛起、糾合義挙」を促す武市宛の書簡を託されている。<br />龍馬の脱藩は文久2年（1862年）3月24日のことで、当時既に脱藩していた沢村惣之丞や、那須信吾（のちに吉田東洋を暗殺して脱藩し天誅組の変に参加）の助けを受けて土佐を抜け出した 龍馬が脱藩を決意すると、兄 ・ 権平は彼の異状に気づいて強く警戒し、身内や親戚友人に龍馬の挙動に特別に注意することを要求し、龍馬の佩刀を全て取り上げてしまった。<br />龍馬は文久2年（1862年）8月に江戸に到着して小千葉道場に寄宿した。<br />慶応2年（1866年）1月8日、小松帯刀の京都屋敷において、桂と西郷の会談が開かれた。<br />慶応2年（1866年）7月28日付の三吉慎蔵宛の手紙で龍馬は「水夫たちに暇を出したが、大方は離れようとしない」と窮状を伝えている。<br />亀山社中創設後に薩摩藩小松帯刀の支援で洋帆船「ワイルウェフ号」を購入したが、1866年（慶応2年）5月2日に暴風雨により沈没し、社中のメンバー12人も遭難死してしまう。<br />龍馬の変名としては、慶応2年（1866年）11月16日付で溝淵広之丞に宛てた手紙に、初めて記された「才谷梅太郎（さいたに うめたろう）」とあるが、慶応元年9月9日付で乙女とおやべに宛てた手紙には「西郷伊三郎」と名乗っていることが記されている。<br />龍馬の性格を鮮やかに描写している逸話として有名だが、当事者の檜垣清治は文久2年（1862年）に人を殺めて投獄され、維新後に赦免されるまで獄中にあり、龍馬と再会することはなく、大正3年（1914年）に著された千頭清臣『坂本龍馬』における創作である。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">147</span>
+            <div>
+              <h2>海舟は前年5月から続いている長州藩による関門海峡封鎖の調停のために長崎出張の命令を受け、龍馬もこれに同行した</h2>
+              <p class="event-date">2月9日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.6</li>
+            
+            <li><strong>場所:</strong> 長崎</li>
+          </ul>
+          <p class="event-description">2月9日、海舟は前年5月から続いている長州藩による関門海峡封鎖の調停のために長崎出張の命令を受け、龍馬もこれに同行した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">148</span>
+            <div>
+              <h2>勝海舟は山内容堂に取りなして、文久3年（1863年）2月25日に龍馬の脱藩の罪は赦免され、さらに土佐藩士が海舟の私塾に入門することを追認した</h2>
+              <p class="event-date">2月25日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 0.59</li>
+            
+            
+          </ul>
+          <p class="event-description">勝海舟は山内容堂に取りなして、文久3年（1863年）2月25日に龍馬の脱藩の罪は赦免され、さらに土佐藩士が海舟の私塾に入門することを追認した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">149</span>
+            <div>
+              <h2>西郷の勧めにより、刀傷の治療のために薩摩の霧島温泉で療養することを決めた龍馬は、2月29日に薩摩藩船 ・ 三邦丸に便乗してお龍を伴い京都を出立した</h2>
+              <p class="event-date">2月29日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> health</li>
+            <li><strong>重要度:</strong> 0.65</li>
+            
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">西郷の勧めにより、刀傷の治療のために薩摩の霧島温泉で療養することを決めた龍馬は、2月29日に薩摩藩船 ・ 三邦丸に便乗してお龍を伴い京都を出立した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">150</span>
+            <div>
+              <h2>龍馬は大洲藩籍の蒸気船いろは丸を1航海500両で契約して運用していたが、1867年（慶応3年）4月23日の晩、瀬戸内海中部の備後国鞆の浦沖ではるかに大型の紀州藩…</h2>
+              <p class="event-date">3年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.77</li>
+            <li><strong>関係者:</strong> 明光丸, 自然堂, 吉行</li>
+            <li><strong>場所:</strong> 長崎</li>
+          </ul>
+          <p class="event-description">安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した。<br />勝海舟は山内容堂に取りなして、文久3年（1863年）2月25日に龍馬の脱藩の罪は赦免され、さらに土佐藩士が海舟の私塾に入門することを追認した。<br />航海と通商の専門技術があり、薩長とも関係の深い龍馬に注目した土佐藩は11月頃から溝淵広之丞を介して龍馬と接触を取り、翌慶応3年（1867年）1月13日に龍馬と後藤が会談した（清風亭会談）。<br />龍馬は大洲藩籍の蒸気船いろは丸を1航海500両で契約して運用していたが、1867年（慶応3年）4月23日の晩、瀬戸内海中部の備後国鞆の浦沖ではるかに大型の紀州藩船「明光丸」と衝突し、大きく損傷して沈没してしまった。<br />1867年（慶応3年）11月10日、死の直前の林謙三宛ての手紙は大極丸のことが述べられていた。<br />なお、これは変名ではないが、慶応3年（1867年）11月13日付と推定される陸奥宗光に宛てた手紙では、「自然堂（じねんどう）」の号を署名している。<br />彼が兄 ・ 権平に求めた先祖伝来の一品で、慶応3年（1867年）2月、山内容堂に会見するため土佐を訪れた西郷隆盛に「吉行」の刀をことづけ、3月中旬ごろ長崎の龍馬のもとに届いた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">151</span>
+            <div>
+              <h2>小林和幸「谷干城の慶応三年」（『駒沢史学』64号</h2>
+              <p class="event-date">三年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.57</li>
+            <li><strong>関係者:</strong> 小林和幸, 駒沢史学</li>
+            
+          </ul>
+          <p class="event-description">小林和幸「谷干城の慶応三年」（『駒沢史学』64号、2005年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">152</span>
+            <div>
+              <h2>安政7年（1860年）3月3日、井伊直弼が江戸城へ登城途中の桜田門外で水戸脱藩浪士らの襲撃を受けて暗殺される（桜田門外の変）</h2>
+              <p class="event-date">3月3日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            <li><strong>場所:</strong> 水戸, 武市, 島村</li>
+          </ul>
+          <p class="event-description">安政7年（1860年）3月3日、井伊直弼が江戸城へ登城途中の桜田門外で水戸脱藩浪士らの襲撃を受けて暗殺される（桜田門外の変）。<br />同年7月、龍馬の朋友であり、親戚でもある武市半平太が、武者修行のために門人の岡田以蔵、久松喜代馬、島村外内らとともに土佐を出立した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">153</span>
+            <div>
+              <h2>に薩摩に到着し、83日間逗留した</h2>
+              <p class="event-date">3月10日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.42</li>
+            
+            
+          </ul>
+          <p class="event-description">3月10日に薩摩に到着し、83日間逗留した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">154</span>
+            <div>
+              <h2>慶応元年（1865年）3月12日に神戸海軍操練所は廃止になった</h2>
+              <p class="event-date">3月12日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.57</li>
+            <li><strong>関係者:</strong> 慶応元年</li>
+            <li><strong>場所:</strong> 神戸</li>
+          </ul>
+          <p class="event-description">慶応元年（1865年）3月12日に神戸海軍操練所は廃止になった。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">155</span>
+            <div>
+              <h2>このため、第二次長州征伐は立ち消えとなり、勝海舟が長州藩と談判を行い9月19日に幕府軍は撤兵した（小倉口では交戦が続き和議が成立したのは翌慶応3年1月23日）</h2>
+              <p class="event-date">3年1月23日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            <li><strong>場所:</strong> 幕府</li>
+          </ul>
+          <p class="event-description">このため、第二次長州征伐は立ち消えとなり、勝海舟が長州藩と談判を行い9月19日に幕府軍は撤兵した（小倉口では交戦が続き和議が成立したのは翌慶応3年1月23日）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">156</span>
+            <div>
+              <h2>龍馬の脱藩は文久2年（1862年）3月24日のことで、当時既に脱藩していた沢村惣之丞や、那須信吾（のちに吉田東洋を暗殺して脱藩し天誅組の変に参加）の助けを受けて…</h2>
+              <p class="event-date">3月24日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.86</li>
+            <li><strong>関係者:</strong> 那須信吾</li>
+            <li><strong>場所:</strong> 沢村</li>
+          </ul>
+          <p class="event-description">龍馬の脱藩は文久2年（1862年）3月24日のことで、当時既に脱藩していた沢村惣之丞や、那須信吾（のちに吉田東洋を暗殺して脱藩し天誅組の変に参加）の助けを受けて土佐を抜け出した 龍馬が脱藩を決意すると、兄 ・ 権平は彼の異状に気づいて強く警戒し、身内や親戚友人に龍馬の挙動に特別に注意することを要求し、龍馬の佩刀を全て取り上げてしまった。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">157</span>
+            <div>
+              <h2>慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之…</h2>
+              <p class="event-date">3年5月</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.9</li>
+            <li><strong>関係者:</strong> 近安楼, エヘンエヘン, 通称</li>
+            <li><strong>場所:</strong> 京都, 福岡, 広島</li>
+          </ul>
+          <p class="event-description">慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之助らとともに中岡と会見して武力討幕を議した。<br />姉 ・ 乙女に宛てた手紙には文久3年5月の手紙のように「勝海舟の門弟になったこと」を「エヘンエヘン（咳ではなく「偉いだろう」の意）」とユーモラスに自慢しているものがあり、龍馬の暖かい人間性をほうふつとさせている。<br />その後も乙女には詳しく自分の行動を報告する習慣があったようだ。<br />なお、通称「エヘンの手紙」と呼ばれる文久3年5月の手紙は、龍馬の亡き後、元宮内大臣だった田中光顕の手に渡り、昭和3年の昭和天皇即位の御物として献上され、天皇が崩御した後は国へ寄贈された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">158</span>
+            <div>
+              <h2>慶応3年6月（1867年7月）、龍馬の提示を受けた後藤はただちに京都へ出向し、建白書の形式で山内容堂へ上書しようとしたが、これより1ヶ月前の5月21日の時点で既…</h2>
+              <p class="event-date">3年6月</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.92</li>
+            <li><strong>関係者:</strong> 毛利恭助, 吉井友実</li>
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">慶応3年6月（1867年7月）、龍馬の提示を受けた後藤はただちに京都へ出向し、建白書の形式で山内容堂へ上書しようとしたが、これより1ヶ月前の5月21日の時点で既に中岡慎太郎の仲介によって乾退助、毛利恭助、谷干城らが薩摩藩の西郷隆盛、吉井友実、小松帯刀らと薩土討幕の密約を結び、翌日容堂はこれを承認したうえで、乾らとともに大坂で武器300挺の買い付けを指示して土佐に帰藩していた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">159</span>
+            <div>
+              <h2>いろは丸事件の談判を終えた龍馬と後藤象二郎は慶応3年6月9日(1867年7月10日)に藩船「夕顔」に乗船して長崎を発ち、兵庫へ向かった</h2>
+              <p class="event-date">3年6月9日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.69</li>
+            <li><strong>関係者:</strong> 夕顔</li>
+            <li><strong>場所:</strong> 長崎</li>
+          </ul>
+          <p class="event-description">いろは丸事件の談判を終えた龍馬と後藤象二郎は慶応3年6月9日(1867年7月10日)に藩船「夕顔」に乗船して長崎を発ち、兵庫へ向かった。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">160</span>
+            <div>
+              <h2>坂本さんは翌年六月には帰国し、安政三年八月再び私の道場に参り修行に打ち込んでおりました</h2>
+              <p class="event-date">三年八月</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.5</li>
+            
+            
+          </ul>
+          <p class="event-description">坂本さんは翌年六月には帰国し、安政三年八月再び私の道場に参り修行に打ち込んでおりました。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">161</span>
+            <div>
+              <h2>慶応3年9月6日(1867年10月3日)、大監察に復職した退助は薩土討幕の密約をもとに藩内で武力討幕論を推し進め、佐々木高行らと藩庁を動かし、土佐勤王党弾圧で投…</h2>
+              <p class="event-date">3年9月6日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.78</li>
+            
+            <li><strong>場所:</strong> 島村</li>
+          </ul>
+          <p class="event-description">慶応3年9月6日(1867年10月3日)、大監察に復職した退助は薩土討幕の密約をもとに藩内で武力討幕論を推し進め、佐々木高行らと藩庁を動かし、土佐勤王党弾圧で投獄されていた島村寿之助、安岡覚之助ら旧土佐勤王党員らを釈放させた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">162</span>
+            <div>
+              <h2>後藤象二郎の依頼で、慶応3年10月24日に山内容堂の書状を持って越前福井藩へ出向き、松平春嶽の上京を促して三岡八郎（由利公正）と会談したあと、11月5日に帰京し…</h2>
+              <p class="event-date">3年10月24日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.73</li>
+            <li><strong>関係者:</strong> 由利公正</li>
+            <li><strong>場所:</strong> 福井</li>
+          </ul>
+          <p class="event-description">後藤象二郎の依頼で、慶応3年10月24日に山内容堂の書状を持って越前福井藩へ出向き、松平春嶽の上京を促して三岡八郎（由利公正）と会談したあと、11月5日に帰京した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">163</span>
+            <div>
+              <h2>坂本 龍馬（さかもと りょうま、天保6年11月15日〈1836年1月3日〉- 慶応3年11月15日〈1867年12月10日〉）は、日本の幕末の土佐藩士、志士、経…</h2>
+              <p class="event-date">3年11月15日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.81</li>
+            <li><strong>関係者:</strong> 坂本, 龍馬, 志士, 経営者</li>
+            <li><strong>場所:</strong> 京都河原町, 京都, 河原町</li>
+          </ul>
+          <p class="event-description">坂本 龍馬（さかもと りょうま、天保6年11月15日〈1836年1月3日〉- 慶応3年11月15日〈1867年12月10日〉）は、日本の幕末の土佐藩士、志士、経営者。<br />大政奉還成立後の慶応3年11月15日（1867年12月10日）に京都河原町通蛸薬師下ルの近江屋において暗殺された。<br />慶応3年11月15日（1867年12月10日）、龍馬は宿にしていた河原町の蛸薬師で醤油商を営む近江屋新助宅母屋の二階にいた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">164</span>
+            <div>
+              <h2>（近江屋養女）すみ「慶応三年十一月十五日でした</h2>
+              <p class="event-date">三年十一月十五日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.43</li>
+            
+            
+          </ul>
+          <p class="event-description">（近江屋養女）すみ「慶応三年十一月十五日でした。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">165</span>
+            <div>
+              <h2>私は心を定めて良い縁談も断り</h2>
+              <p class="event-date">三年十二月三十一</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            
+            <li><strong>場所:</strong> 十五日京都, 京都</li>
+          </ul>
+          <p class="event-description">私は心を定めて良い縁談も断り、唯ひたすら坂本さんを待ちましたが、忘れもしない慶応三年十二月三十一歳になっていた私は坂本さんが十一月十五日京都で暗殺されたことを知らされました」</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">166</span>
+            <div>
+              <h2>慶応4年（1868年）4月、下総国流山で出頭して捕縛された新選組局長の近藤勇は、部隊の小監察であった土佐藩士 ・ 谷干城の強い主張によって斬首に処された</h2>
+              <p class="event-date">4年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.61</li>
+            
+            
+          </ul>
+          <p class="event-description">安政4年（1857年）に藩に一年の修行延長を願い出て許された。<br />慶応4年（1868年）4月、下総国流山で出頭して捕縛された新選組局長の近藤勇は、部隊の小監察であった土佐藩士 ・ 谷干城の強い主張によって斬首に処された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">167</span>
+            <div>
+              <h2>土佐では吉田東洋が4月8日に暗殺され（勤王党の犯行とされる）、武市が藩論の転換に成功して藩主の上洛を促していた</h2>
+              <p class="event-date">4月8日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.66</li>
+            <li><strong>関係者:</strong> 一方</li>
+            <li><strong>場所:</strong> 武市</li>
+          </ul>
+          <p class="event-description">一方、土佐では吉田東洋が4月8日に暗殺され（勤王党の犯行とされる）、武市が藩論の転換に成功して藩主の上洛を促していた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">168</span>
+            <div>
+              <h2>尊攘派志士の期待と異なり、島津久光の真意はあくまでも公武合体であり、尊攘派藩士の動きを知った久光は驚愕して鎮撫を命じ、4月23日に寺田屋騒動が起こり薩摩藩尊攘派…</h2>
+              <p class="event-date">4月23日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.78</li>
+            <li><strong>関係者:</strong> 順動丸, 明光丸</li>
+            <li><strong>場所:</strong> 津, 神戸</li>
+          </ul>
+          <p class="event-description">尊攘派志士の期待と異なり、島津久光の真意はあくまでも公武合体であり、尊攘派藩士の動きを知った久光は驚愕して鎮撫を命じ、4月23日に寺田屋騒動が起こり薩摩藩尊攘派は粛清、伏見で義挙を起こそうという各地の尊皇攘夷派の計画も潰えた。<br />4月23日、14代将軍 ・ 徳川家茂が軍艦「順動丸」に乗艦のあと、「神戸海軍操練所」設立の許可を受け同時に海舟の私塾（神戸海軍塾）開設も認められた。<br />龍馬は大洲藩籍の蒸気船いろは丸を1航海500両で契約して運用していたが、1867年（慶応3年）4月23日の晩、瀬戸内海中部の備後国鞆の浦沖ではるかに大型の紀州藩船「明光丸」と衝突し、大きく損傷して沈没してしまった。<br />その後減額して70,000両になった。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">169</span>
+            <div>
+              <h2>薩摩藩からの要請に応えて長州から兵糧500俵を積んだユニオン号が鹿児島に入港したが、この航海で薩摩藩から供与された帆船ワイル ・ ウエフ号が遭難沈没し、土佐脱藩…</h2>
+              <p class="event-date">5月1日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.8</li>
+            
+            <li><strong>場所:</strong> 入港, 鹿児島</li>
+          </ul>
+          <p class="event-description">5月1日、薩摩藩からの要請に応えて長州から兵糧500俵を積んだユニオン号が鹿児島に入港したが、この航海で薩摩藩から供与された帆船ワイル ・ ウエフ号が遭難沈没し、土佐脱藩の池内蔵太ら12名が犠牲になってしまった。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">170</span>
+            <div>
+              <h2>更に一年滞在延期の許可を得たとかで引き続いて道場に滞在し、父は坂本さんを塾頭に任じ、翌五年一月北辰一刀流目録を与えましたが、坂本さんは目録の中に私たち三姉妹の名…</h2>
+              <p class="event-date">五年一月</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            
+          </ul>
+          <p class="event-description">更に一年滞在延期の許可を得たとかで引き続いて道場に滞在し、父は坂本さんを塾頭に任じ、翌五年一月北辰一刀流目録を与えましたが、坂本さんは目録の中に私たち三姉妹の名も書き込む様に頼んでおりました。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">171</span>
+            <div>
+              <h2>安政5年（1858年）4月に井伊直弼が幕府大老に就任すると、幕府は一橋派を退けて徳川慶福（家茂）を将軍継嗣に定め、開国を強行して反対派の弾圧に乗り出した（安政の…</h2>
+              <p class="event-date">5年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            <li><strong>関係者:</strong> 家茂</li>
+            <li><strong>場所:</strong> 千葉, 幕府, 長崎</li>
+          </ul>
+          <p class="event-description">安政5年（1858年）1月、師匠の千葉定吉から「北辰一刀流長刀兵法目録」を授けられる。<br />しかし、安政5年（1858年）4月に井伊直弼が幕府大老に就任すると、幕府は一橋派を退けて徳川慶福（家茂）を将軍継嗣に定め、開国を強行して反対派の弾圧に乗り出した（安政の大獄）。<br />これらの動きに呼応し、イカロス号事件の処理を終えた龍馬は、新式小銃1,000挺あまりを船に積んで長崎から土佐へ運び、9月23日、5年半ぶりに故郷の土を踏み家族と再会した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">172</span>
+            <div>
+              <h2>亀山社中創設後に薩摩藩小松帯刀の支援で洋帆船「ワイルウェフ号」を購入したが、1866年（慶応2年）5月2日に暴風雨により沈没し、社中のメンバー12人も遭難死して…</h2>
+              <p class="event-date">5月2日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            
+            
+          </ul>
+          <p class="event-description">亀山社中創設後に薩摩藩小松帯刀の支援で洋帆船「ワイルウェフ号」を購入したが、1866年（慶応2年）5月2日に暴風雨により沈没し、社中のメンバー12人も遭難死してしまう。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">173</span>
+            <div>
+              <h2>海舟が正規の軍艦奉行に昇進して神戸海軍操練所が発足した</h2>
+              <p class="event-date">5月14日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.51</li>
+            
+            <li><strong>場所:</strong> 神戸</li>
+          </ul>
+          <p class="event-description">5月14日、海舟が正規の軍艦奉行に昇進して神戸海軍操練所が発足した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">174</span>
+            <div>
+              <h2>付の姉 ・ 乙女への手紙で「この頃は軍学者勝麟太郎大先生の門人になり、ことの外かわいがられ候…すこしエヘンに顔をし、ひそかにおり申し候</h2>
+              <p class="event-date">5月17日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.59</li>
+            
+            
+          </ul>
+          <p class="event-description">5月17日付の姉 ・ 乙女への手紙で「この頃は軍学者勝麟太郎大先生の門人になり、ことの外かわいがられ候…すこしエヘンに顔をし、ひそかにおり申し候。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">175</span>
+            <div>
+              <h2>慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之…</h2>
+              <p class="event-date">5月18日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.9</li>
+            <li><strong>関係者:</strong> 近安楼</li>
+            <li><strong>場所:</strong> 京都, 福岡, 広島</li>
+          </ul>
+          <p class="event-description">慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之助らとともに中岡と会見して武力討幕を議した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">176</span>
+            <div>
+              <h2>慶応3年6月（1867年7月）、龍馬の提示を受けた後藤はただちに京都へ出向し、建白書の形式で山内容堂へ上書しようとしたが、これより1ヶ月前の5月21日の時点で既…</h2>
+              <p class="event-date">5月21日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.92</li>
+            <li><strong>関係者:</strong> 毛利恭助, 吉井友実</li>
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">同年閏5月21日、龍馬と桂は下関で西郷の到来を待ったが、「茫然と」した中岡が漁船に乗って現れただけであった。<br />さらに5月21日(太陽暦6月23日)、中岡慎太郎が仲介して退助を薩摩の西郷隆盛に会わせることとなり、中岡は以下の手紙を書いた。<br />慶応3年6月（1867年7月）、龍馬の提示を受けた後藤はただちに京都へ出向し、建白書の形式で山内容堂へ上書しようとしたが、これより1ヶ月前の5月21日の時点で既に中岡慎太郎の仲介によって乾退助、毛利恭助、谷干城らが薩摩藩の西郷隆盛、吉井友実、小松帯刀らと薩土討幕の密約を結び、翌日容堂はこれを承認したうえで、乾らとともに大坂で武器300挺の買い付けを指示して土佐に帰藩していた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">177</span>
+            <div>
+              <h2>翌日5月22日（太陽暦6月24日）、退助は山内容堂へ拝謁して、時勢が武力討幕へ向かっていることを説き、江戸の土佐藩邸に水戸浪士を秘かに匿っている事実を告げた</h2>
+              <p class="event-date">5月22日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.66</li>
+            
+            <li><strong>場所:</strong> 水戸</li>
+          </ul>
+          <p class="event-description">翌日5月22日（太陽暦6月24日）、退助は山内容堂へ拝謁して、時勢が武力討幕へ向かっていることを説き、江戸の土佐藩邸に水戸浪士を秘かに匿っている事実を告げた。<br />また、薩摩藩側も討幕を目指す薩土密約締結の翌日にあたる5月22日（太陽暦6月24日）、薩摩藩邸で重臣会議を開き、藩論を武力討幕に統一することが確認された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">178</span>
+            <div>
+              <h2>嘉永6年当時の桶町には千葉定吉の道場が建てられていなかったことから、二度目の遊学時に桶町千葉道場の門下になったのではという説もある</h2>
+              <p class="event-date">6年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.72</li>
+            
+            <li><strong>場所:</strong> 桶町, 桶町千葉道, 千葉</li>
+          </ul>
+          <p class="event-description">武術で小栗流目録を得た嘉永6年（1853年）、龍馬は武術修行のための1年間の江戸自費遊学を藩に願い出て許された。<br />嘉永6年当時の桶町には千葉定吉の道場が建てられていなかったことから、二度目の遊学時に桶町千葉道場の門下になったのではという説もある。<br />一橋派の容堂も安政6年（1859年）2月に家督を養子 ・ 山内豊範に譲り、隠居を余儀なくされた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">179</span>
+            <div>
+              <h2>龍馬が小千葉道場で剣術修行を始めた直後の6月3日、ペリー提督率いるアメリカ海軍艦隊が浦賀沖に来航した（黒船来航）</h2>
+              <p class="event-date">6月3日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.7</li>
+            <li><strong>関係者:</strong> 黒船来航</li>
+            <li><strong>場所:</strong> 小千葉道, 千葉</li>
+          </ul>
+          <p class="event-description">龍馬が小千葉道場で剣術修行を始めた直後の6月3日、ペリー提督率いるアメリカ海軍艦隊が浦賀沖に来航した（黒船来航）。<br />同年12月、剣術修行の傍ら龍馬は当代の軍学家 ・ 思想家である佐久間象山の私塾に入学した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">180</span>
+            <div>
+              <h2>この時点では龍馬と海舟は知らなかったが、6月5日に池田屋事件が起きており京都の情勢は大きく動いていた</h2>
+              <p class="event-date">6月5日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.57</li>
+            
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">この時点では龍馬と海舟は知らなかったが、6月5日に池田屋事件が起きており京都の情勢は大きく動いていた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">181</span>
+            <div>
+              <h2>にユニオン号に乗って下関に寄港した龍馬は長州藩の求めにより参戦することになり、高杉晋作が指揮する6月17日の小倉藩への渡海作戦で龍馬はユニオン号を指揮して最初で…</h2>
+              <p class="event-date">6月16日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.72</li>
+            
+            <li><strong>場所:</strong> 寄港</li>
+          </ul>
+          <p class="event-description">6月16日にユニオン号に乗って下関に寄港した龍馬は長州藩の求めにより参戦することになり、高杉晋作が指揮する6月17日の小倉藩への渡海作戦で龍馬はユニオン号を指揮して最初で最後の実戦を経験した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">182</span>
+            <div>
+              <h2>龍馬は下田で海舟と会合し、京摂の過激の輩数十人（あるいは200人ほど）を蝦夷地開拓と通商に送り込む構想を話し、老中の水野忠精も承知し、資金三、四千両も集めている…</h2>
+              <p class="event-date">6月17日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.72</li>
+            <li><strong>関係者:</strong> 資金三</li>
+            <li><strong>場所:</strong> 寄港</li>
+          </ul>
+          <p class="event-description">6月17日、龍馬は下田で海舟と会合し、京摂の過激の輩数十人（あるいは200人ほど）を蝦夷地開拓と通商に送り込む構想を話し、老中の水野忠精も承知し、資金三、四千両も集めていると述べている。<br />6月16日にユニオン号に乗って下関に寄港した龍馬は長州藩の求めにより参戦することになり、高杉晋作が指揮する6月17日の小倉藩への渡海作戦で龍馬はユニオン号を指揮して最初で最後の実戦を経験した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">183</span>
+            <div>
+              <h2>慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之…</h2>
+              <p class="event-date">6月20日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.9</li>
+            <li><strong>関係者:</strong> 近安楼</li>
+            <li><strong>場所:</strong> 京都, 福岡, 広島</li>
+          </ul>
+          <p class="event-description">慶応3年5月(1867年6月)、乾退助は中岡慎太郎の手紙を受けて上洛し、5月18日(太陽暦6月20日)、京都東山の料亭「近安楼」で、福岡藤次や、広島藩の船越洋之助らとともに中岡と会見して武力討幕を議した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">184</span>
+            <div>
+              <h2>次いで後藤は6月22日（太陽暦7月23日）に薩摩藩と会合を持ち、薩摩側は西郷隆盛と小松帯刀および大久保一蔵、土佐側からは坂本龍馬、中岡慎太郎、後藤象二郎、福岡孝…</h2>
+              <p class="event-date">6月22日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 福岡孝弟, 寺村左膳, 真辺正心, 栄三郎</li>
+            <li><strong>場所:</strong> 寺村, 福岡</li>
+          </ul>
+          <p class="event-description">入れ違いに大政奉還論を意図した後藤象二郎と坂本龍馬が上洛し、6月22日（太陽暦7月23日）に薩摩藩と薩土盟約を結ぶことになる。<br />次いで後藤は6月22日（太陽暦7月23日）に薩摩藩と会合を持ち、薩摩側は西郷隆盛と小松帯刀および大久保一蔵、土佐側からは坂本龍馬、中岡慎太郎、後藤象二郎、福岡孝弟、寺村左膳、真辺正心（栄三郎）が代表となり、龍馬の進言に基づいた王政復古を目標となす薩土盟約が成立した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">185</span>
+            <div>
+              <h2>5月21日(太陽暦6月23日)、中岡慎太郎が仲介して退助を薩摩の西郷隆盛に会わせることとなり、中岡は以下の手紙を書いた</h2>
+              <p class="event-date">6月23日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.56</li>
+            <li><strong>関係者:</strong> 安政元年</li>
+            
+          </ul>
+          <p class="event-description">安政元年（1854年）6月23日、龍馬は15か月の江戸修行を終えて土佐へ帰国した。<br />さらに5月21日(太陽暦6月23日)、中岡慎太郎が仲介して退助を薩摩の西郷隆盛に会わせることとなり、中岡は以下の手紙を書いた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">186</span>
+            <div>
+              <h2>翌日5月22日（太陽暦6月24日）、退助は山内容堂へ拝謁して、時勢が武力討幕へ向かっていることを説き、江戸の土佐藩邸に水戸浪士を秘かに匿っている事実を告げた</h2>
+              <p class="event-date">6月24日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.66</li>
+            
+            <li><strong>場所:</strong> 水戸</li>
+          </ul>
+          <p class="event-description">翌日5月22日（太陽暦6月24日）、退助は山内容堂へ拝謁して、時勢が武力討幕へ向かっていることを説き、江戸の土佐藩邸に水戸浪士を秘かに匿っている事実を告げた。<br />また、薩摩藩側も討幕を目指す薩土密約締結の翌日にあたる5月22日（太陽暦6月24日）、薩摩藩邸で重臣会議を開き、藩論を武力討幕に統一することが確認された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">187</span>
+            <div>
+              <h2>後藤は薩摩と密約を成立させる一方で、土佐に帰って容堂に上書を行い、これからほどない6月26日、芸州藩が加わって薩土芸盟約が成立した</h2>
+              <p class="event-date">6月26日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.57</li>
+            
+            
+          </ul>
+          <p class="event-description">後藤は薩摩と密約を成立させる一方で、土佐に帰って容堂に上書を行い、これからほどない6月26日、芸州藩が加わって薩土芸盟約が成立した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">188</span>
+            <div>
+              <h2>平井の妹 ・ 加尾は龍馬の恋人とされる女性で、龍馬は6月29日付の手紙で姉 ・ 乙女へ「平井収二郎のことは誠にむごい、妹の加尾の嘆きはいかばかりか」 と書き送っ…</h2>
+              <p class="event-date">6月29日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            
+            
+          </ul>
+          <p class="event-description">平井の妹 ・ 加尾は龍馬の恋人とされる女性で、龍馬は6月29日付の手紙で姉 ・ 乙女へ「平井収二郎のことは誠にむごい、妹の加尾の嘆きはいかばかりか」 と書き送っている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">189</span>
+            <div>
+              <h2>「土佐の坂本さんが私の家に入門してきたのは嘉永六年四月で、坂本さんは十九歳、私は三歳下の十六歳の乙女でございました</h2>
+              <p class="event-date">六年四月</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.54</li>
+            
+            
+          </ul>
+          <p class="event-description">「土佐の坂本さんが私の家に入門してきたのは嘉永六年四月で、坂本さんは十九歳、私は三歳下の十六歳の乙女でございました。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">190</span>
+            <div>
+              <h2>天保6年11月15日（1836年1月3日）、龍馬は土佐国土佐郡上街本町一丁目（現：高知県高知市上町一丁目）の土佐藩郷士（下級武士 ・ 足軽）坂本家に父 ・ 坂本…</h2>
+              <p class="event-date">6年11月15日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.95</li>
+            <li><strong>関係者:</strong> 坂本, 龍馬, 志士, 経営者, 下級武士</li>
+            <li><strong>場所:</strong> 佐国土佐郡, 上街本町, 高知県, 高知市上町</li>
+          </ul>
+          <p class="event-description">坂本 龍馬（さかもと りょうま、天保6年11月15日〈1836年1月3日〉- 慶応3年11月15日〈1867年12月10日〉）は、日本の幕末の土佐藩士、志士、経営者。<br />天保6年11月15日（1836年1月3日）、龍馬は土佐国土佐郡上街本町一丁目（現：高知県高知市上町一丁目）の土佐藩郷士（下級武士 ・ 足軽）坂本家に父 ・ 坂本直足（八平）、母 ・ 幸の間の二男として生まれた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">191</span>
+            <div>
+              <h2>安政7年（1860年）3月3日、井伊直弼が江戸城へ登城途中の桜田門外で水戸脱藩浪士らの襲撃を受けて暗殺される（桜田門外の変）</h2>
+              <p class="event-date">7年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.61</li>
+            
+            <li><strong>場所:</strong> 水戸</li>
+          </ul>
+          <p class="event-description">安政7年（1860年）3月3日、井伊直弼が江戸城へ登城途中の桜田門外で水戸脱藩浪士らの襲撃を受けて暗殺される（桜田門外の変）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">192</span>
+            <div>
+              <h2>龍馬が不在中の長崎で英国軍艦イカロス号の水夫が殺害され、海援隊士に嫌疑がかけられる事件が発生した</h2>
+              <p class="event-date">7月6日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.58</li>
+            
+            <li><strong>場所:</strong> 長崎</li>
+          </ul>
+          <p class="event-description">7月6日、龍馬が不在中の長崎で英国軍艦イカロス号の水夫が殺害され、海援隊士に嫌疑がかけられる事件が発生した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">193</span>
+            <div>
+              <h2>思わしくない戦況に幕府軍総司令官の将軍 ・ 徳川家茂は心労が重なり7月10日に大坂城で病に倒れ、7月20日に21歳の短い人生を終えた</h2>
+              <p class="event-date">7月10日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.62</li>
+            
+            <li><strong>場所:</strong> 幕府</li>
+          </ul>
+          <p class="event-description">思わしくない戦況に幕府軍総司令官の将軍 ・ 徳川家茂は心労が重なり7月10日に大坂城で病に倒れ、7月20日に21歳の短い人生を終えた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">194</span>
+            <div>
+              <h2>に京都政治の舞台に戻ることを目標とした長州軍約3,000が御所を目指して進軍したが、一日の戦闘で幕府勢力に敗れた（禁門の変）</h2>
+              <p class="event-date">7月19日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.68</li>
+            
+            <li><strong>場所:</strong> 京都, 幕府</li>
+          </ul>
+          <p class="event-description">7月19日に京都政治の舞台に戻ることを目標とした長州軍約3,000が御所を目指して進軍したが、一日の戦闘で幕府勢力に敗れた（禁門の変）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">195</span>
+            <div>
+              <h2>思わしくない戦況に幕府軍総司令官の将軍 ・ 徳川家茂は心労が重なり7月10日に大坂城で病に倒れ、7月20日に21歳の短い人生を終えた</h2>
+              <p class="event-date">7月20日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.62</li>
+            
+            <li><strong>場所:</strong> 幕府</li>
+          </ul>
+          <p class="event-description">思わしくない戦況に幕府軍総司令官の将軍 ・ 徳川家茂は心労が重なり7月10日に大坂城で病に倒れ、7月20日に21歳の短い人生を終えた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">196</span>
+            <div>
+              <h2>次いで後藤は6月22日（太陽暦7月23日）に薩摩藩と会合を持ち、薩摩側は西郷隆盛と小松帯刀および大久保一蔵、土佐側からは坂本龍馬、中岡慎太郎、後藤象二郎、福岡孝…</h2>
+              <p class="event-date">7月23日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 福岡孝弟, 寺村左膳, 真辺正心, 栄三郎</li>
+            <li><strong>場所:</strong> 寺村, 福岡</li>
+          </ul>
+          <p class="event-description">入れ違いに大政奉還論を意図した後藤象二郎と坂本龍馬が上洛し、6月22日（太陽暦7月23日）に薩摩藩と薩土盟約を結ぶことになる。<br />次いで後藤は6月22日（太陽暦7月23日）に薩摩藩と会合を持ち、薩摩側は西郷隆盛と小松帯刀および大久保一蔵、土佐側からは坂本龍馬、中岡慎太郎、後藤象二郎、福岡孝弟、寺村左膳、真辺正心（栄三郎）が代表となり、龍馬の進言に基づいた王政復古を目標となす薩土盟約が成立した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">197</span>
+            <div>
+              <h2>慶応2年（1866年）7月28日付の三吉慎蔵宛の手紙で龍馬は「水夫たちに暇を出したが、大方は離れようとしない」と窮状を伝えている</h2>
+              <p class="event-date">7月28日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.57</li>
+            
+            
+          </ul>
+          <p class="event-description">慶応2年（1866年）7月28日付の三吉慎蔵宛の手紙で龍馬は「水夫たちに暇を出したが、大方は離れようとしない」と窮状を伝えている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">198</span>
+            <div>
+              <h2>お龍の後年の回想によると、これらの動乱の最中の8月1日に龍馬はお龍と内祝言を挙げている</h2>
+              <p class="event-date">8月1日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.5</li>
+            
+            
+          </ul>
+          <p class="event-description">お龍の後年の回想によると、これらの動乱の最中の8月1日に龍馬はお龍と内祝言を挙げている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">199</span>
+            <div>
+              <h2>それから少しあとの8月5日、長州は英米仏蘭四カ国艦隊による下関砲撃を受けて大打撃を蒙った（下関戦争）</h2>
+              <p class="event-date">8月5日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.58</li>
+            <li><strong>関係者:</strong> 下関戦争</li>
+            
+          </ul>
+          <p class="event-description">それから少しあとの8月5日、長州は英米仏蘭四カ国艦隊による下関砲撃を受けて大打撃を蒙った（下関戦争）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">200</span>
+            <div>
+              <h2>龍馬が政権奉還論を述べた最初の記録だが、政権奉還論自体は龍馬の創意ではなく、幕臣 ・ 大久保一翁がかねてから論じていたことで、龍馬と下山の会見以前の8月14日に…</h2>
+              <p class="event-date">8月14日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 政治</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            <li><strong>関係者:</strong> 幕臣</li>
+            
+          </ul>
+          <p class="event-description">龍馬が政権奉還論を述べた最初の記録だが、政権奉還論自体は龍馬の創意ではなく、幕臣 ・ 大久保一翁がかねてから論じていたことで、龍馬と下山の会見以前の8月14日には春嶽当人が慶喜に提案して拒否されていた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">201</span>
+            <div>
+              <h2>倒幕勢力最有力であった長州藩の京都における勢力を一網打尽にすべく、薩摩藩と会津藩が手を組み「八月十八日の政変」が起きた</h2>
+              <p class="event-date">8月18日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            <li><strong>場所:</strong> 京都, 津</li>
+          </ul>
+          <p class="event-description">8月18日、倒幕勢力最有力であった長州藩の京都における勢力を一網打尽にすべく、薩摩藩と会津藩が手を組み「八月十八日の政変」が起きた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">202</span>
+            <div>
+              <h2>8月18日、倒幕勢力最有力であった長州藩の京都における勢力を一網打尽にすべく、薩摩藩と会津藩が手を組み「八月十八日の政変」が起きた</h2>
+              <p class="event-date">八月十八日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            <li><strong>場所:</strong> 京都, 津</li>
+          </ul>
+          <p class="event-description">8月18日、倒幕勢力最有力であった長州藩の京都における勢力を一網打尽にすべく、薩摩藩と会津藩が手を組み「八月十八日の政変」が起きた。<br />八月十八日の政変と池田屋事件のあと、長州藩は薩摩 ・ 会津勢力によって一掃された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">203</span>
+            <div>
+              <h2>後藤は9月2日に京都へ戻ったが、イカロス号事件の処理に時間がかかったことと薩土両藩の思惑の違いから、9月7日に薩土盟約は解消してしまった</h2>
+              <p class="event-date">9月2日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            <li><strong>関係者:</strong> 桂小五郎</li>
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">後藤は9月2日に京都へ戻ったが、イカロス号事件の処理に時間がかかったことと薩土両藩の思惑の違いから、9月7日に薩土盟約は解消してしまった。<br />9月2日付けの、桂小五郎（当時は既に木戸姓を名乗っていた）から龍馬宛に送られた手紙が残されている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">204</span>
+            <div>
+              <h2>後藤は9月2日に京都へ戻ったが、イカロス号事件の処理に時間がかかったことと薩土両藩の思惑の違いから、9月7日に薩土盟約は解消してしまった</h2>
+              <p class="event-date">9月7日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.63</li>
+            <li><strong>関係者:</strong> 薩摩</li>
+            <li><strong>場所:</strong> 京都</li>
+          </ul>
+          <p class="event-description">後藤は9月2日に京都へ戻ったが、イカロス号事件の処理に時間がかかったことと薩土両藩の思惑の違いから、9月7日に薩土盟約は解消してしまった。<br />その後、薩摩、土佐両藩は薩土討幕の密約に基づき討幕の準備を進めることになる。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">205</span>
+            <div>
+              <h2>このため、第二次長州征伐は立ち消えとなり、勝海舟が長州藩と談判を行い9月19日に幕府軍は撤兵した（小倉口では交戦が続き和議が成立したのは翌慶応3年1月23日）</h2>
+              <p class="event-date">9月19日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            <li><strong>場所:</strong> 幕府</li>
+          </ul>
+          <p class="event-description">このため、第二次長州征伐は立ち消えとなり、勝海舟が長州藩と談判を行い9月19日に幕府軍は撤兵した（小倉口では交戦が続き和議が成立したのは翌慶応3年1月23日）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">206</span>
+            <div>
+              <h2>(太陽暦10月17日)</h2>
+              <p class="event-date">9月20日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.56</li>
+            <li><strong>関係者:</strong> 木戸孝允</li>
+            
+          </ul>
+          <p class="event-description">9月20日(太陽暦10月17日)、坂本龍馬が、長州藩の桂小五郎（木戸孝允）へ送った書簡には、</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">207</span>
+            <div>
+              <h2>（太陽暦10月19日）、中岡慎太郎が『兵談』を著して、国許の勤王党同志 ・ 大石円に送り、軍隊編成方法の詳細を説く</h2>
+              <p class="event-date">9月22日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.62</li>
+            <li><strong>関係者:</strong> 兵談</li>
+            
+          </ul>
+          <p class="event-description">9月22日（太陽暦10月19日）、中岡慎太郎が『兵談』を著して、国許の勤王党同志 ・ 大石円に送り、軍隊編成方法の詳細を説く。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">208</span>
+            <div>
+              <h2>これらの動きに呼応し、イカロス号事件の処理を終えた龍馬は、新式小銃1,000挺あまりを船に積んで長崎から土佐へ運び、9月23日、5年半ぶりに故郷の土を踏み家族と…</h2>
+              <p class="event-date">9月23日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.68</li>
+            
+            <li><strong>場所:</strong> 長崎</li>
+          </ul>
+          <p class="event-description">これらの動きに呼応し、イカロス号事件の処理を終えた龍馬は、新式小銃1,000挺あまりを船に積んで長崎から土佐へ運び、9月23日、5年半ぶりに故郷の土を踏み家族と再会した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">209</span>
+            <div>
+              <h2>（太陽暦10月22日）、坂本龍馬が、土佐勤王党の同志らと再会し、討幕挙兵の方策と時期を議す</h2>
+              <p class="event-date">9月25日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.52</li>
+            
+            
+          </ul>
+          <p class="event-description">9月25日（太陽暦10月22日）、坂本龍馬が、土佐勤王党の同志らと再会し、討幕挙兵の方策と時期を議す。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">210</span>
+            <div>
+              <h2>（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩歩兵大隊司…</h2>
+              <p class="event-date">9月29日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            <li><strong>関係者:</strong> 参政</li>
+            
+          </ul>
+          <p class="event-description">9月29日（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩歩兵大隊司令役を解任され、失脚する。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">211</span>
+            <div>
+              <h2>土佐藩は乾退助の説く過激な武力討幕か、後藤象二郎の説く穏健な大政奉還かで藩論が揺れ動く中、10月9日に龍馬は入京し、この間、容堂の同意を受けた後藤が10月3日に…</h2>
+              <p class="event-date">10月3日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 政治</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 容堂, 後藤</li>
+            <li><strong>場所:</strong> 寺村, 福岡, 幕府</li>
+          </ul>
+          <p class="event-description">土佐藩は乾退助の説く過激な武力討幕か、後藤象二郎の説く穏健な大政奉還かで藩論が揺れ動く中、10月9日に龍馬は入京し、この間、容堂の同意を受けた後藤が10月3日に二条城に登城して、容堂、後藤、寺村、福岡、神山左多衛の連名で老中 ・ 板倉勝静に大政奉還建白書を提出し、幕府が時勢に従い政権を朝廷に奉還することを提案していた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">212</span>
+            <div>
+              <h2>9月29日（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩…</h2>
+              <p class="event-date">10月8日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            <li><strong>関係者:</strong> 参政</li>
+            
+          </ul>
+          <p class="event-description">9月29日（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩歩兵大隊司令役を解任され、失脚する。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">213</span>
+            <div>
+              <h2>土佐藩は乾退助の説く過激な武力討幕か、後藤象二郎の説く穏健な大政奉還かで藩論が揺れ動く中、10月9日に龍馬は入京し、この間、容堂の同意を受けた後藤が10月3日に…</h2>
+              <p class="event-date">10月9日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 政治</li>
+            <li><strong>重要度:</strong> 1</li>
+            <li><strong>関係者:</strong> 容堂, 後藤</li>
+            <li><strong>場所:</strong> 寺村, 福岡, 幕府</li>
+          </ul>
+          <p class="event-description">土佐藩は乾退助の説く過激な武力討幕か、後藤象二郎の説く穏健な大政奉還かで藩論が揺れ動く中、10月9日に龍馬は入京し、この間、容堂の同意を受けた後藤が10月3日に二条城に登城して、容堂、後藤、寺村、福岡、神山左多衛の連名で老中 ・ 板倉勝静に大政奉還建白書を提出し、幕府が時勢に従い政権を朝廷に奉還することを提案していた。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">214</span>
+            <div>
+              <h2>将軍 ・ 徳川慶喜は10月13日に二条城で後藤を含む諸藩重臣に大政奉還を諮問</h2>
+              <p class="event-date">10月13日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.61</li>
+            <li><strong>関係者:</strong> 一方, 将軍</li>
+            
+          </ul>
+          <p class="event-description">一方、将軍 ・ 徳川慶喜は10月13日に二条城で後藤を含む諸藩重臣に大政奉還を諮問。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">215</span>
+            <div>
+              <h2>この大政奉還 ・ 上奏の直前（10月14日）に討幕の密勅が薩摩と長州に下された</h2>
+              <p class="event-date">10月14日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.48</li>
+            
+            
+          </ul>
+          <p class="event-description">この大政奉還 ・ 上奏の直前（10月14日）に討幕の密勅が薩摩と長州に下された。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">216</span>
+            <div>
+              <h2>展望が見えた龍馬は、10月16日に戸田雅楽（尾崎三良）と新政府職制案の『新官制擬定書』を策定した</h2>
+              <p class="event-date">10月16日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 政治</li>
+            <li><strong>重要度:</strong> 0.62</li>
+            <li><strong>関係者:</strong> 尾崎三良</li>
+            <li><strong>場所:</strong> 新政府</li>
+          </ul>
+          <p class="event-description">展望が見えた龍馬は、10月16日に戸田雅楽（尾崎三良）と新政府職制案の『新官制擬定書』を策定した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">217</span>
+            <div>
+              <h2>9月20日(太陽暦10月17日)</h2>
+              <p class="event-date">10月17日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.56</li>
+            <li><strong>関係者:</strong> 木戸孝允</li>
+            
+          </ul>
+          <p class="event-description">9月20日(太陽暦10月17日)、坂本龍馬が、長州藩の桂小五郎（木戸孝允）へ送った書簡には、</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">218</span>
+            <div>
+              <h2>9月22日（太陽暦10月19日）、中岡慎太郎が『兵談』を著して、国許の勤王党同志 ・ 大石円に送り、軍隊編成方法の詳細を説く</h2>
+              <p class="event-date">10月19日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.62</li>
+            <li><strong>関係者:</strong> 兵談</li>
+            
+          </ul>
+          <p class="event-description">9月22日（太陽暦10月19日）、中岡慎太郎が『兵談』を著して、国許の勤王党同志 ・ 大石円に送り、軍隊編成方法の詳細を説く。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">219</span>
+            <div>
+              <h2>望月の件に続き、塾生の安岡金馬が禁門の変で長州軍に参加していたことが幕府から問題視され、さらに海舟が老中 ・ 阿部正外の不興を買ったこともあり、10月22日に海…</h2>
+              <p class="event-date">10月22日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 0.78</li>
+            
+            <li><strong>場所:</strong> 幕府</li>
+          </ul>
+          <p class="event-description">望月の件に続き、塾生の安岡金馬が禁門の変で長州軍に参加していたことが幕府から問題視され、さらに海舟が老中 ・ 阿部正外の不興を買ったこともあり、10月22日に海舟は江戸召還を命ぜられ、11月10日には軍艦奉行も罷免されてしまった。<br />9月25日（太陽暦10月22日）、坂本龍馬が、土佐勤王党の同志らと再会し、討幕挙兵の方策と時期を議す。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">220</span>
+            <div>
+              <h2>9月29日（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩…</h2>
+              <p class="event-date">10月26日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            <li><strong>関係者:</strong> 参政</li>
+            
+          </ul>
+          <p class="event-description">9月29日（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩歩兵大隊司令役を解任され、失脚する。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">221</span>
+            <div>
+              <h2>9月29日（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩…</h2>
+              <p class="event-date">11月3日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            <li><strong>関係者:</strong> 参政</li>
+            
+          </ul>
+          <p class="event-description">9月29日（太陽暦10月26日）、乾退助は土佐藩仕置役（参政）兼歩兵大隊司令に任ぜられるが、10月8日（太陽暦11月3日）には大政奉還に真っ向から反対して土佐藩歩兵大隊司令役を解任され、失脚する。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">222</span>
+            <div>
+              <h2>後藤象二郎の依頼で、慶応3年10月24日に山内容堂の書状を持って越前福井藩へ出向き、松平春嶽の上京を促して三岡八郎（由利公正）と会談したあと、11月5日に帰京し…</h2>
+              <p class="event-date">11月5日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.73</li>
+            <li><strong>関係者:</strong> 由利公正</li>
+            <li><strong>場所:</strong> 福井</li>
+          </ul>
+          <p class="event-description">後藤象二郎の依頼で、慶応3年10月24日に山内容堂の書状を持って越前福井藩へ出向き、松平春嶽の上京を促して三岡八郎（由利公正）と会談したあと、11月5日に帰京した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">223</span>
+            <div>
+              <h2>望月の件に続き、塾生の安岡金馬が禁門の変で長州軍に参加していたことが幕府から問題視され、さらに海舟が老中 ・ 阿部正外の不興を買ったこともあり、10月22日に海…</h2>
+              <p class="event-date">11月10日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> 教育</li>
+            <li><strong>重要度:</strong> 0.78</li>
+            
+            <li><strong>場所:</strong> 幕府, 新政府, 福井</li>
+          </ul>
+          <p class="event-description">望月の件に続き、塾生の安岡金馬が禁門の変で長州軍に参加していたことが幕府から問題視され、さらに海舟が老中 ・ 阿部正外の不興を買ったこともあり、10月22日に海舟は江戸召還を命ぜられ、11月10日には軍艦奉行も罷免されてしまった。<br />1867年（慶応3年）11月10日、死の直前の林謙三宛ての手紙は大極丸のことが述べられていた。<br />帰京直後に三岡の新政府入りを推薦する後藤象二郎宛ての手紙「越行の記」を記し、さらに11月10日には福井藩士 ・ 中根雪江宛てに三岡を出仕させるよう懇願する手紙を記している。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">224</span>
+            <div>
+              <h2>これは変名ではないが、慶応3年（1867年）11月13日付と推定される陸奥宗光に宛てた手紙では、「自然堂（じねんどう）」の号を署名している</h2>
+              <p class="event-date">11月13日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.65</li>
+            <li><strong>関係者:</strong> 自然堂</li>
+            
+          </ul>
+          <p class="event-description">なお、これは変名ではないが、慶応3年（1867年）11月13日付と推定される陸奥宗光に宛てた手紙では、「自然堂（じねんどう）」の号を署名している。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">225</span>
+            <div>
+              <h2>私は心を定めて良い縁談も断り</h2>
+              <p class="event-date">十一月十五日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.74</li>
+            
+            <li><strong>場所:</strong> 十五日京都, 京都</li>
+          </ul>
+          <p class="event-description">私は心を定めて良い縁談も断り、唯ひたすら坂本さんを待ちましたが、忘れもしない慶応三年十二月三十一歳になっていた私は坂本さんが十一月十五日京都で暗殺されたことを知らされました」</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">226</span>
+            <div>
+              <h2>龍馬の変名としては、慶応2年（1866年）11月16日付で溝淵広之丞に宛てた手紙に、初めて記された「才谷梅太郎（さいたに うめたろう）」とあるが、慶応元年9月9…</h2>
+              <p class="event-date">11月16日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.75</li>
+            
+            
+          </ul>
+          <p class="event-description">龍馬の変名としては、慶応2年（1866年）11月16日付で溝淵広之丞に宛てた手紙に、初めて記された「才谷梅太郎（さいたに うめたろう）」とあるが、慶応元年9月9日付で乙女とおやべに宛てた手紙には「西郷伊三郎」と名乗っていることが記されている。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">227</span>
+            <div>
+              <h2>『近世太平記</h2>
+              <p class="event-date">12年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.56</li>
+            <li><strong>関係者:</strong> 巻之中</li>
+            <li><strong>場所:</strong> 吉村明道</li>
+          </ul>
+          <p class="event-description">『近世太平記.巻之中』吉村明道 、片野東四郎（明治8～12年）</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">228</span>
+            <div>
+              <h2>安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した</h2>
+              <p class="event-date">12月4日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.55</li>
+            
+            
+          </ul>
+          <p class="event-description">安政2年（1855年）12月4日、父 ・ 八平が他界し、坂本家の家督は兄 ・ 権平が安政3年（1856年）2月に継承した。<br />寺田屋での遭難の様子を龍馬は12月4日付の手紙で兄 ・ 権平に報告している。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">229</span>
+            <div>
+              <h2>龍馬は間崎哲馬や近藤長次郎とともに幕府政事総裁職にあった前福井藩主 ・ 松平春嶽に拝謁した</h2>
+              <p class="event-date">12月5日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.62</li>
+            
+            <li><strong>場所:</strong> 幕府, 福井</li>
+          </ul>
+          <p class="event-description">12月5日、龍馬は間崎哲馬や近藤長次郎とともに幕府政事総裁職にあった前福井藩主 ・ 松平春嶽に拝謁した。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">230</span>
+            <div>
+              <h2>海援隊士たちは、紀州藩によるいろは丸事件の報復を疑い、12月6日に陸奥陽之助らが紀州藩御用人の三浦休太郎を襲撃して、三浦の護衛にあたっていた新選組と斬り合いにな…</h2>
+              <p class="event-date">12月6日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.67</li>
+            
+            
+          </ul>
+          <p class="event-description">また、海援隊士たちは、紀州藩によるいろは丸事件の報復を疑い、12月6日に陸奥陽之助らが紀州藩御用人の三浦休太郎を襲撃して、三浦の護衛にあたっていた新選組と斬り合いになっている（天満屋事件）。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">231</span>
+            <div>
+              <h2>春嶽から幕府軍艦奉行並 ・ 勝海舟への紹介状を受けた龍馬と門田為之助 ・ 近藤長次郎は海舟の屋敷を訪問して門人となった</h2>
+              <p class="event-date">12月9日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.62</li>
+            
+            <li><strong>場所:</strong> 幕府</li>
+          </ul>
+          <p class="event-description">12月9日、春嶽から幕府軍艦奉行並 ・ 勝海舟への紹介状を受けた龍馬と門田為之助 ・ 近藤長次郎は海舟の屋敷を訪問して門人となった。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">232</span>
+            <div>
+              <h2>春嶽から正式な紹介状を受けての訪問であること、また海舟の日記に記載されている12月29日の千葉重太郎の訪問時にはすでに龍馬は弟子であった可能性があることから、近…</h2>
+              <p class="event-date">12月29日</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> general</li>
+            <li><strong>重要度:</strong> 0.8</li>
+            
+            <li><strong>場所:</strong> 千葉</li>
+          </ul>
+          <p class="event-description">だが、春嶽から正式な紹介状を受けての訪問であること、また海舟の日記に記載されている12月29日の千葉重太郎の訪問時にはすでに龍馬は弟子であった可能性があることから、近年では前述の龍馬と海舟との劇的な出会いの話は海舟の誇張、または記憶違いであるとする見方が強い。</p>
+        </article>
+
+        <article class="event">
+          <header class="event-header">
+            <span class="event-index">233</span>
+            <div>
+              <h2>『近世史略</h2>
+              <p class="event-date">13年</p>
+            </div>
+          </header>
+          <ul class="event-meta">
+            <li><strong>カテゴリ:</strong> military</li>
+            <li><strong>重要度:</strong> 0.69</li>
+            <li><strong>関係者:</strong> 近世史略, 再刻, 巻二, 山口謙</li>
+            <li><strong>場所:</strong> 山口</li>
+          </ul>
+          <p class="event-description">『近世史略. 再刻 巻二』山口謙、稲田佐兵衛等（明治8～13年）</p>
+        </article>
+    </main>
+    <footer>Generated by 年表メーカー</footer>
+  </body>
+</html>

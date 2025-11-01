@@ -104,10 +104,39 @@ TOKEN_STRIP_CHARS = "（）()「」『』\"'、，,。:：;；!?！？〜～‐-
 TOKEN_PATTERN = re.compile(r"[\w一-龥]+")
 NUMERAL_REGEX = re.compile(rf"[{NUMERAL_CLASS}]")
 LOCATION_KEYWORDS_SET = set(LOCATION_KEYWORDS)
-CATEGORY_KEYWORDS_LOWER = {
-    category: tuple(keyword.lower() for keyword in keywords)
-    for category, keywords in CATEGORY_KEYWORDS.items()
-}
+
+
+def _initialise_category_keyword_tables() -> tuple[dict[str, tuple[str, ...]], dict[str, dict[str, float]]]:
+    lower_map: dict[str, tuple[str, ...]] = {}
+    weighted_map: dict[str, dict[str, float]] = {}
+    for category, entries in CATEGORY_KEYWORDS.items():
+        lowered: list[str] = []
+        weights: dict[str, float] = {}
+        for entry in entries:
+            if isinstance(entry, tuple):
+                if not entry:
+                    continue
+                keyword = entry[0]
+                weight = float(entry[1]) if len(entry) > 1 else 1.0
+            else:
+                keyword = str(entry)
+                weight = 1.0
+            cleaned = keyword.strip()
+            if not cleaned:
+                continue
+            lowered_keyword = cleaned.lower()
+            if lowered_keyword not in weights or weight > weights[lowered_keyword]:
+                weights[lowered_keyword] = weight
+            if lowered_keyword not in lowered:
+                lowered.append(lowered_keyword)
+        if lowered:
+            lower_map[category] = tuple(lowered)
+            weighted_map[category] = weights
+    return lower_map, weighted_map
+
+
+CATEGORY_KEYWORDS_LOWER, CATEGORY_KEYWORD_WEIGHTS = _initialise_category_keyword_tables()
+CATEGORY_SCORE_THRESHOLD = 1.2
 LEADING_SYMBOL_PATTERN = re.compile(r"^[-‐‑‒–—―－−•●◦○◆◇☆★▪▫∙·・]\s*")
 FOLLOWUP_PREFIX_PATTERN = re.compile(
     r"^(同日|同年|同月|同じ日|同じ年|同夜|その日|その夜|その後|同時に)"
@@ -473,12 +502,43 @@ def classify_people_locations(sentence: str, tokens: List[str]) -> tuple[List[st
     return people[:5], locations[:5]
 
 
-def infer_category(sentence: str, lower_sentence: Optional[str] = None) -> str:
+def infer_category(
+    sentence: str,
+    *,
+    lower_sentence: Optional[str] = None,
+    tokens: Optional[List[str]] = None,
+) -> str:
     lowercase = lower_sentence if lower_sentence is not None else sentence.lower()
-    for category, keywords in CATEGORY_KEYWORDS_LOWER.items():
-        if any(keyword in lowercase for keyword in keywords):
-            return category
-    return "general"
+    token_list = [token.lower() for token in tokens] if tokens else []
+    token_counter = Counter(token_list)
+
+    best_category = "general"
+    best_score = 0.0
+
+    for category, weights in CATEGORY_KEYWORD_WEIGHTS.items():
+        score = 0.0
+        for keyword, weight in weights.items():
+            hit_score = 0.0
+            exact_hits = token_counter.get(keyword, 0)
+            if exact_hits:
+                hit_score = weight * exact_hits
+            else:
+                partial_hits = 0
+                if token_list and len(keyword) >= 2:
+                    partial_hits = sum(1 for token in token_list if keyword in token and token != keyword)
+                if partial_hits:
+                    hit_score = weight * 0.6 * partial_hits
+                elif keyword in lowercase:
+                    hit_score = weight * 0.5
+            score += hit_score
+
+        if score > best_score:
+            best_score = score
+            best_category = category
+
+    if best_score < CATEGORY_SCORE_THRESHOLD:
+        return "general"
+    return best_category
 
 
 def score_importance(
@@ -579,7 +639,7 @@ def _update_entry_with_sentence(
     for location in locations:
         entry["locations"].setdefault(location, None)
 
-    category = infer_category(sentence, lower_sentence=lower_sentence)
+    category = infer_category(sentence, lower_sentence=lower_sentence, tokens=tokens)
     entry["category_counts"][category] += 1
 
     importance = score_importance(
