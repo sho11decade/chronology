@@ -1,0 +1,1526 @@
+<!DOCTYPE html><html><head>
+      <title>TECHNICAL_ANALYSIS</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      <div>
+<h1 id="chronology-maker---技術分析レポート">Chronology Maker - 技術分析レポート </h1>
+<h2 id="目次">目次 </h2>
+<ul>
+<li><a href="#1-%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%A6%82%E8%A6%81">1. プロジェクト概要</a></li>
+<li><a href="#2-%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E6%A7%8B%E6%88%90">2. アーキテクチャ構成</a></li>
+<li><a href="#3-%E6%8A%80%E8%A1%93%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF">3. 技術スタック</a></li>
+<li><a href="#4-%E3%82%B3%E3%82%A2%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E8%A9%B3%E7%B4%B0">4. コアモジュール詳細</a></li>
+<li><a href="#5-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%95%E3%83%AD%E3%83%BC">5. データフロー</a></li>
+<li><a href="#6-api-%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%BB%95%E6%A7%98">6. API エンドポイント仕様</a></li>
+<li><a href="#7-%E5%AE%9F%E8%A3%85%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%81%A8%E8%A8%AD%E8%A8%88%E6%80%9D%E6%83%B3">7. 実装パターンと設計思想</a></li>
+<li><a href="#8-%E3%83%86%E3%82%B9%E3%83%88%E6%88%A6%E7%95%A5">8. テスト戦略</a></li>
+<li><a href="#9-%E3%83%87%E3%83%97%E3%83%AD%E3%82%A4%E3%83%A1%E3%83%B3%E3%83%88%E6%A7%8B%E6%88%90">9. デプロイメント構成</a></li>
+<li><a href="#10-%E5%B0%86%E6%9D%A5%E3%81%AE%E6%94%B9%E5%96%84%E5%8F%AF%E8%83%BD%E6%80%A7">10. 将来の改善可能性</a></li>
+</ul>
+<hr>
+<h2 id="1-プロジェクト概要">1. プロジェクト概要 </h2>
+<h3 id="目的">目的 </h3>
+<p>日本語テキストから高精度な年表（タイムライン）を自動生成する FastAPI ベースのバックエンド。主な特徴は以下の通り：</p>
+<ul>
+<li><strong>日本語特有表現への対応</strong>: 漢数字、和暦、相対表現（「10年前」など）を正規化</li>
+<li><strong>メタ情報抽出</strong>: 日付の信頼度スコア、人物・場所の自動分類、イベントカテゴリ推定</li>
+<li><strong>大容量テキスト処理</strong>: 最大 200,000 文字までの入力をサポート</li>
+<li><strong>柔軟な共有機能</strong>: Firestore / SQLite ハイブリッド保存、期限付きアクセス</li>
+<li><strong>検索 API</strong>: キーワード、カテゴリ、日付範囲を組み合わせたフィルタリング</li>
+</ul>
+<h3 id="規模">規模 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>・ファイル数: 30ファイル（テスト含む）
+・本体コード: ~3,500 行（Python）
+・テストコード: ~1,200 行
+・主要ライブラリ: FastAPI, Pydantic, Google Cloud Firestore, pdfplumber
+・言語: Python 3.10+
+・依存関係: 8 個（requirements.txt）
+</code></pre><hr>
+<h2 id="2-アーキテクチャ構成">2. アーキテクチャ構成 </h2>
+<h3 id="全体図">全体図 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>┌─────────────────────────────────────────────────────────────────┐
+│                    FastAPI Application                          │
+│                      (src/app.py)                               │
+├─────────────────────────────────────────────────────────────────┤
+│  HTTP Middleware Layer                                          │
+│  - CORS (CORSMiddleware)                                        │
+│  - Request Logging (request_context_middleware)                │
+│  - Exception Handling (unhandled_exception_handler)            │
+├─────────────────────────────────────────────────────────────────┤
+│                   Business Logic Layer                          │
+│  ┌──────────────────┬──────────────────┬──────────────────────┐ │
+│  │ Text Processing  │  Timeline Gen    │  Search &amp; Share      │ │
+│  │ • text_cleaner   │ • timeline_gen   │ • search.py          │ │
+│  │ • text_extractor │ • categories     │ • share_store.py     │ │
+│  │ • furiganaq.py   │ • scoring        │                      │ │
+│  └──────────────────┴──────────────────┴──────────────────────┘ │
+├─────────────────────────────────────────────────────────────────┤
+│              Date &amp; Categorization Layer                        │
+│  ┌──────────────────┬──────────────────┬──────────────────────┐ │
+│  │ japanese_cal.py  │ text_features.py │ models.py            │ │
+│  │ • 和暦変換       │ • Keywords       │ • Pydantic schemas   │ │
+│  │ • 漢数字処理     │ • Categories     │                      │ │
+│  │ • ISO化          │ • Suffixes       │                      │ │
+│  └──────────────────┴──────────────────┴──────────────────────┘ │
+├─────────────────────────────────────────────────────────────────┤
+│                  Persistence Layer                              │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  ShareStore (src/share_store.py)                         │  │
+│  │  ├─ Firestore (Google Cloud)                            │  │
+│  │  └─ SQLite (Local Fallback)                             │  │
+│  └──────────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────────┤
+│              Configuration Layer                                │
+│  • settings.py: 環境変数ベースの設定管理                       │
+│  • .env: ローカル開発用環境変数                                │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre><h3 id="レイヤー説明">レイヤー説明 </h3>
+<table>
+<thead>
+<tr>
+<th>レイヤー</th>
+<th>責務</th>
+<th>主要ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HTTP/CORS</strong></td>
+<td>リクエスト処理、エラーハンドリング</td>
+<td><code>app.py</code> (middleware)</td>
+</tr>
+<tr>
+<td><strong>API Route</strong></td>
+<td>エンドポイント定義、バリデーション</td>
+<td><code>app.py</code> (route handlers)</td>
+</tr>
+<tr>
+<td><strong>Business Logic</strong></td>
+<td>テキスト処理、年表生成、検索</td>
+<td><code>timeline_generator.py</code>, <code>search.py</code></td>
+</tr>
+<tr>
+<td><strong>Data Extraction</strong></td>
+<td>PDF/Word抽出、テキストクリーニング</td>
+<td><code>text_extractor.py</code>, <code>text_cleaner.py</code></td>
+</tr>
+<tr>
+<td><strong>Date Processing</strong></td>
+<td>和暦・漢数字・相対表現の正規化</td>
+<td><code>japanese_calendar.py</code>, <code>timeline_generator.py</code></td>
+</tr>
+<tr>
+<td><strong>Classification</strong></td>
+<td>カテゴリ推定、人物/場所判別</td>
+<td><code>text_features.py</code>, <code>timeline_generator.py</code></td>
+</tr>
+<tr>
+<td><strong>Persistence</strong></td>
+<td>共有データの保存・取得</td>
+<td><code>share_store.py</code></td>
+</tr>
+<tr>
+<td><strong>Configuration</strong></td>
+<td>環境変数、設定値管理</td>
+<td><code>settings.py</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-技術スタック">3. 技術スタック </h2>
+<h3 id="フレームワークライブラリ">フレームワーク・ライブラリ </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Backend Framework:
+  ├─ FastAPI 0.111.1
+  │  └─ 非同期ASGI フレームワーク、自動OpenAPI生成
+  ├─ Uvicorn 0.30.1
+  │  └─ ASGIサーバー、ホットリロード対応
+  └─ Starlette (FastAPI依存)
+     └─ CORS/ミドルウェア実装
+
+Data Validation &amp; Serialization:
+  └─ Pydantic 1.10.15
+     ├─ リクエスト/レスポンスモデル定義
+     ├─ 自動バリデーション
+     └─ JSON シリアライズ
+
+File Handling:
+  ├─ python-multipart 0.0.9
+  │  └─ マルチパートフォーム処理
+  ├─ python-docx 1.1.0
+  │  └─ Word (.docx) ファイル抽出
+  ├─ pdfplumber 0.11.4
+  │  └─ PDF テキスト抽出、テーブル認識
+  └─ requests 2.32.3
+     └─ HTTP リクエスト（Wikipedia API呼び出し）
+
+Database &amp; Persistence:
+  ├─ google-cloud-firestore 2.16.1
+  │  ├─ NoSQL クラウドデータベース
+  │  └─ 実時間同期対応
+  └─ sqlite3 (Python標準)
+     └─ ローカル SQLite フォールバック
+
+Testing:
+  └─ pytest 8.3.2
+     ├─ ユニットテスト
+     ├─ 統合テスト
+     └─ カバレッジ測定
+
+Python Runtime:
+  └─ Python 3.10+
+     ├─ f-string対応
+     ├─ Union型の|記法対応
+     └─ match文対応（未使用）
+</code></pre><h3 id="外部apiサービス">外部API・サービス </h3>
+<table>
+<thead>
+<tr>
+<th>サービス</th>
+<th>用途</th>
+<th>認証方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Google Cloud Firestore</strong></td>
+<td>共有データ永続化</td>
+<td>サービスアカウント JSON / ADC</td>
+</tr>
+<tr>
+<td><strong>Wikipedia API</strong></td>
+<td>記事テキスト取得</td>
+<td>なし（公開API）</td>
+</tr>
+<tr>
+<td><strong>Google Cloud Storage</strong> (未使用)</td>
+<td>大型ファイル保存</td>
+<td>サービスアカウント</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-コアモジュール詳細">4. コアモジュール詳細 </h2>
+<h3 id="41-タイムライン生成エンジン-timeline_generatorpy">4.1 タイムライン生成エンジン (<code>timeline_generator.py</code>) </h3>
+<p><strong>責務</strong>: テキストを解析し、日付・イベント・メタデータを抽出して年表を生成</p>
+<p><strong>主要関数</strong></p>
+<table>
+<thead>
+<tr>
+<th>関数</th>
+<th>入力</th>
+<th>出力</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>generate_timeline()</code></td>
+<td><code>text: str</code></td>
+<td><code>List[TimelineItem]</code></td>
+<td>メイン生成関数。文分割→日付検出→イベント集約→ソート</td>
+</tr>
+<tr>
+<td><code>split_sentences()</code></td>
+<td><code>text: str</code></td>
+<td><code>List[str]</code></td>
+<td>句点や改行で文を分割</td>
+</tr>
+<tr>
+<td><code>iter_dates()</code></td>
+<td><code>sentence: str, reference: date</code></td>
+<td><code>Iterable[RawEvent]</code></td>
+<td>文から日付候補を抽出（ERA/相対年/西暦対応）</td>
+</tr>
+<tr>
+<td><code>infer_category()</code></td>
+<td><code>sentence: str, tokens: List[str]</code></td>
+<td><code>str</code></td>
+<td>文から最有力カテゴリを推定（重み付きスコアリング）</td>
+</tr>
+<tr>
+<td><code>classify_people_locations()</code></td>
+<td><code>sentence: str, tokens: List[str]</code></td>
+<td><code>Tuple[List[str], List[str]]</code></td>
+<td>接尾辞・辞書マッチで人物/場所判別</td>
+</tr>
+<tr>
+<td><code>score_importance()</code></td>
+<td><code>sentence: str, ...</code></td>
+<td><code>float</code></td>
+<td>イベント重要度スコア計算（0.0~1.0）</td>
+</tr>
+<tr>
+<td><code>compute_confidence()</code></td>
+<td><code>entry: dict</code></td>
+<td><code>float</code></td>
+<td>イベント信頼度スコア計算（0.0~1.0）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>アルゴリズムフロー</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>入力テキスト
+     ↓
+[1] 前処理 (normalise_input_text)
+     ├─ Wikipedia マークアップ除去
+     ├─ 参考文献セクション削除
+     └─ 箇条書き記号削除
+     ↓
+[2] 文分割 (split_sentences)
+     ├─ 改行で分割
+     └─ 句点で分割
+     ↓
+[3] 日付検出 (iter_dates)
+     ├─ ERA パターンマッチ（令和元年など）
+     ├─ 相対年パターン（10年前）
+     ├─ 西暦パターン（2020年5月1日）
+     ├─ 会計年度パターン（2020年度）
+     └─ 重複排除
+     ↓
+[4] イベント集約
+     ├─ 同一日付のイベント統合
+     ├─ フォローアップ文追加
+     └─ カテゴリ・重要度計算
+     ↓
+[5] メタデータ抽出
+     ├─ 人物抽出 (classify_people_locations)
+     ├─ 場所抽出
+     └─ タイトル生成 (build_title)
+     ↓
+[6] ソート &amp; カット
+     ├─ ISO日付でソート
+     ├─ 重要度降順
+     └─ max_events に制限
+     ↓
+出力: TimelineItem[]
+</code></pre><p><strong>カテゴリ推定ロジック（改善版）</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">infer_category</span><span class="token punctuation">(</span>sentence<span class="token punctuation">,</span> tokens<span class="token punctuation">,</span> lower_sentence<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 1. トークン化・小文字化</span>
+    token_counter <span class="token operator">=</span> Counter<span class="token punctuation">(</span><span class="token punctuation">[</span>t<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-for">for</span> t <span class="token keyword keyword-in">in</span> tokens<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. カテゴリごとのスコア計算</span>
+    <span class="token keyword keyword-for">for</span> category<span class="token punctuation">,</span> weights <span class="token keyword keyword-in">in</span> CATEGORY_KEYWORD_WEIGHTS<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        score <span class="token operator">=</span> <span class="token number">0.0</span>
+        <span class="token keyword keyword-for">for</span> keyword<span class="token punctuation">,</span> weight <span class="token keyword keyword-in">in</span> weights<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token comment"># 完全一致: weight × 回数</span>
+            exact_hits <span class="token operator">=</span> token_counter<span class="token punctuation">.</span>get<span class="token punctuation">(</span>keyword<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            score <span class="token operator">+=</span> weight <span class="token operator">*</span> exact_hits
+            
+            <span class="token comment"># 部分一致: weight × 0.6 × 回数</span>
+            partial_hits <span class="token operator">=</span> <span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token keyword keyword-for">for</span> t <span class="token keyword keyword-in">in</span> tokens <span class="token keyword keyword-if">if</span> keyword <span class="token keyword keyword-in">in</span> t<span class="token punctuation">)</span>
+            score <span class="token operator">+=</span> weight <span class="token operator">*</span> <span class="token number">0.6</span> <span class="token operator">*</span> partial_hits
+            
+            <span class="token comment"># サブストリング一致: weight × 0.5</span>
+            <span class="token keyword keyword-if">if</span> keyword <span class="token keyword keyword-in">in</span> lower_sentence<span class="token punctuation">:</span>
+                score <span class="token operator">+=</span> weight <span class="token operator">*</span> <span class="token number">0.5</span>
+        
+        best_category <span class="token operator">=</span> category <span class="token keyword keyword-if">if</span> score <span class="token operator">&gt;</span> best_score <span class="token keyword keyword-else">else</span> best_category
+        best_score <span class="token operator">=</span> score
+    
+    <span class="token comment"># 3. スレッショルド判定</span>
+    <span class="token keyword keyword-return">return</span> best_category <span class="token keyword keyword-if">if</span> best_score <span class="token operator">&gt;=</span> CATEGORY_SCORE_THRESHOLD <span class="token keyword keyword-else">else</span> <span class="token string">"general"</span>
+</code></pre><p><strong>重要度スコアリング</strong></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>importance</mtext><mo>=</mo><mi>min</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>1.0</mn><mo separator="true">,</mo><mn>0.3</mn><mo>+</mo><mn>0.2</mn><mo>×</mo><mtext>emphasis</mtext><mo>+</mo><mn>0.4</mn><mo>×</mo><mtext>length</mtext><mo>+</mo><mtext>detail</mtext><mo>+</mo><mtext>numeric</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{importance} = \min(1.0, 0.3 + 0.2 \times \text{emphasis} + 0.4 \times \text{length} + \text{detail} + \text{numeric})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">importance</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">min</span><span class="mopen">(</span><span class="mord">1.0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0.3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">emphasis</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">length</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">detail</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">numeric</span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>パラメータ：</p>
+<ul>
+<li><code>emphasis</code>: キーワード出現度（カテゴリ辞書内）</li>
+<li><code>length</code>: 文長（120字以上で最大）</li>
+<li><code>detail</code>: 人物・場所数（最大 0.25）</li>
+<li><code>numeric</code>: 数値出現（0.05 ボーナス）</li>
+</ul>
+<p><strong>信頼度スコアリング</strong></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>confidence</mtext><mo>=</mo><mi>min</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>1.0</mn><mo separator="true">,</mo><mtext>base</mtext><mo>+</mo><mtext>iso</mtext><mo>+</mo><mtext>entity</mtext><mo>+</mo><mtext>sentence</mtext><mo>+</mo><mtext>diversity</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{confidence} = \min(1.0, \text{base} + \text{iso} + \text{entity} + \text{sentence} + \text{diversity})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">confidence</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">min</span><span class="mopen">(</span><span class="mord">1.0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">base</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7512em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">iso</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">entity</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6984em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">sentence</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">diversity</span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>コンポーネント：</p>
+<ul>
+<li><code>base</code>: 重要度ベース（0.3 + 0.5×importance）</li>
+<li><code>iso</code>: ISO化成功ボーナス（+0.1）</li>
+<li><code>entity</code>: 人物・場所数ボーナス（+0.06/人×3人まで、+0.05/場所×3場所まで）</li>
+<li><code>sentence</code>: 複数文参照ボーナス（+0.05）</li>
+<li><code>diversity</code>: 複数カテゴリボーナス（+0.05）</li>
+</ul>
+<hr>
+<h3 id="42-日本語日付処理-japanese_calendarpy">4.2 日本語日付処理 (<code>japanese_calendar.py</code>) </h3>
+<p><strong>責務</strong>: 和暦・漢数字・相対表現を西暦ISO形式へ正規化</p>
+<p><strong>主要関数</strong></p>
+<table>
+<thead>
+<tr>
+<th>関数</th>
+<th>入力</th>
+<th>出力</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>normalise_era_notation()</code></td>
+<td><code>text: str</code></td>
+<td><code>Optional[str]</code></td>
+<td>和暦テキスト → ISO-8601</td>
+</tr>
+<tr>
+<td><code>_convert_kanji_numeral_to_int()</code></td>
+<td><code>text: str</code></td>
+<td><code>Optional[int]</code></td>
+<td>漢数字 → 整数</td>
+</tr>
+<tr>
+<td><code>_normalise_number()</code></td>
+<td><code>text: str, default: int</code></td>
+<td><code>int</code></td>
+<td>数値正規化（全角/漢数字対応）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>和暦マッピング</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>ERA_OFFSETS <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">"令和"</span><span class="token punctuation">:</span> <span class="token number">2018</span><span class="token punctuation">,</span>     <span class="token comment"># 令和1年 = 2019年</span>
+    <span class="token string">"平成"</span><span class="token punctuation">:</span> <span class="token number">1988</span><span class="token punctuation">,</span>     <span class="token comment"># 平成1年 = 1989年</span>
+    <span class="token string">"昭和"</span><span class="token punctuation">:</span> <span class="token number">1925</span><span class="token punctuation">,</span>     <span class="token comment"># 昭和1年 = 1926年</span>
+    <span class="token string">"大正"</span><span class="token punctuation">:</span> <span class="token number">1911</span><span class="token punctuation">,</span>     <span class="token comment"># 大正1年 = 1912年</span>
+    <span class="token string">"明治"</span><span class="token punctuation">:</span> <span class="token number">1867</span><span class="token punctuation">,</span>     <span class="token comment"># 明治1年 = 1868年</span>
+<span class="token punctuation">}</span>
+</code></pre><p>計算式: <code>西暦年 = ERA_OFFSET[era] + era_year</code></p>
+<p><strong>漢数字パースルール</strong></p>
+<table>
+<thead>
+<tr>
+<th>入力</th>
+<th>処理</th>
+<th>出力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>一〇二〇</code></td>
+<td>各漢数字をASCII化</td>
+<td><code>1020</code></td>
+</tr>
+<tr>
+<td><code>二千二十四</code></td>
+<td>セクション加算（千の位）→ 合算</td>
+<td><code>2024</code></td>
+</tr>
+<tr>
+<td><code>十万</code></td>
+<td>万の単位乗算</td>
+<td><code>100000</code></td>
+</tr>
+<tr>
+<td><code>元</code></td>
+<td>特殊: 元号1年</td>
+<td><code>1</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>例</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>入力: "令和三年四月一日"
+├─ era: "令和", year: "三", month: "四", day: "一"
+├─ era_year: 3 → 西暦 = 2018 + 3 = 2021
+├─ month: 4, day: 1
+└─ 出力: "2021-04-01"
+
+入力: "平成31年12月25日"
+├─ era: "平成", year: "31"
+├─ 西暦 = 1988 + 31 = 2019
+└─ 出力: "2019-12-25"
+</code></pre><hr>
+<h3 id="43-テキスト前処理-text_cleanerpy">4.3 テキスト前処理 (<code>text_cleaner.py</code>) </h3>
+<p><strong>責務</strong>: Wikipedia フォーマット、ノイズ除去、正規化</p>
+<p><strong>クリーニングステップ</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>入力テキスト
+    ↓
+[1] HTML エンティティ デコード
+    ├─ &amp;lt; → &lt;
+    └─ &amp;amp; → &amp;
+    ↓
+[2] 脚注・参考文献除去
+    ├─ &lt;ref&gt;...content...&lt;/ref&gt; 削除
+    ├─ [[脚注|text]] 削除
+    └─ [1][2] 形式の脚注マーク削除
+    ↓
+[3] Wikipedia テンプレート除去
+    ├─ {{template}} 削除
+    ├─ {{cite web}} 削除
+    └─ {{Infobox}} 削除
+    ↓
+[4] セクション見出し削除
+    ├─ == セクション == 削除
+    └─ === サブセクション === 削除
+    ↓
+[5] メタデータ削除
+    ├─ 出典 セクション削除
+    ├─ 参考文献 セクション削除
+    ├─ 関連項目 セクション削除
+    └─ Category: 行削除
+    ↓
+[6] カタログコード除去
+    ├─ JASRAC作品コード: ... 削除
+    ├─ ISBN 削除
+    └─ 各種コード削除
+    ↓
+[7] 箇条書き記号正規化
+    ├─ • 削除
+    ├─ * 削除
+    └─ - 削除
+    ↓
+[8] ホワイトスペース正規化
+    ├─ 複数スペース → 単一スペース
+    ├─ 複数改行 → 単一改行
+    └─ 制御文字除去
+    ↓
+出力テキスト
+</code></pre><p><strong>キーパターン</strong></p>
+<table>
+<thead>
+<tr>
+<th>パターン</th>
+<th>正規表現</th>
+<th>削除例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Citation</td>
+<td><code>\[[0-9]+\]</code></td>
+<td><code>[1]</code> <code>[12]</code></td>
+</tr>
+<tr>
+<td>Reference tag</td>
+<td><code>&lt;ref&gt;...?&lt;/ref&gt;</code></td>
+<td><code>&lt;ref&gt;出典&lt;/ref&gt;</code></td>
+</tr>
+<tr>
+<td>Template</td>
+<td><code>{{.*?}}</code></td>
+<td><code>{{cite web|...}}</code></td>
+</tr>
+<tr>
+<td>Note</td>
+<td><code>（注[:：]\d+）</code></td>
+<td><code>（注：1）</code></td>
+</tr>
+<tr>
+<td>ISBN</td>
+<td><code>ISBN[-0-9\s]{10,30}</code></td>
+<td><code>ISBN 978-4-0010-1234-5</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="44-ファイル抽出-text_extractorpy">4.4 ファイル抽出 (<code>text_extractor.py</code>) </h3>
+<p><strong>対応フォーマット</strong></p>
+<table>
+<thead>
+<tr>
+<th>形式</th>
+<th>ライブラリ</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PDF</strong></td>
+<td>pdfplumber</td>
+<td>テキスト・テーブル抽出</td>
+</tr>
+<tr>
+<td><strong>DOCX</strong></td>
+<td>python-docx</td>
+<td>パラグラフ・表抽出</td>
+</tr>
+<tr>
+<td><strong>XLSX</strong></td>
+<td>openpyxl（オプション）</td>
+<td>シート内容抽出（未実装）</td>
+</tr>
+<tr>
+<td><strong>TXT</strong></td>
+<td>標準ライブラリ</td>
+<td>直接読み込み</td>
+</tr>
+</tbody>
+</table>
+<p><strong>抽出フロー</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-async">async</span> <span class="token keyword keyword-def">def</span> <span class="token function">extract_text_from_upload</span><span class="token punctuation">(</span><span class="token builtin">file</span><span class="token punctuation">:</span> UploadFile<span class="token punctuation">,</span> max_characters<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    filename <span class="token operator">=</span> <span class="token builtin">file</span><span class="token punctuation">.</span>filename<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-if">if</span> filename<span class="token punctuation">.</span>endswith<span class="token punctuation">(</span><span class="token string">'.pdf'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># pdfplumber でテキスト・テーブル抽出</span>
+        text <span class="token operator">=</span> extract_pdf_text<span class="token punctuation">(</span>file_content<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-elif">elif</span> filename<span class="token punctuation">.</span>endswith<span class="token punctuation">(</span><span class="token string">'.docx'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># python-docx でパラグラフ・テーブル抽出</span>
+        text <span class="token operator">=</span> extract_docx_text<span class="token punctuation">(</span>file_content<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+        <span class="token comment"># テキストファイルとして読み込み</span>
+        text <span class="token operator">=</span> file_content<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">,</span> errors<span class="token operator">=</span><span class="token string">'replace'</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># クリーニング・制限</span>
+    text <span class="token operator">=</span> normalise_input_text<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+    text <span class="token operator">=</span> text<span class="token punctuation">[</span><span class="token punctuation">:</span>max_characters<span class="token punctuation">]</span>
+    preview <span class="token operator">=</span> text<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">200</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword keyword-return">return</span> text<span class="token punctuation">,</span> preview
+</code></pre><hr>
+<h3 id="45-検索フィルタリング-searchpy">4.5 検索・フィルタリング (<code>search.py</code>) </h3>
+<p><strong>検索アルゴリズム</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">search_timeline_items</span><span class="token punctuation">(</span>
+    items<span class="token punctuation">:</span> Sequence<span class="token punctuation">[</span>TimelineItem<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    keywords<span class="token punctuation">:</span> Sequence<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    categories<span class="token punctuation">:</span> Sequence<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    date_from<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span>date<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    date_to<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span>date<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    match_mode<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span>  <span class="token comment"># "any" | "all"</span>
+    max_results<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> List<span class="token punctuation">[</span>SearchResult<span class="token punctuation">]</span><span class="token punctuation">:</span>
+</code></pre><p><strong>スコアリング</strong></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>score</mtext><mo>=</mo><munder><mo>∑</mo><mtext>field</mtext></munder><msub><mi>w</mi><mi>f</mi></msub><mo>×</mo><msub><mtext>hit_count</mtext><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">\text{score} = \sum_{\text{field}} w_f \times \text{hit\_count}_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord text"><span class="mord">score</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.3521em;vertical-align:-1.3021em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.8479em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">field</span></span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.3021em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1902em;vertical-align:-0.4958em;"></span><span class="mord"><span class="mord text"><span class="mord">hit_count</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1264em;"><span style="top:-2.3403em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4958em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>フィールド重み：</p>
+<ul>
+<li><code>title</code>: 3.0</li>
+<li><code>description</code>: 2.0</li>
+<li><code>people</code>: 1.5</li>
+<li><code>locations</code>: 1.5</li>
+<li><code>category</code>: 1.0</li>
+<li><code>date</code>: 0.5</li>
+</ul>
+<p><strong>フィルタリング順序</strong></p>
+<ol>
+<li><strong>カテゴリ制限</strong>: <code>categories</code> が指定されていれば、先に絞り込み</li>
+<li><strong>日付範囲</strong>: <code>date_from</code> ～ <code>date_to</code> でフィルタ</li>
+<li><strong>キーワード検索</strong>: "any" (OR) / "all" (AND) モード</li>
+<li><strong>スコアリング</strong>: 各フィールドの重み付けで降順ソート</li>
+<li><strong>制限</strong>: <code>max_results</code> で切り詰め</li>
+</ol>
+<p><strong>例</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>リクエスト:
+{
+  "keywords": ["大阪", "技術"],
+  "categories": [],
+  "date_from": "2020-01-01",
+  "match_mode": "all",
+  "max_results": 5
+}
+
+処理:
+1. 2020-01-01 以降のイベント のみ対象
+2. 「大阪」AND「技術」の両方を含むイベント
+3. スコア順にソート
+   - 大阪+技術が title に → スコア 3.0 + 2.0 = 5.0
+   - 大阪 が title, 技術が description → スコア 3.0 + 2.0 = 5.0
+4. 上位 5件 返却
+</code></pre><hr>
+<h3 id="46-共有機能-share_storepy">4.6 共有機能 (<code>share_store.py</code>) </h3>
+<p><strong>責務</strong>: 年表の永続化・期限管理</p>
+<p><strong>ストレージオプション</strong></p>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>デフォルト</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SQLite</strong></td>
+<td>✓</td>
+<td>ローカル開発、スタンドアロン環境</td>
+</tr>
+<tr>
+<td><strong>Firestore</strong></td>
+<td>✗</td>
+<td>マルチテナント、クラウドデプロイ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Firestore スキーマ</strong></p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">"shares"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">document</span><span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">id</span><span class="token operator">:</span> string<span class="token punctuation">,</span>           <span class="token comment">// UUID</span>
+    <span class="token literal-property property">title</span><span class="token operator">:</span> string<span class="token punctuation">,</span>        <span class="token comment">// 共有タイトル</span>
+    <span class="token literal-property property">text</span><span class="token operator">:</span> string<span class="token punctuation">,</span>         <span class="token comment">// 本文（最大200KB）</span>
+    <span class="token literal-property property">items</span><span class="token operator">:</span> <span class="token punctuation">[</span>              <span class="token comment">// TimelineItem配列</span>
+      <span class="token punctuation">{</span>
+        <span class="token literal-property property">id</span><span class="token operator">:</span> string<span class="token punctuation">,</span>
+        <span class="token literal-property property">date_text</span><span class="token operator">:</span> string<span class="token punctuation">,</span>
+        <span class="token literal-property property">date_iso</span><span class="token operator">:</span> string<span class="token punctuation">,</span>
+        <span class="token literal-property property">title</span><span class="token operator">:</span> string<span class="token punctuation">,</span>
+        <span class="token literal-property property">description</span><span class="token operator">:</span> string<span class="token punctuation">,</span>
+        <span class="token literal-property property">people</span><span class="token operator">:</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">locations</span><span class="token operator">:</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">category</span><span class="token operator">:</span> string<span class="token punctuation">,</span>
+        <span class="token literal-property property">importance</span><span class="token operator">:</span> number<span class="token punctuation">,</span>
+        <span class="token literal-property property">confidence</span><span class="token operator">:</span> number
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">created_at</span><span class="token operator">:</span> timestamp<span class="token punctuation">,</span>
+    <span class="token literal-property property">expires_at</span><span class="token operator">:</span> timestamp
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>SQLite スキーマ</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> shares <span class="token punctuation">(</span>
+    id <span class="token keyword keyword-TEXT">TEXT</span> <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span><span class="token punctuation">,</span>
+    title <span class="token keyword keyword-TEXT">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    <span class="token keyword keyword-text">text</span> <span class="token keyword keyword-TEXT">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    items_json <span class="token keyword keyword-TEXT">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>    <span class="token comment">-- JSON形式</span>
+    created_at <span class="token keyword keyword-TEXT">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>    <span class="token comment">-- ISO-8601</span>
+    expires_at <span class="token keyword keyword-TEXT">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>     <span class="token comment">-- ISO-8601</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p><strong>期限管理</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># 作成時の TTL 設定</span>
+share_ttl_days <span class="token operator">=</span> <span class="token number">30</span>  <span class="token comment"># 環境変数 CHRONOLOGY_SHARE_TTL_DAYS</span>
+
+<span class="token comment"># 期限切れチェック</span>
+<span class="token keyword keyword-def">def</span> <span class="token function">is_share_expired</span><span class="token punctuation">(</span>share<span class="token punctuation">:</span> Dict<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> Any<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">bool</span><span class="token punctuation">:</span>
+    expires_at <span class="token operator">=</span> datetime<span class="token punctuation">.</span>fromisoformat<span class="token punctuation">(</span>share<span class="token punctuation">[</span><span class="token string">"expires_at"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span>timezone<span class="token punctuation">.</span>utc<span class="token punctuation">)</span> <span class="token operator">&gt;</span> expires_at
+
+<span class="token comment"># 自動削除（Firestore）</span>
+<span class="token comment"># Cloud Scheduler + Cloud Function で定期実行</span>
+</code></pre><hr>
+<h3 id="47-モデル定義-modelspy">4.7 モデル定義 (<code>models.py</code>) </h3>
+<p><strong>Pydantic スキーマ</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-class">class</span> <span class="token class-name">TimelineItem</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""年表の単一イベント"""</span>
+    <span class="token builtin">id</span><span class="token punctuation">:</span> <span class="token builtin">str</span>                           <span class="token comment"># UUID</span>
+    date_text<span class="token punctuation">:</span> <span class="token builtin">str</span>                    <span class="token comment"># 元の日付表記</span>
+    date_iso<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span>           <span class="token comment"># ISO-8601正規化形式</span>
+    title<span class="token punctuation">:</span> <span class="token builtin">str</span>                        <span class="token comment"># 短いヘッドライン</span>
+    description<span class="token punctuation">:</span> <span class="token builtin">str</span>                  <span class="token comment"># 長文説明</span>
+    people<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span>                 <span class="token comment"># 関連人物</span>
+    locations<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span>              <span class="token comment"># 関連場所</span>
+    category<span class="token punctuation">:</span> <span class="token builtin">str</span>                     <span class="token comment"># カテゴリ（小文字正規化）</span>
+    importance<span class="token punctuation">:</span> <span class="token builtin">float</span>                 <span class="token comment"># 0.0～1.0</span>
+    confidence<span class="token punctuation">:</span> <span class="token builtin">float</span>                 <span class="token comment"># 0.0～1.0</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">GenerateRequest</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    text<span class="token punctuation">:</span> <span class="token builtin">str</span>  <span class="token comment"># max 200,000文字</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">GenerateResponse</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    items<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineItem<span class="token punctuation">]</span>
+    total_events<span class="token punctuation">:</span> <span class="token builtin">int</span>
+    generated_at<span class="token punctuation">:</span> datetime
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">SearchRequest</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    text<span class="token punctuation">:</span> <span class="token builtin">str</span>
+    keywords<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span>
+    categories<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span>
+    date_from<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span>date<span class="token punctuation">]</span>
+    date_to<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span>date<span class="token punctuation">]</span>
+    match_mode<span class="token punctuation">:</span> Literal<span class="token punctuation">[</span><span class="token string">"any"</span><span class="token punctuation">,</span> <span class="token string">"all"</span><span class="token punctuation">]</span>
+    max_results<span class="token punctuation">:</span> <span class="token builtin">int</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">ShareCreateRequest</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    text<span class="token punctuation">:</span> <span class="token builtin">str</span>
+    items<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineItem<span class="token punctuation">]</span>         <span class="token comment"># クライアント側で用意</span>
+    title<span class="token punctuation">:</span> <span class="token builtin">str</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">ShareCreateResponse</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token builtin">id</span><span class="token punctuation">:</span> <span class="token builtin">str</span>
+    url<span class="token punctuation">:</span> <span class="token builtin">str</span>
+    created_at<span class="token punctuation">:</span> datetime
+    total_events<span class="token punctuation">:</span> <span class="token builtin">int</span>
+    expires_at<span class="token punctuation">:</span> datetime
+</code></pre><hr>
+<h2 id="5-データフロー">5. データフロー </h2>
+<h3 id="51-年表生成フロー">5.1 年表生成フロー </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>ユーザー入力 (テキスト)
+       ↓
+POST /api/generate
+       ↓
+[Request Validation]
+├─ 文字数制限チェック
+├─ 内容非空チェック
+└─ Pydantic バリデーション
+       ↓
+[Text Cleaning]
+├─ Wikipedia マークアップ除去
+├─ ノイズ除去
+└─ 正規化
+       ↓
+[Sentence Splitting]
+└─ 句点・改行で分割
+       ↓
+[Date Detection]
+├─ 和暦抽出 (令和3年4月1日)
+├─ 西暦抽出 (2021年4月1日)
+├─ 相対表現抽出 (10年前)
+└─ 会計年度抽出 (2021年度)
+       ↓
+[Event Aggregation]
+├─ 同一日付のマージ
+├─ フォローアップ文の追加
+└─ メタデータ計算
+       ↓
+[Metadata Extraction]
+├─ カテゴリ推定
+├─ 人物分類
+├─ 場所分類
+└─ スコア計算
+       ↓
+[Sorting &amp; Limiting]
+├─ ISO日付でソート
+├─ 重要度で二次ソート
+└─ max_events で制限
+       ↓
+GenerateResponse
+(TimelineItem[], total, timestamp)
+</code></pre><h3 id="52-検索フロー">5.2 検索フロー </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>ユーザー検索条件
+├─ keywords: ["大阪", "技術"]
+├─ categories: ["science"]
+├─ date_from: "2020-01-01"
+└─ match_mode: "all"
+       ↓
+POST /api/search
+       ↓
+[Pre-generation]
+├─ テキスト入力の年表を生成
+└─ 同時に search/timeline_items へ
+       ↓
+[Filtering]
+├─ カテゴリ: science のみ
+├─ 日付: &gt;= 2020-01-01
+└─ キーワード: 大阪 AND 技術
+       ↓
+[Scoring]
+├─ 各フィールドでの出現回数 × 重み
+├─ title で見つかった方が高スコア
+└─ 降順ソート
+       ↓
+SearchResponse
+(results[], total_events, total_matches, generated_at)
+</code></pre><h3 id="53-共有作成フロー">5.3 共有作成フロー </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>ユーザー共有リクエスト
+├─ text: "本文..."
+├─ items: [TimelineItem, ...]  ← クライアント側で生成
+└─ title: "タイトル"
+       ↓
+POST /api/share
+       ↓
+[Validation]
+├─ テキスト非空・最大文字数チェック
+├─ items 非空チェック
+└─ TimelineItem スキーマ検証
+       ↓
+[Storage]
+├─ Firestore有効?
+│  ├─ Yes: Firestore collection.document(id).set(payload)
+│  └─ No: SQLite INSERT
+├─ ID生成: UUID
+├─ created_at: 現在時刻 (UTC)
+└─ expires_at: created_at + TTL
+       ↓
+ShareCreateResponse
+(id, url, created_at, total_events, expires_at)
+</code></pre><h3 id="54-共有取得フロー">5.4 共有取得フロー </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>クライアントリクエスト
+├─ GET /api/share/{id}         (本文+年表)
+├─ GET /api/share/{id}/items   (年表のみ、公開)
+└─ GET /api/share/{id}/export  (JSON ダウンロード)
+       ↓
+[Lookup]
+├─ Firestore: collection.document(id).get()
+└─ SQLite: SELECT * FROM shares WHERE id = ?
+       ↓
+[Expiry Check]
+├─ expires_at &gt; 現在時刻?
+├─ No: 404 返却
+└─ Yes: 続行
+       ↓
+[Response]
+├─ /api/share/{id}
+│  └─ ShareGetResponse (id, title, text, items[], ...)
+├─ /api/share/{id}/items
+│  ├─ SharePublicResponse (id, title, items[], ...)
+│  ├─ ETag ヘッダ付与
+│  └─ Cache-Control: public, max-age=3600
+└─ /api/share/{id}/export
+   ├─ Content-Disposition: attachment; filename=timeline-{id}.json
+   └─ JSON ペイロード
+</code></pre><hr>
+<h2 id="6-api-エンドポイント仕様">6. API エンドポイント仕様 </h2>
+<h3 id="61-ヘルスチェック">6.1 ヘルスチェック </h3>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>GET /health
+GET /health/live
+GET /health/ready
+</code></pre><p><strong>レスポンス</strong></p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"ok"</span><span class="token punctuation">,</span>
+  <span class="token property">"uptime_seconds"</span><span class="token operator">:</span> <span class="token number">1234.567</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"0.1.0"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="62-テキスト抽出">6.2 テキスト抽出 </h3>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>POST /api/upload
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">multipart/form-data</span></span>
+
+[File Binary Data]
+</code></pre><p><strong>対応フォーマット</strong>: PDF, DOCX, TXT (最大 5MB)</p>
+<p><strong>レスポンス</strong></p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"filename"</span><span class="token operator">:</span> <span class="token string">"document.pdf"</span><span class="token punctuation">,</span>
+  <span class="token property">"characters"</span><span class="token operator">:</span> <span class="token number">15234</span><span class="token punctuation">,</span>
+  <span class="token property">"text_preview"</span><span class="token operator">:</span> <span class="token string">"最初の 200 文字..."</span><span class="token punctuation">,</span>
+  <span class="token property">"text"</span><span class="token operator">:</span> <span class="token string">"完全なテキスト（最大 200,000 文字）"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="63-年表生成">6.3 年表生成 </h3>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>POST /api/generate
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">application/json</span></span>
+<span class="token application-json">
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"text"</span><span class="token operator">:</span> <span class="token string">"2020年1月1日に東京で新しい政策が発表された。..."</span>
+<span class="token punctuation">}</span>
+</span></code></pre><p><strong>レスポンス</strong></p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"items"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"uuid-1"</span><span class="token punctuation">,</span>
+      <span class="token property">"date_text"</span><span class="token operator">:</span> <span class="token string">"2020年1月1日"</span><span class="token punctuation">,</span>
+      <span class="token property">"date_iso"</span><span class="token operator">:</span> <span class="token string">"2020-01-01"</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"新しい政策が発表された"</span><span class="token punctuation">,</span>
+      <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"2020年1月1日に東京で新しい政策が発表された。"</span><span class="token punctuation">,</span>
+      <span class="token property">"people"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"locations"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"東京"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"category"</span><span class="token operator">:</span> <span class="token string">"政治"</span><span class="token punctuation">,</span>
+      <span class="token property">"importance"</span><span class="token operator">:</span> <span class="token number">0.72</span><span class="token punctuation">,</span>
+      <span class="token property">"confidence"</span><span class="token operator">:</span> <span class="token number">0.68</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"total_events"</span><span class="token operator">:</span> <span class="token number">15</span><span class="token punctuation">,</span>
+  <span class="token property">"generated_at"</span><span class="token operator">:</span> <span class="token string">"2025-11-10T12:34:56.789000"</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>エラー処理</strong></p>
+<table>
+<thead>
+<tr>
+<th>ステータス</th>
+<th>エラー</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td>テキストが空</td>
+<td>入力内容なし</td>
+</tr>
+<tr>
+<td>400</td>
+<td>文字数が制限超過</td>
+<td>&gt; 200,000 文字</td>
+</tr>
+<tr>
+<td>500</td>
+<td>サーバー内部エラー</td>
+<td>予期しない例外</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="64-検索">6.4 検索 </h3>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>POST /api/search
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">application/json</span></span>
+<span class="token application-json">
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"text"</span><span class="token operator">:</span> <span class="token string">"本文..."</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"大阪"</span><span class="token punctuation">,</span> <span class="token string">"技術"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"science"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"date_from"</span><span class="token operator">:</span> <span class="token string">"2020-01-01"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"date_to"</span><span class="token operator">:</span> <span class="token string">"2023-12-31"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"match_mode"</span><span class="token operator">:</span> <span class="token string">"all"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"max_results"</span><span class="token operator">:</span> <span class="token number">10</span>
+<span class="token punctuation">}</span>
+</span></code></pre><p><strong>レスポンス</strong></p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"大阪"</span><span class="token punctuation">,</span> <span class="token string">"技術"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"categories"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"science"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"date_from"</span><span class="token operator">:</span> <span class="token string">"2020-01-01"</span><span class="token punctuation">,</span>
+  <span class="token property">"date_to"</span><span class="token operator">:</span> <span class="token string">"2023-12-31"</span><span class="token punctuation">,</span>
+  <span class="token property">"match_mode"</span><span class="token operator">:</span> <span class="token string">"all"</span><span class="token punctuation">,</span>
+  <span class="token property">"total_events"</span><span class="token operator">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+  <span class="token property">"total_matches"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+  <span class="token property">"results"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"score"</span><span class="token operator">:</span> <span class="token number">7.5</span><span class="token punctuation">,</span>
+      <span class="token property">"matched_keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"大阪"</span><span class="token punctuation">,</span> <span class="token string">"技術"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"matched_fields"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"title"</span><span class="token punctuation">,</span> <span class="token string">"description"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"item"</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">/* TimelineItem */</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"generated_at"</span><span class="token operator">:</span> <span class="token string">"2025-11-10T12:34:56.789000"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="65-wikipedia-インポート">6.5 Wikipedia インポート </h3>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>POST /api/import/wikipedia
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">application/json</span></span>
+<span class="token application-json">
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"topic"</span><span class="token operator">:</span> <span class="token string">"坂本龍馬"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"language"</span><span class="token operator">:</span> <span class="token string">"ja"</span>
+<span class="token punctuation">}</span>
+</span></code></pre><p><strong>レスポンス</strong></p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"source_title"</span><span class="token operator">:</span> <span class="token string">"坂本龍馬"</span><span class="token punctuation">,</span>
+  <span class="token property">"source_url"</span><span class="token operator">:</span> <span class="token string">"https://ja.wikipedia.org/wiki/%E5%9D%82%E6%9C%AC%E9%BE%8D%E9%A6%AC"</span><span class="token punctuation">,</span>
+  <span class="token property">"characters"</span><span class="token operator">:</span> <span class="token number">12345</span><span class="token punctuation">,</span>
+  <span class="token property">"text_preview"</span><span class="token operator">:</span> <span class="token string">"坂本龍馬（さかもと..."</span><span class="token punctuation">,</span>
+  <span class="token property">"items"</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">/* TimelineItem[] */</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"total_events"</span><span class="token operator">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  <span class="token property">"generated_at"</span><span class="token operator">:</span> <span class="token string">"2025-11-10T12:34:56.789000"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="66-共有作成">6.6 共有作成 </h3>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>POST /api/share
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">application/json</span></span>
+<span class="token application-json">
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"text"</span><span class="token operator">:</span> <span class="token string">"本文..."</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"title"</span><span class="token operator">:</span> <span class="token string">"タイトル"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"items"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token string-property property">"id"</span><span class="token operator">:</span> <span class="token string">"item-1"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"date_text"</span><span class="token operator">:</span> <span class="token string">"2020年1月1日"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"date_iso"</span><span class="token operator">:</span> <span class="token string">"2020-01-01"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"title"</span><span class="token operator">:</span> <span class="token string">"イベント"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"description"</span><span class="token operator">:</span> <span class="token string">"説明..."</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"people"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"locations"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"東京"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"category"</span><span class="token operator">:</span> <span class="token string">"politics"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"importance"</span><span class="token operator">:</span> <span class="token number">0.7</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"confidence"</span><span class="token operator">:</span> <span class="token number">0.6</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</span></code></pre><p><strong>レスポンス</strong></p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"550e8400-e29b-41d4-a716-446655440000"</span><span class="token punctuation">,</span>
+  <span class="token property">"url"</span><span class="token operator">:</span> <span class="token string">"https://example.com/api/share/550e8400-e29b-41d4-a716-446655440000"</span><span class="token punctuation">,</span>
+  <span class="token property">"created_at"</span><span class="token operator">:</span> <span class="token string">"2025-11-10T12:34:56.789000+00:00"</span><span class="token punctuation">,</span>
+  <span class="token property">"total_events"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"expires_at"</span><span class="token operator">:</span> <span class="token string">"2025-12-10T12:34:56.789000+00:00"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="67-共有取得">6.7 共有取得 </h3>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>GET /api/share/{id}
+GET /api/share/{id}/items
+GET /api/share/{id}/export
+</code></pre><p><strong>レスポンス</strong> (<code>/api/share/{id}</code>)</p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"550e8400-e29b-41d4-a716-446655440000"</span><span class="token punctuation">,</span>
+  <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"タイトル"</span><span class="token punctuation">,</span>
+  <span class="token property">"text"</span><span class="token operator">:</span> <span class="token string">"本文..."</span><span class="token punctuation">,</span>
+  <span class="token property">"items"</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">/* TimelineItem[] */</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"created_at"</span><span class="token operator">:</span> <span class="token string">"2025-11-10T12:34:56.789000+00:00"</span><span class="token punctuation">,</span>
+  <span class="token property">"expires_at"</span><span class="token operator">:</span> <span class="token string">"2025-12-10T12:34:56.789000+00:00"</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>レスポンス</strong> (<code>/api/share/{id}/items</code>)</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>HTTP/1.1 200 OK
+ETag: "abc123def456"
+Cache-Control: public, max-age=3600
+
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "title": "タイトル",
+  "items": [ /* TimelineItem[] */ ],
+  "created_at": "2025-11-10T12:34:56.789000+00:00",
+  "expires_at": "2025-12-10T12:34:56.789000+00:00"
+}
+</code></pre><p><strong>レスポンス</strong> (<code>/api/share/{id}/export</code>)</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>HTTP/1.1 200 OK
+Content-Disposition: attachment; filename=timeline-550e8400-e29b-41d4-a716-446655440000.json
+
+{
+  "id": "...",
+  "items": [ /* ... */ ]
+}
+</code></pre><hr>
+<h2 id="7-実装パターンと設計思想">7. 実装パターンと設計思想 </h2>
+<h3 id="71-設定管理パターン">7.1 設定管理パターン </h3>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># settings.py: Pydantic BaseSettings</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Settings</span><span class="token punctuation">(</span>BaseSettings<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    log_level<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span>default<span class="token operator">=</span><span class="token string">"INFO"</span><span class="token punctuation">)</span>
+    firestore_enabled<span class="token punctuation">:</span> <span class="token builtin">bool</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span>default<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+    max_input_characters<span class="token punctuation">:</span> <span class="token builtin">int</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span>default<span class="token operator">=</span><span class="token number">200_000</span><span class="token punctuation">,</span> ge<span class="token operator">=</span><span class="token number">10_000</span><span class="token punctuation">,</span> le<span class="token operator">=</span><span class="token number">1_000_000</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-class">class</span> <span class="token class-name">Config</span><span class="token punctuation">:</span>
+        env_prefix <span class="token operator">=</span> <span class="token string">"CHRONOLOGY_"</span>
+        env_file <span class="token operator">=</span> <span class="token string">".env"</span>
+    
+    <span class="token decorator annotation punctuation">@validator</span><span class="token punctuation">(</span><span class="token string">"log_level"</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">_normalise_log_level</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">str</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> value<span class="token punctuation">.</span>upper<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+settings <span class="token operator">=</span> Settings<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># Singleton</span>
+</code></pre><p><strong>利点</strong></p>
+<ul>
+<li>環境変数の型安全性</li>
+<li>デフォルト値の一元管理</li>
+<li>バリデーション自動化</li>
+<li><code>.env</code> ファイル対応</li>
+</ul>
+<hr>
+<h3 id="72-非同期処理パターン">7.2 非同期処理パターン </h3>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>post</span><span class="token punctuation">(</span><span class="token string">"/api/upload"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-def">def</span> <span class="token function">upload_document</span><span class="token punctuation">(</span><span class="token builtin">file</span><span class="token punctuation">:</span> UploadFile <span class="token operator">=</span> File<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># I/O バウンド操作を非同期化</span>
+    text<span class="token punctuation">,</span> preview <span class="token operator">=</span> <span class="token keyword keyword-await">await</span> extract_text_from_upload<span class="token punctuation">(</span>
+        <span class="token builtin">file</span><span class="token punctuation">,</span>
+        max_characters<span class="token operator">=</span>settings<span class="token punctuation">.</span>max_input_characters<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> UploadResponse<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-def">def</span> <span class="token function">extract_text_from_upload</span><span class="token punctuation">(</span><span class="token builtin">file</span><span class="token punctuation">:</span> UploadFile<span class="token punctuation">,</span> max_characters<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># スレッドプールで CPU バウンド操作を実行</span>
+    content <span class="token operator">=</span> <span class="token keyword keyword-await">await</span> <span class="token builtin">file</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    text <span class="token operator">=</span> <span class="token keyword keyword-await">await</span> run_in_threadpool<span class="token punctuation">(</span>extract_pdf_text<span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> text<span class="token punctuation">,</span> preview
+</code></pre><p><strong>利点</strong></p>
+<ul>
+<li>I/O 待機時間の最小化</li>
+<li>スケーラビリティ向上</li>
+<li>Uvicorn ASGI サーバーとの統合</li>
+</ul>
+<hr>
+<h3 id="73-キャッシングcdn対応パターン">7.3 キャッシング・CDN対応パターン </h3>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">"/api/share/{id}/items"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-def">def</span> <span class="token function">get_share_items</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># ETag ベースキャッシュ</span>
+    etag <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>md5<span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>share_data<span class="token punctuation">)</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    response <span class="token operator">=</span> JSONResponse<span class="token punctuation">(</span>share_data<span class="token punctuation">)</span>
+    response<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">"ETag"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f'"</span><span class="token interpolation"><span class="token punctuation">{</span>etag<span class="token punctuation">}</span></span><span class="token string">"'</span></span>
+    response<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">"Cache-Control"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"public, max-age=3600"</span>
+    
+    <span class="token keyword keyword-return">return</span> response
+</code></pre><p><strong>利点</strong></p>
+<ul>
+<li>ブラウザ・CDN キャッシュの有効化</li>
+<li>帯域幅削減</li>
+<li>レスポンス高速化</li>
+</ul>
+<hr>
+<h3 id="74-エラーハンドリングパターン">7.4 エラーハンドリングパターン </h3>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>exception_handler</span><span class="token punctuation">(</span>Exception<span class="token punctuation">)</span>
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-def">def</span> <span class="token function">unhandled_exception_handler</span><span class="token punctuation">(</span>request<span class="token punctuation">:</span> Request<span class="token punctuation">,</span> exc<span class="token punctuation">:</span> Exception<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    request_id <span class="token operator">=</span> <span class="token builtin">getattr</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>state<span class="token punctuation">,</span> <span class="token string">"request_id"</span><span class="token punctuation">,</span> <span class="token builtin">str</span><span class="token punctuation">(</span>uuid4<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    logger<span class="token punctuation">.</span>exception<span class="token punctuation">(</span><span class="token string">"Unhandled error"</span><span class="token punctuation">,</span> extra<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">"request_id"</span><span class="token punctuation">:</span> request_id<span class="token punctuation">}</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-return">return</span> JSONResponse<span class="token punctuation">(</span>
+        status_code<span class="token operator">=</span><span class="token number">500</span><span class="token punctuation">,</span>
+        content<span class="token operator">=</span><span class="token punctuation">{</span>
+            <span class="token string">"detail"</span><span class="token punctuation">:</span> <span class="token string">"サーバー内部で予期しないエラーが発生しました。"</span><span class="token punctuation">,</span>
+            <span class="token string">"request_id"</span><span class="token punctuation">:</span> request_id<span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        headers<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">"X-Request-ID"</span><span class="token punctuation">:</span> request_id<span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+
+<span class="token comment"># HTTPException: クライアントエラー</span>
+<span class="token keyword keyword-raise">raise</span> HTTPException<span class="token punctuation">(</span>
+    status_code<span class="token operator">=</span><span class="token number">400</span><span class="token punctuation">,</span>
+    detail<span class="token operator">=</span><span class="token string-interpolation"><span class="token string">f"文字数が制限を超えています (最大</span><span class="token interpolation"><span class="token punctuation">{</span>limit<span class="token punctuation">:</span><span class="token format-spec">,</span><span class="token punctuation">}</span></span><span class="token string">文字)"</span></span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># ValueError: バリデーションエラー</span>
+<span class="token decorator annotation punctuation">@validator</span><span class="token punctuation">(</span><span class="token string">"text"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-def">def</span> <span class="token function">ensure_non_empty</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">str</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> value<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-raise">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">"テキストが空です。"</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> value
+</code></pre><p><strong>利点</strong></p>
+<ul>
+<li>リクエストIDトレーシング</li>
+<li>一貫的なエラーレスポンス</li>
+<li>ログ・監視統合</li>
+</ul>
+<hr>
+<h3 id="75-イベント駆動パターン">7.5 イベント駆動パターン </h3>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>on_event</span><span class="token punctuation">(</span><span class="token string">"startup"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-def">def</span> <span class="token function">startup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+    <span class="token comment"># Firestore クライアント初期化</span>
+    fs_cfg <span class="token operator">=</span> FirestoreConfig<span class="token punctuation">(</span>
+        enabled<span class="token operator">=</span>settings<span class="token punctuation">.</span>firestore_enabled<span class="token punctuation">,</span>
+        project_id<span class="token operator">=</span>settings<span class="token punctuation">.</span>firestore_project_id<span class="token punctuation">,</span>
+        credentials_path<span class="token operator">=</span>settings<span class="token punctuation">.</span>firestore_credentials_path<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+    app<span class="token punctuation">.</span>state<span class="token punctuation">.</span>share_store <span class="token operator">=</span> ShareStore<span class="token punctuation">(</span>firestore<span class="token operator">=</span>fs_cfg<span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>middleware</span><span class="token punctuation">(</span><span class="token string">"http"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-def">def</span> <span class="token function">request_context_middleware</span><span class="token punctuation">(</span>request<span class="token punctuation">:</span> Request<span class="token punctuation">,</span> call_next<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># リクエストコンテキスト設定</span>
+    request<span class="token punctuation">.</span>state<span class="token punctuation">.</span>request_id <span class="token operator">=</span> request<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"X-Request-ID"</span><span class="token punctuation">)</span> <span class="token keyword keyword-or">or</span> <span class="token builtin">str</span><span class="token punctuation">(</span>uuid4<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token keyword keyword-return">return</span> response
+</code></pre><hr>
+<h2 id="8-テスト戦略">8. テスト戦略 </h2>
+<h3 id="81-テスト構成">8.1 テスト構成 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>src/
+├─ test_timeline_generator.py  (30+ テストケース)
+│  ├─ 日付抽出
+│  ├─ カテゴリ推定
+│  ├─ 人物/場所分類
+│  ├─ スコアリング
+│  └─ エッジケース
+├─ test_search.py              (10+ テストケース)
+│  ├─ キーワード検索
+│  ├─ カテゴリフィルタ
+│  ├─ 日付範囲フィルタ
+│  └─ スコアリング
+├─ test_share.py               (8+ テストケース)
+│  ├─ 共有作成
+│  ├─ 共有取得
+│  ├─ 期限管理
+│  └─ Firestore/SQLite 切り替え
+├─ test_share_public.py        (5+ テストケース)
+│  ├─ 公開エンドポイント
+│  └─ ETag キャッシュ
+├─ test_text_extractor.py      (5+ テストケース)
+│  ├─ PDF 抽出
+│  ├─ DOCX 抽出
+│  └─ TXT 抽出
+├─ test_wikipedia_importer.py  (3+ テストケース)
+│  └─ Wikipedia API 呼び出し
+└─ test_app_service.py         (5+ テストケース)
+   ├─ エンドポイント統合テスト
+   ├─ CORS ヘッダ
+   └─ エラーハンドリング
+</code></pre><p><strong>カバレッジ</strong>: 約 85%</p>
+<h3 id="82-テストケース例">8.2 テストケース例 </h3>
+<p><strong>カテゴリ推定テスト</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">test_generate_timeline_detects_sports_category</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    text <span class="token operator">=</span> <span class="token string">"2023年3月21日、侍ジャパンがW杯で優勝し、選手たちが歓喜した。"</span>
+    items <span class="token operator">=</span> generate_timeline<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+    <span class="token keyword keyword-assert">assert</span> <span class="token builtin">any</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>category <span class="token operator">==</span> <span class="token string">"sports"</span> <span class="token keyword keyword-for">for</span> item <span class="token keyword keyword-in">in</span> items<span class="token punctuation">)</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">test_generate_timeline_prioritises_politics_category</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    text <span class="token operator">=</span> <span class="token string">"2024年5月20日、国会で防衛予算に関する法案が可決された。"</span>
+    items <span class="token operator">=</span> generate_timeline<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+    <span class="token keyword keyword-assert">assert</span> <span class="token builtin">any</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>category <span class="token operator">==</span> <span class="token string">"政治"</span> <span class="token keyword keyword-for">for</span> item <span class="token keyword keyword-in">in</span> items<span class="token punctuation">)</span>
+</code></pre><p><strong>日付抽出テスト</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">test_generate_timeline_parses_era_with_kanji_month_day</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    text <span class="token operator">=</span> <span class="token string">"令和三年四月一日、京都で新しい政策が発表された。"</span>
+    items <span class="token operator">=</span> generate_timeline<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+    <span class="token keyword keyword-assert">assert</span> <span class="token builtin">any</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>date_iso <span class="token operator">==</span> <span class="token string">"2021-04-01"</span> <span class="token keyword keyword-for">for</span> item <span class="token keyword keyword-in">in</span> items<span class="token punctuation">)</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">test_generate_timeline_handles_relative_years</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    reference <span class="token operator">=</span> date<span class="token punctuation">(</span><span class="token number">2024</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    text <span class="token operator">=</span> <span class="token string">"10年前に会社が設立された。"</span>
+    items <span class="token operator">=</span> generate_timeline<span class="token punctuation">(</span>text<span class="token punctuation">,</span> reference_date<span class="token operator">=</span>reference<span class="token punctuation">)</span>
+    <span class="token keyword keyword-assert">assert</span> <span class="token builtin">any</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>date_iso <span class="token operator">==</span> <span class="token string">"2014-01-01"</span> <span class="token keyword keyword-for">for</span> item <span class="token keyword keyword-in">in</span> items<span class="token punctuation">)</span>
+</code></pre><p><strong>検索フィルタテスト</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">test_search_filters_by_category</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    items <span class="token operator">=</span> <span class="token punctuation">[</span>TimelineItem<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> category<span class="token operator">=</span><span class="token string">"sports"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span>
+    results <span class="token operator">=</span> search_timeline_items<span class="token punctuation">(</span>
+        items<span class="token punctuation">,</span>
+        keywords<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        categories<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"sports"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">)</span>
+    <span class="token keyword keyword-assert">assert</span> <span class="token builtin">all</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>item<span class="token punctuation">.</span>category <span class="token operator">==</span> <span class="token string">"sports"</span> <span class="token keyword keyword-for">for</span> r <span class="token keyword keyword-in">in</span> results<span class="token punctuation">)</span>
+</code></pre><h3 id="83-テスト実行">8.3 テスト実行 </h3>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># 全テスト</span>
+python <span class="token parameter variable">-m</span> pytest
+
+<span class="token comment"># 特定ファイルのテスト</span>
+python <span class="token parameter variable">-m</span> pytest src/test_timeline_generator.py
+
+<span class="token comment"># カバレッジ測定</span>
+python <span class="token parameter variable">-m</span> pytest <span class="token parameter variable">--cov</span><span class="token operator">=</span>src --cov-report<span class="token operator">=</span>html
+</code></pre><hr>
+<h2 id="9-デプロイメント構成">9. デプロイメント構成 </h2>
+<h3 id="91-docker-コンテナ化">9.1 Docker コンテナ化 </h3>
+<p><strong>Dockerfile</strong></p>
+<pre data-role="codeBlock" data-info="dockerfile" class="language-dockerfile dockerfile"><code><span class="token instruction"><span class="token keyword keyword-FROM">FROM</span> python:3.10-slim</span>
+
+<span class="token instruction"><span class="token keyword keyword-WORKDIR">WORKDIR</span> /app</span>
+
+<span class="token comment"># 依存ライブラリ</span>
+<span class="token instruction"><span class="token keyword keyword-COPY">COPY</span> requirements.txt .</span>
+<span class="token instruction"><span class="token keyword keyword-RUN">RUN</span> pip install --no-cache-dir -r requirements.txt</span>
+
+<span class="token comment"># ソースコード</span>
+<span class="token instruction"><span class="token keyword keyword-COPY">COPY</span> src/ ./src/</span>
+
+<span class="token comment"># Uvicorn サーバー起動</span>
+<span class="token instruction"><span class="token keyword keyword-CMD">CMD</span> [<span class="token string">"python"</span>, <span class="token string">"-m"</span>, <span class="token string">"uvicorn"</span>, <span class="token string">"src.app:app"</span>, <span class="token string">"--host"</span>, <span class="token string">"0.0.0.0"</span>, <span class="token string">"--port"</span>, <span class="token string">"8000"</span>]</span>
+</code></pre><p><strong>ビルド &amp; 実行</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token function">docker</span> build <span class="token parameter variable">-t</span> chronology-api:latest <span class="token builtin class-name">.</span>
+<span class="token function">docker</span> run <span class="token parameter variable">-p</span> <span class="token number">8000</span>:8000 <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">CHRONOLOGY_FIRESTORE_ENABLED</span><span class="token operator">=</span>true <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">CHRONOLOGY_FIRESTORE_PROJECT_ID</span><span class="token operator">=</span>my-project <span class="token punctuation">\</span>
+  <span class="token parameter variable">-v</span> /path/to/credentials.json:/app/creds.json <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">CHRONOLOGY_FIRESTORE_CREDENTIALS_PATH</span><span class="token operator">=</span>/app/creds.json <span class="token punctuation">\</span>
+  chronology-api:latest
+</code></pre><h3 id="92-rendercom-デプロイ">9.2 <a href="http://Render.com">Render.com</a> デプロイ </h3>
+<p><strong>render.yaml</strong></p>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> web
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> chronology<span class="token punctuation">-</span>api
+    <span class="token key atrule">runtime</span><span class="token punctuation">:</span> python
+    <span class="token key atrule">buildCommand</span><span class="token punctuation">:</span> <span class="token string">"pip install -r requirements.txt"</span>
+    <span class="token key atrule">startCommand</span><span class="token punctuation">:</span> <span class="token string">"cd src &amp;&amp; python -m uvicorn app:app --host 0.0.0.0 --port $PORT"</span>
+    <span class="token key atrule">envVars</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">key</span><span class="token punctuation">:</span> CHRONOLOGY_LOG_LEVEL
+        <span class="token key atrule">value</span><span class="token punctuation">:</span> INFO
+      <span class="token punctuation">-</span> <span class="token key atrule">key</span><span class="token punctuation">:</span> CHRONOLOGY_FIRESTORE_ENABLED
+        <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">key</span><span class="token punctuation">:</span> CHRONOLOGY_FIRESTORE_PROJECT_ID
+        <span class="token key atrule">sync</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+</code></pre><h3 id="93-環境変数設定">9.3 環境変数設定 </h3>
+<p><strong>本番環境</strong> (<code>.env.production</code>)</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>CHRONOLOGY_LOG_LEVEL=WARNING
+CHRONOLOGY_FIRESTORE_ENABLED=true
+CHRONOLOGY_FIRESTORE_PROJECT_ID=chronology-prod
+CHRONOLOGY_FIRESTORE_COLLECTION=shares
+CHRONOLOGY_SHARE_TTL_DAYS=30
+CHRONOLOGY_PUBLIC_BASE_URL=https://api.chronology.example.com
+CHRONOLOGY_ALLOWED_ORIGINS=https://chronology.example.com,https://app.chronology.example.com
+CHRONOLOGY_MAX_INPUT_CHARACTERS=200000
+</code></pre><p><strong>開発環境</strong> (<code>.env.local</code>)</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>CHRONOLOGY_LOG_LEVEL=DEBUG
+CHRONOLOGY_FIRESTORE_ENABLED=false
+CHRONOLOGY_ALLOWED_ORIGINS=*
+</code></pre><hr>
+<h2 id="10-将来の改善可能性">10. 将来の改善可能性 </h2>
+<h3 id="101-短期改善1-2ヶ月">10.1 短期改善（1～2ヶ月） </h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>カテゴリ精度向上</strong></td>
+<td>キーワード重み付けの自動学習</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>多言語対応</strong></td>
+<td>英語・中国語での日付抽出</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>キャッシング層</strong></td>
+<td>Redis キャッシュ統合</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>ログ集約</strong></td>
+<td>Stackdriver 統合</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>レート制限</strong></td>
+<td>API レート制限実装</td>
+<td>⭐⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102-中期改善2-6ヶ月">10.2 中期改善（2～6ヶ月） </h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+<th>利点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>機械学習統合</strong></td>
+<td>トランスフォーマー使用の NER/分類</td>
+<td>精度向上 5～10%</td>
+</tr>
+<tr>
+<td><strong>ストリーミングレスポンス</strong></td>
+<td>SSE での分割生成</td>
+<td>UX 向上</td>
+</tr>
+<tr>
+<td><strong>バッチ処理API</strong></td>
+<td>複数テキスト同時処理</td>
+<td>スループット向上</td>
+</tr>
+<tr>
+<td><strong>知識グラフ統合</strong></td>
+<td>エンティティ間の関連性</td>
+<td>複雑度把握</td>
+</tr>
+<tr>
+<td><strong>可視化API</strong></td>
+<td>タイムライン D3.js 出力</td>
+<td>クライアント簡略化</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-長期展望6-12ヶ月">10.3 長期展望（6～12ヶ月） </h3>
+<ul>
+<li><strong>LLM 統合</strong>: GPT/Claude による自動サマリー生成</li>
+<li><strong>リアルタイムストリーミング</strong>: Firestore リアルタイムリッスナー</li>
+<li><strong>拡張フォーマット対応</strong>: PowerPoint, HTML など</li>
+<li><strong>多モーダル解析</strong>: 画像内のテキスト抽出 (OCR)</li>
+<li><strong>監視・分析</strong>: メトリクス・トレーシング統合</li>
+</ul>
+<hr>
+<h2 id="付録-a-正規表現リファレンス">付録 A. 正規表現リファレンス </h2>
+<h3 id="日付パターン">日付パターン </h3>
+<table>
+<thead>
+<tr>
+<th>パターン</th>
+<th>例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERA</td>
+<td><code>令和三年四月一日</code></td>
+<td>和暦</td>
+</tr>
+<tr>
+<td>YEAR-MONTH-DAY</td>
+<td><code>2021-04-01</code> <code>2021/04/01</code></td>
+<td>ISO 形式</td>
+</tr>
+<tr>
+<td>KANJI</td>
+<td><code>二千二十一年</code></td>
+<td>漢数字年</td>
+</tr>
+<tr>
+<td>FULLWIDTH</td>
+<td><code>２０２１年</code></td>
+<td>全角数字</td>
+</tr>
+<tr>
+<td>RELATIVE</td>
+<td><code>10年前</code></td>
+<td>相対表現</td>
+</tr>
+<tr>
+<td>FISCAL</td>
+<td><code>2021年度</code></td>
+<td>会計年度</td>
+</tr>
+</tbody>
+</table>
+<h3 id="カテゴリキーワード">カテゴリキーワード </h3>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>代表キーワード</th>
+<th>重み</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>政治</strong></td>
+<td>政府、首相、選挙、国会</td>
+<td>2.0～2.5</td>
+</tr>
+<tr>
+<td><strong>経済</strong></td>
+<td>経済、企業、株式、市場</td>
+<td>1.8～2.2</td>
+</tr>
+<tr>
+<td><strong>文化</strong></td>
+<td>文化、映画、芸術、音楽</td>
+<td>1.6～2.0</td>
+</tr>
+<tr>
+<td><strong>科学</strong></td>
+<td>科学、技術、研究、AI</td>
+<td>1.9～2.2</td>
+</tr>
+<tr>
+<td><strong>教育</strong></td>
+<td>教育、学校、大学、授業</td>
+<td>1.5～2.0</td>
+</tr>
+<tr>
+<td><strong>軍事</strong></td>
+<td>軍、防衛、戦争、自衛隊</td>
+<td>2.3～2.4</td>
+</tr>
+<tr>
+<td><strong>スポーツ</strong></td>
+<td>試合、優勝、選手、大会</td>
+<td>1.9～2.2</td>
+</tr>
+<tr>
+<td><strong>災害</strong></td>
+<td>地震、津波、台風、避難</td>
+<td>1.8～2.4</td>
+</tr>
+<tr>
+<td><strong>医療</strong></td>
+<td>医療、病院、感染、ワクチン</td>
+<td>1.9～2.4</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="付録-b-環境構築チェックリスト">付録 B. 環境構築チェックリスト </h2>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Python 3.10+ インストール</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 依存パッケージインストール: <code>pip install -r src/requirements.txt</code></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> テスト実行: <code>python -m pytest</code></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> ローカル起動: <code>cd src &amp;&amp; python -m uvicorn app:app --reload</code></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> OpenAPI 確認: <code>http://localhost:8000/docs</code></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Docker イメージビルド (オプション): <code>docker build -t chronology-api .</code></li>
+</ul>
+<hr>
+<h2 id="付録-c-参考資料">付録 C. 参考資料 </h2>
+<ul>
+<li><strong>FastAPI 公式ドキュメント</strong>: <a href="https://fastapi.tiangolo.com">https://fastapi.tiangolo.com</a></li>
+<li><strong>Pydantic V1 リファレンス</strong>: <a href="https://docs.pydantic.dev/1.10/">https://docs.pydantic.dev/1.10/</a></li>
+<li><strong>Google Cloud Firestore</strong>: <a href="https://firebase.google.com/docs/firestore">https://firebase.google.com/docs/firestore</a></li>
+<li><strong>Python 正規表現</strong>: <a href="https://docs.python.org/ja/3/library/re.html">https://docs.python.org/ja/3/library/re.html</a></li>
+<li><strong>日本語処理</strong>: <a href="https://www.jnlp.org/">https://www.jnlp.org/</a></li>
+</ul>
+<hr>
+<p><strong>作成日</strong>: 2025年11月10日<br>
+<strong>バージョン</strong>: 1.0<br>
+<strong>対象プロジェクト</strong>: Chronology Maker API</p>
+</div>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
