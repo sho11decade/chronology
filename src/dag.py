@@ -4,7 +4,7 @@ import math
 import re
 from dataclasses import dataclass
 from datetime import datetime, date
-from typing import Dict, List, Literal, Optional, Tuple
+from typing import Dict, List, Literal, Optional, Tuple, Set
 from uuid import uuid4
 
 try:
@@ -83,19 +83,23 @@ class GenerateDAGRequest(BaseModel):
 # --- ユーティリティ ---------------------------------------------------------
 
 
-_CAUSAL_MARKERS = (
-    "そのため",
-    "その結果",
-    "これにより",
-    "これによって",
-    "結果として",
-)
-_TEMPORAL_MARKERS = (
-    "その後",
-    "翌日",
-    "翌月",
-    "翌年",
-)
+# マーカー辞書（要件定義の付録Aを簡略反映）
+_MARKERS: Dict[str, Tuple[RelationType, float]] = {
+    # 因果
+    "そのため": ("causal", 0.95),
+    "その結果": ("causal", 0.93),
+    "これにより": ("causal", 0.92),
+    "これによって": ("causal", 0.92),
+    "結果として": ("causal", 0.89),
+    # 時間
+    "その後": ("temporal", 0.80),
+    "翌日": ("temporal", 0.85),
+    "翌月": ("temporal", 0.85),
+    "翌年": ("temporal", 0.82),
+    # 並行
+    "同時に": ("parallel", 0.88),
+    "一方": ("parallel", 0.85),
+}
 
 
 def _iso_to_date(iso: Optional[str]) -> Optional[date]:
@@ -130,24 +134,58 @@ def _entity_overlap(a: TimelineItem, b: TimelineItem) -> int:
     return len(set(a.people) & set(b.people)) + len(set(a.locations) & set(b.locations))
 
 
-def _infer_relation_type(prev: TimelineItem, cur: TimelineItem) -> RelationType:
-    desc = (cur.description or "") + "\n" + (cur.title or "")
-    if _has_marker(desc, _CAUSAL_MARKERS):
-        return "causal"
-    return "temporal"
+def _detect_temporal_markers(prev_text: str, cur_text: str) -> Tuple[RelationType, float, Optional[str]]:
+    """前後のテキストから最も強いマーカーを検出し、関係型とスコア、該当語を返す。"""
+    best: Tuple[RelationType, float, Optional[str]] = ("temporal", 0.0, None)
+    # 現在文面を優先的に検索
+    for phrase, (rtype, score) in _MARKERS.items():
+        if phrase in cur_text:
+            if score > best[1]:
+                best = (rtype, score, phrase)
+    # 次に前文面も参照（並行など）
+    for phrase, (rtype, score) in _MARKERS.items():
+        if phrase in prev_text and score > best[1]:
+            best = (rtype, score, phrase)
+    return best
 
 
-def _relation_strength(prev: TimelineItem, cur: TimelineItem) -> float:
-    # 簡易スコア: マーカー, カテゴリ一致, エンティティ重複, 時間減衰
-    desc = (cur.description or "") + "\n" + (cur.title or "")
-    marker = 1.0 if _has_marker(desc, _CAUSAL_MARKERS) else (0.6 if _has_marker(desc, _TEMPORAL_MARKERS) else 0.0)
-    same_cat = 1.0 if (prev.category == cur.category and prev.category != "general") else 0.0
-    overlap = 1.0 if _entity_overlap(prev, cur) > 0 else 0.0
+def _infer_relation_type(prev: TimelineItem, cur: TimelineItem) -> Tuple[RelationType, float, Optional[str]]:
+    prev_text = (prev.description or "") + "\n" + (prev.title or "")
+    cur_text = (cur.description or "") + "\n" + (cur.title or "")
+    rtype, score, phrase = _detect_temporal_markers(prev_text, cur_text)
+    return rtype, score, phrase
+
+
+_CATEGORY_AFFINITY: Dict[Tuple[str, str], float] = {
+    ("politics", "economy"): 0.65,
+    ("economy", "politics"): 0.65,
+    ("science", "health"): 0.75,
+    ("health", "science"): 0.75,
+    ("disaster", "health"): 0.60,
+    ("health", "disaster"): 0.60,
+    ("economy", "science"): 0.50,
+    ("science", "economy"): 0.50,
+    ("politics", "science"): 0.35,
+    ("science", "politics"): 0.35,
+}
+
+
+def _semantic_similarity(prev: TimelineItem, cur: TimelineItem) -> float:
+    if prev.category == cur.category:
+        if prev.category == "general":
+            return 0.2
+        return 0.8
+    return _CATEGORY_AFFINITY.get((prev.category, cur.category), 0.3)
+
+
+def _relation_strength(prev: TimelineItem, cur: TimelineItem, marker_score: float) -> float:
+    # 要件式: 0.5*wt + 0.3*sc + 0.2*tg
+    wt = max(0.0, min(1.0, marker_score))
+    sc = _semantic_similarity(prev, cur)
     gap = _time_gap_days(prev.date_iso, cur.date_iso)
-    decay = math.exp(-abs(gap) / 365.0) if isinstance(gap, int) else 0.8
-
-    score = 0.5 * marker + 0.2 * same_cat + 0.2 * overlap + 0.1 * decay
-    return max(0.0, min(1.0, round(score, 3)))
+    tg = math.exp(-abs(gap) / 365.0) if isinstance(gap, int) else 0.8
+    score = 0.5 * wt + 0.3 * sc + 0.2 * tg
+    return round(max(0.0, min(1.0, score)), 3)
 
 
 def _compute_stats(nodes: List[TimelineNode], edges: List[TimelineEdge]) -> Dict[str, float]:
@@ -199,31 +237,39 @@ def build_timeline_dag(
             )
         )
 
+    window = 3  # 先読みウィンドウ（調整可能）
     edges: List[TimelineEdge] = []
-    for i in range(len(items) - 1):
-        prev, cur = items[i], items[i + 1]
-        # 時間順制約: 同一または後続のみ
-        rel_type: RelationType = _infer_relation_type(prev, cur)
-        strength = _relation_strength(prev, cur)
-        if strength < relation_threshold:
-            continue
-        gap = _time_gap_days(prev.date_iso, cur.date_iso)
-        reasoning = ""
-        if rel_type == "causal":
-            reasoning = "テンポラル・マーカーに基づく因果推定"
-        else:
-            reasoning = "時系列上の後続イベント"
-        edges.append(
-            TimelineEdge(
-                source_id=prev.id,
-                target_id=cur.id,
-                relation_type=rel_type,
-                relation_strength=strength,
-                time_gap_days=gap,
-                reasoning=reasoning,
-                evidence_sentences=[cur.title],
+    for i in range(len(items)):
+        for j in range(i + 1, min(i + 1 + window, len(items))):
+            prev, cur = items[i], items[j]
+            # 時間順制約
+            d1, d2 = _iso_to_date(prev.date_iso), _iso_to_date(cur.date_iso)
+            if d1 and d2 and d1 > d2:
+                continue
+            rel_type, marker_score, phrase = _infer_relation_type(prev, cur)
+            strength = _relation_strength(prev, cur, marker_score)
+            if strength < relation_threshold:
+                continue
+            gap = _time_gap_days(prev.date_iso, cur.date_iso)
+            reasoning = (
+                f"マーカー『{phrase}』による推定" if (rel_type == "causal" and phrase) else "時間順と類似度による推定"
             )
-        )
+            edges.append(
+                TimelineEdge(
+                    source_id=prev.id,
+                    target_id=cur.id,
+                    relation_type=rel_type,
+                    relation_strength=strength,
+                    time_gap_days=gap,
+                    reasoning=reasoning,
+                    evidence_sentences=[cur.title],
+                )
+            )
+
+    # サイクル除去（弱いエッジから間引き）
+    edges = detect_and_resolve_cycles(edges)
+    # 軽量な推移的削減
+    edges = reduce_transitive_edges(edges)
 
     dag = TimelineDAG(
         id=str(uuid4()),
@@ -288,3 +334,103 @@ def find_paths(
 
     dfs(start_node_id, end_node_id, [start_node_id], 0)
     return results
+
+
+# --- サイクル検出と推移的エッジ削減 -----------------------------------------
+
+
+def build_adjacency_list(edges: List[TimelineEdge]) -> Dict[str, List[str]]:
+    adj: Dict[str, List[str]] = {}
+    for e in edges:
+        adj.setdefault(e.source_id, []).append(e.target_id)
+    return adj
+
+
+def _find_cycle(adj: Dict[str, List[str]]) -> Optional[List[str]]:
+    visited: Set[str] = set()
+    stack: Set[str] = set()
+    parent: Dict[str, Optional[str]] = {}
+
+    def dfs(u: str) -> Optional[List[str]]:
+        visited.add(u)
+        stack.add(u)
+        for v in adj.get(u, []):
+            if v not in visited:
+                parent[v] = u
+                res = dfs(v)
+                if res:
+                    return res
+            elif v in stack:
+                # サイクル復元
+                cycle = [v]
+                cur = u
+                while cur != v and cur is not None:
+                    cycle.append(cur)
+                    cur = parent.get(cur)
+                cycle.reverse()
+                return cycle
+        stack.remove(u)
+        return None
+
+    for node in list(adj.keys()):
+        if node not in visited:
+            parent[node] = None
+            res = dfs(node)
+            if res:
+                return res
+    return None
+
+
+def detect_and_resolve_cycles(edges: List[TimelineEdge]) -> List[TimelineEdge]:
+    adj = build_adjacency_list(edges)
+    cycle = _find_cycle(adj)
+    if not cycle:
+        return edges
+    # 1サイクルずつ最弱エッジを除去し、安定まで繰り返す
+    edge_map: Dict[Tuple[str, str], TimelineEdge] = {(e.source_id, e.target_id): e for e in edges}
+    while cycle:
+        # サイクル上のエッジ候補
+        candidates = []
+        for i in range(len(cycle)):
+            a = cycle[i]
+            b = cycle[(i + 1) % len(cycle)]
+            e = edge_map.get((a, b))
+            if e:
+                candidates.append(e)
+        if not candidates:
+            break
+        weakest = min(candidates, key=lambda e: e.relation_strength)
+        edge_map.pop((weakest.source_id, weakest.target_id), None)
+        # 再評価
+        adj = build_adjacency_list(list(edge_map.values()))
+        cycle = _find_cycle(adj)
+    return list(edge_map.values())
+
+
+def _has_alternative_path(src: str, dst: str, adj: Dict[str, List[str]], *, exclude: Tuple[str, str]) -> bool:
+    # 直接エッジ exclude を除いた到達可能性
+    stack = [src]
+    seen: Set[str] = set()
+    while stack:
+        u = stack.pop()
+        if u in seen:
+            continue
+        seen.add(u)
+        for v in adj.get(u, []):
+            if (u, v) == exclude:
+                continue
+            if v == dst:
+                return True
+            stack.append(v)
+    return False
+
+
+def reduce_transitive_edges(edges: List[TimelineEdge]) -> List[TimelineEdge]:
+    adj = build_adjacency_list(edges)
+    keep: List[TimelineEdge] = []
+    for e in edges:
+        if _has_alternative_path(e.source_id, e.target_id, adj, exclude=(e.source_id, e.target_id)):
+            # 冗長（A→B→C があり A→C もある）
+            continue
+        keep.append(e)
+    return keep
