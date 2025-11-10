@@ -40,6 +40,7 @@ try:
         SharePublicResponse,
     )
     from .share_store import ShareStore, FirestoreConfig
+    from .dag import GenerateDAGRequest, TimelineDAG, build_timeline_dag
 except ImportError:
     # Fallback to absolute imports when running as script
     from settings import settings
@@ -62,6 +63,7 @@ except ImportError:
         SharePublicResponse,
     )
     from share_store import ShareStore, FirestoreConfig
+    from dag import GenerateDAGRequest, TimelineDAG, build_timeline_dag
 
 
 LOG_LEVEL = getattr(logging, settings.log_level.upper(), logging.INFO)
@@ -203,6 +205,27 @@ async def generate(request: GenerateRequest) -> GenerateResponse:
         total_events=len(items),
         generated_at=datetime.utcnow(),
     )
+
+
+@app.post("/api/generate-dag", response_model=TimelineDAG)
+async def generate_dag(request: GenerateDAGRequest) -> TimelineDAG:
+    """本文から DAG（ノードとエッジ）を生成して返す。
+
+    既存 /api/generate と同じ入力制限を適用し、内部で timeline を構築後、
+    隣接イベントの関係をヒューリスティクスで付与する。
+    """
+    if len(request.text) > settings.max_input_characters:
+        raise HTTPException(
+            status_code=400,
+            detail=f"文字数が制限を超えています (最大{settings.max_input_characters:,}文字)",
+        )
+
+    dag = build_timeline_dag(
+        request.text,
+        relation_threshold=request.relation_threshold,
+        max_events=min(request.max_events, settings.max_timeline_events),
+    )
+    return dag
 
 
 @app.post("/api/search", response_model=SearchResponse)

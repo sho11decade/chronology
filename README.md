@@ -104,6 +104,7 @@ cd chronology
 | POST     | `/api/generate`          | テキストから年表を生成して返す                        |
 | POST     | `/api/search`            | 生成した年表をキーワードや日付でフィルタリング        |
 | POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |
+| POST     | `/api/generate-dag`      | 本文から DAG（ノードとエッジ）を生成して返す        |
 | POST     | `/api/share`             | 本文から年表を生成し、共有IDを発行して保存            |
 | GET      | `/api/share/{id}`        | 共有IDに紐づく本文と年表を取得                         |
 | GET      | `/api/share/{id}/items`  | 公開用。本文を除いた年表（items）だけを返す            |
@@ -209,6 +210,25 @@ POST /api/import/wikipedia
 ```
 
 ## 共有機能（Firestore / SQLite 対応）
+
+### `/api/generate-dag` リクエスト・レスポンス例（簡易）
+
+```jsonc
+POST /api/generate-dag
+{
+	"text": "2020年1月にウイルスが発見。その結果、2020年3月に緊急事態が宣言された。",
+	"relation_threshold": 0.5,
+	"max_events": 500
+}
+
+{
+	"id": "...",
+	"nodes": [ { "id": "node-1", "date_iso": "2020-01-01", "title": "ウイルスが発見" } ],
+	"edges": [ { "source_id": "node-1", "target_id": "node-2", "relation_type": "causal", "relation_strength": 0.8 } ],
+	"stats": { "node_count": 2, "edge_count": 1 },
+	"version": "2.0"
+}
+```
 
 本APIは、生成した年表を「共有ID」として保存し、後から取得できる共有機能を提供します。保存先は次の2通りです。
 
