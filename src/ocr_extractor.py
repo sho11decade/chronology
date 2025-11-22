@@ -25,9 +25,12 @@ _JAPANESE_CHAR_PATTERN = re.compile(r"[一-龥ぁ-んァ-ヴー々〆ヶー]")
 MAX_OCR_DIMENSION = 2400
 FALLBACK_OCR_DIMENSION = 1600
 OSD_MAX_DIMENSION = 1024
+OSD_SKIP_DIMENSION = 400
 TESSERACT_TIMEOUT_SECONDS = 12
 TESSERACT_OSD_TIMEOUT_SECONDS = 5
 GOOD_SCORE_THRESHOLD = 35.0
+MEDIAN_FILTER_THRESHOLD = 1_200_000  # ピクセル数
+UNSHARP_FILTER_THRESHOLD = 250_000
 
 
 _OCR_INITIALISED = False
@@ -57,10 +60,10 @@ def extract_text_from_image(image_bytes: bytes, *, lang: str = "jpn") -> str:
     if pytesseract is None or not has_ocr():
         raise RuntimeError("OCR runtime is not available.")
 
-    last_result = ""
-    for max_dimension in (MAX_OCR_DIMENSION, FALLBACK_OCR_DIMENSION):
-        image = _load_image(image_bytes)
-        try:
+    image = _load_image(image_bytes)
+    try:
+        last_result = ""
+        for max_dimension in (MAX_OCR_DIMENSION, FALLBACK_OCR_DIMENSION):
             working = _prepare_for_ocr(image, max_dimension=max_dimension)
             try:
                 text = ""
@@ -76,15 +79,14 @@ def extract_text_from_image(image_bytes: bytes, *, lang: str = "jpn") -> str:
                     processed.close()
             finally:
                 working.close()
-        finally:
-            image.close()
 
-        stripped = text.strip()
-        if stripped:
-            return stripped
-        last_result = text
-
-    return last_result.strip()
+            stripped = text.strip()
+            if stripped:
+                return stripped
+            last_result = text
+        return last_result.strip()
+    finally:
+        image.close()
 
 
 def _load_image(image_bytes: bytes) -> Image.Image:
@@ -112,9 +114,20 @@ def _prepare_for_ocr(image: Image.Image, *, max_dimension: int) -> Image.Image:
 def _preprocess_image(image: Image.Image) -> Image.Image:
     grayscale = image.convert("L")
     contrasted = ImageOps.autocontrast(grayscale)
-    enhanced = ImageEnhance.Contrast(contrasted).enhance(1.25)
-    sharpened = enhanced.filter(ImageFilter.UnsharpMask(radius=1, percent=140, threshold=3))
-    denoised = sharpened.filter(ImageFilter.MedianFilter(size=3))
+    width, height = contrasted.size
+    pixel_count = width * height
+
+    enhanced = ImageEnhance.Contrast(contrasted).enhance(1.2 if pixel_count < 600_000 else 1.3)
+
+    if pixel_count >= UNSHARP_FILTER_THRESHOLD:
+        sharpened = enhanced.filter(ImageFilter.UnsharpMask(radius=1, percent=140, threshold=3))
+    else:
+        sharpened = enhanced
+
+    if pixel_count >= MEDIAN_FILTER_THRESHOLD:
+        denoised = sharpened.filter(ImageFilter.MedianFilter(size=3))
+    else:
+        denoised = sharpened
 
     def _threshold(value: int) -> int:
         return 255 if value > 135 else 0
@@ -155,7 +168,7 @@ def _candidate_view(image: Image.Image, angle: int):
         yield image
         return
 
-    rotated = image.rotate(normalised, expand=True)
+    rotated = _rotate_image_fast(image, normalised)
 
     try:
         yield rotated
@@ -166,12 +179,14 @@ def _candidate_view(image: Image.Image, angle: int):
 def _detect_rotation(image: Image.Image) -> int:
     if pytesseract is None:
         return 0
+    longest_edge = max(image.size)
+    if longest_edge <= OSD_SKIP_DIMENSION:
+        return 0
     downscaled: Image.Image | None = None
     try:
-        longest = max(image.size)
         candidate = image
-        if longest > OSD_MAX_DIMENSION:
-            scale = OSD_MAX_DIMENSION / float(longest)
+        if longest_edge > OSD_MAX_DIMENSION:
+            scale = OSD_MAX_DIMENSION / float(longest_edge)
             new_size = (
                 max(1, int(image.width * scale)),
                 max(1, int(image.height * scale)),
@@ -204,6 +219,20 @@ def _detect_rotation(image: Image.Image) -> int:
         return 0
 
 
+def _rotate_image_fast(image: Image.Image, angle: int) -> Image.Image:
+    """90 度刻みは transpose を使ってメモリと時間を節約する。"""
+    normalised = angle % 360
+    if normalised in {90, 180, 270}:
+        attr_name = f"ROTATE_{normalised}"
+        rotate_const = getattr(Image, attr_name, None)
+        if rotate_const is not None:
+            try:
+                return image.transpose(rotate_const)
+            except Exception:
+                pass
+    return image.rotate(normalised, expand=True)
+
+
 def _generate_candidate_angles(rotation_hint: int) -> List[int]:
     hint = rotation_hint % 360
     if hint in {0, 180}:
@@ -220,7 +249,7 @@ def _generate_candidate_angles(rotation_hint: int) -> List[int]:
             continue
         seen.add(normalised)
         ordered.append(normalised)
-    return ordered
+    return ordered[:4]
 
 
 def _perform_ocr(
