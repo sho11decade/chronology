@@ -128,6 +128,27 @@ pip install -r src/requirements.txt
 
 `pytesseract` が Tesseract を見つけられない場合、`TESSDATA_PREFIX` や実行ファイルパス（例: Windows では `C:\Program Files\Tesseract-OCR`）を環境変数 `PATH` に追加してください。セットアップが完了すると、画像アップロード時に自動的に OCR が有効化されます。
 
+### `/api/ocr` リクエスト・レスポンス例
+
+```http
+POST /api/ocr?lang=jpn
+Content-Type: multipart/form-data
+
+file=@document.png
+```
+
+```json
+{
+	"filename": "document.png",
+	"characters": 124,
+	"text_preview": "会議は2024年4月10日に開催されました …",
+	"text": "会議は2024年4月10日に開催されました。主要議題は…",
+	"language": "jpn"
+}
+```
+
+Tesseract の言語データが存在しないコードを指定した場合は英語モデルにフォールバックします。OCR が無効な環境では `503 Service Unavailable` が返るため、デプロイ先でのセットアップ状況を事前に確認してください。
+
 ## ローカル起動
 
 ```powershell
@@ -171,6 +192,7 @@ cd chronology
 | GET      | `/api/share/{id}`        | 共有IDに紐づく本文と年表を取得                         |
 | GET      | `/api/share/{id}/items`  | 公開用。本文を除いた年表（items）だけを返す            |
 | GET      | `/api/share/{id}/export` | ダウンロード用。本文と年表の JSON を添付で返す        |
+| POST     | `/api/ocr`               | 画像ファイルから OCR テキストを抽出して返す            |
 
 ### `/api/generate` レスポンス例
 

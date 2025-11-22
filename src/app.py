@@ -27,6 +27,7 @@ try:
         SearchRequest,
         SearchResponse,
         UploadResponse,
+        OCRResponse,
     )
     from .models import WikipediaImportRequest, WikipediaImportResponse
     from .text_extractor import extract_text_from_upload
@@ -50,6 +51,7 @@ except ImportError:
         SearchRequest,
         SearchResponse,
         UploadResponse,
+        OCRResponse,
     )
     from models import WikipediaImportRequest, WikipediaImportResponse
     from text_extractor import extract_text_from_upload
@@ -184,6 +186,26 @@ async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
         characters=len(text),
         text_preview=preview,
         text=text,
+    )
+
+
+@app.post("/api/ocr", response_model=OCRResponse)
+async def ocr_document(
+    file: UploadFile = File(...),
+    lang: str = "jpn",
+) -> OCRResponse:
+    language = (lang or "jpn").strip() or "jpn"
+    text, preview = await extract_text_from_upload(
+        file,
+        max_characters=settings.max_input_characters,
+        ocr_lang=language,
+    )
+    return OCRResponse(
+        filename=file.filename or "uploaded",
+        characters=len(text),
+        text_preview=preview,
+        text=text,
+        language=language,
     )
 
 

@@ -4,6 +4,7 @@ from typing import Iterable
 
 import pytest
 from fastapi.testclient import TestClient
+from fastapi import HTTPException
 
 try:  # pragma: no cover - relative import when running tests via package
     from . import app as app_module
@@ -56,3 +57,46 @@ def test_unhandled_exception_returns_request_id(client: TestClient) -> None:
     assert "request_id" in data
     assert data["detail"].startswith("サーバー内部")
     assert response.headers["X-Request-ID"] == data["request_id"]
+
+
+def test_ocr_endpoint_returns_text(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
+    captured = {}
+
+    async def fake_extract(upload, *, max_characters, ocr_lang):
+        captured["filename"] = upload.filename
+        captured["ocr_lang"] = ocr_lang
+        captured["max_characters"] = max_characters
+        return "OCR result text", "OCR preview"
+
+    monkeypatch.setattr(app_module, "extract_text_from_upload", fake_extract)
+
+    response = client.post(
+        "/api/ocr",
+        params={"lang": "eng"},
+        files={"file": ("image.png", b"fake", "image/png")},
+    )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["text"] == "OCR result text"
+    assert data["text_preview"] == "OCR preview"
+    assert data["language"] == "eng"
+    assert captured["filename"] == "image.png"
+    assert captured["ocr_lang"] == "eng"
+
+
+def test_ocr_endpoint_propagates_http_exception(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    async def fake_extract(*args, **kwargs):
+        raise HTTPException(status_code=503, detail="OCR unavailable")
+
+    monkeypatch.setattr(app_module, "extract_text_from_upload", fake_extract)
+
+    response = client.post(
+        "/api/ocr",
+        files={"file": ("image.png", b"fake", "image/png")},
+    )
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "OCR unavailable"
