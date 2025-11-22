@@ -94,14 +94,6 @@ class UploadResponse(BaseModel):
     text: str
 
 
-class OCRResponse(BaseModel):
-    filename: str
-    characters: int
-    text_preview: str
-    text: str
-    language: str = Field(default="jpn", description="OCR に使用した言語コード")
-
-
 class WikipediaImportRequest(BaseModel):
     topic: Optional[str] = Field(
         default=None,

@@ -9,8 +9,6 @@
 - **信頼度スコア**: 抽出したメタ情報（ISO 日付化の可否、人物・場所の数、文脈量）から 0〜1 の信頼度を算出。
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
-- **OCR 対応の画像取り込み**: PNG/JPEG/TIFF などの画像から Tesseract OCR でテキストを抽出し、他フォーマットと同一パイプラインで処理。
-- **OCR + DAG 連携**: 画像の OCR 結果を直接 DAG 生成へ渡し、因果関係の解析まで一括で行えます。
 - **柔軟な共有API**: クライアントが生成した年表項目をそのまま保存でき、レスポンスでは共有URLとメタ情報だけを返します。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
 - **MeCab 形態素解析**: fugashi + UniDic Lite を組み込み、品詞情報を活用した人物・地名抽出および接続詞検出を実現。
@@ -41,7 +39,6 @@ chronology/
 
 - Python 3.10 以上（推奨 3.10 系）
 - Poetry / pip いずれか（本リポジトリでは `pip` 前提）
-- 画像アップロードで OCR を利用する場合は Tesseract OCR バイナリ（後述）
 
 ## セットアップ
 
@@ -101,83 +98,6 @@ pip install -r src/requirements.txt
 
 環境変数 `MECABRC` を設定すると、fugashi がシステム辞書を優先的に利用します。辞書が見つからない場合は自動的に UniDic Lite にフォールバックし、アプリケーションは警告なしで継続動作します。
 
-### OCR (Tesseract) セットアップ
-
-画像ファイル（PNG / JPEG / TIFF など）からテキストを抽出する際は、`pytesseract` が利用する Tesseract OCR のバイナリを別途インストールしてください。言語データ（`jpn.traineddata` 等）が未導入の場合は自動的に英語モデルへフォールバックします。
-
-- **Windows (PowerShell)**
-
-	```powershell
-	choco install tesseract
-	# 日本語を使用する場合は追加パッケージもインストール
-	choco install tesseract-languages --params '/Features=jpn'
-	```
-
-- **macOS (Homebrew)**
-
-	```bash
-	brew install tesseract
-	brew install tesseract-lang  # 日本語など各種言語データ
-	```
-
-- **Ubuntu / Debian**
-
-	```bash
-	sudo apt-get update
-	sudo apt-get install tesseract-ocr tesseract-ocr-jpn
-	```
-
-`pytesseract` が Tesseract を見つけられない場合、`TESSDATA_PREFIX` や実行ファイルパス（例: Windows では `C:\Program Files\Tesseract-OCR`）を環境変数 `PATH` に追加してください。セットアップが完了すると、画像アップロード時に自動的に OCR が有効化されます。
-
-### `/api/ocr` リクエスト・レスポンス例
-
-```http
-POST /api/ocr?lang=jpn
-Content-Type: multipart/form-data
-
-file=@document.png
-```
-
-```json
-{
-	"filename": "document.png",
-	"characters": 124,
-	"text_preview": "会議は2024年4月10日に開催されました …",
-	"text": "会議は2024年4月10日に開催されました。主要議題は…",
-	"language": "jpn"
-}
-```
-
-Tesseract の言語データが存在しないコードを指定した場合は英語モデルにフォールバックします。OCR が無効な環境では `503 Service Unavailable` が返るため、デプロイ先でのセットアップ状況を事前に確認してください。
-
-### `/api/ocr-generate-dag` リクエスト・レスポンス例
-
-```http
-POST /api/ocr-generate-dag?lang=jpn&relation_threshold=0.6&max_events=400
-Content-Type: multipart/form-data
-
-file=@timeline.png
-```
-
-```json
-{
-	"id": "dag-123",
-	"title": "timeline.png",
-	"text": "1867年、大政奉還が行われた。...",
-	"nodes": [],
-	"edges": [],
-	"stats": {
-		"node_count": 12,
-		"edge_count": 18,
-		"max_path_length": 4
-	},
-	"generated_at": "2025-11-22T09:00:00.000000",
-	"version": "2.0"
-}
-```
-
-`relation_threshold` は 0.0〜1.0 の範囲、`max_events` は 1 以上を指定してください（上限はサーバー設定 `CHRONOLOGY_MAX_TIMELINE_EVENTS` で制御されます）。OCR が無効な場合や画像が解析できない場合は `/api/ocr` と同様のエラーが返却されます。
-
 ## ローカル起動
 
 ```powershell
@@ -221,8 +141,6 @@ cd chronology
 | GET      | `/api/share/{id}`        | 共有IDに紐づく本文と年表を取得                         |
 | GET      | `/api/share/{id}/items`  | 公開用。本文を除いた年表（items）だけを返す            |
 | GET      | `/api/share/{id}/export` | ダウンロード用。本文と年表の JSON を添付で返す        |
-| POST     | `/api/ocr`               | 画像ファイルから OCR テキストを抽出して返す            |
-| POST     | `/api/ocr-generate-dag`  | 画像を OCR したテキストから DAG を生成する             |
 
 ### `/api/generate` レスポンス例
 

@@ -5,7 +5,6 @@ import io
 import pytest
 from fastapi import HTTPException, UploadFile
 
-from . import text_extractor
 from .text_extractor import MAX_CHARACTERS, MAX_FILE_SIZE, extract_text_from_upload
 
 
@@ -48,29 +47,11 @@ async def test_extract_text_rejects_empty_text():
 
 
 @pytest.mark.anyio
-async def test_extract_text_uses_ocr_for_image(monkeypatch):
+async def test_extract_text_rejects_image_upload():
     upload = UploadFile(filename="sample.png", file=io.BytesIO(b"fake-binary"))
-
-    monkeypatch.setattr(text_extractor, "has_ocr", lambda: True)
-    monkeypatch.setattr(
-        text_extractor,
-        "extract_text_from_image",
-        lambda data, lang="jpn": "OCR結果 テキスト",
-    )
-
-    text, preview = await extract_text_from_upload(upload)
-
-    assert text == "OCR結果 テキスト"
-    assert preview.startswith("OCR結果")
-
-
-@pytest.mark.anyio
-async def test_extract_text_rejects_image_when_ocr_missing(monkeypatch):
-    upload = UploadFile(filename="sample.png", file=io.BytesIO(b"fake-binary"))
-
-    monkeypatch.setattr(text_extractor, "has_ocr", lambda: False)
 
     with pytest.raises(HTTPException) as exc_info:
         await extract_text_from_upload(upload)
 
-    assert exc_info.value.status_code == 503
+    assert exc_info.value.status_code == 400
+    assert "画像" in exc_info.value.detail

@@ -1,3 +1,0 @@
-tesseract-ocr
-tesseract-ocr-jpn
-libtesseract-dev
