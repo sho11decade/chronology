@@ -7,7 +7,10 @@ from starlette.status import HTTP_413_REQUEST_ENTITY_TOO_LARGE
 
 from fastapi import HTTPException, UploadFile
 
-from .ocr_extractor import extract_text_from_image, has_ocr
+try:  # pragma: no cover - 実行形式によって相対/絶対が変わる
+    from .ocr_extractor import extract_text_from_image, has_ocr
+except ImportError:  # pragma: no cover - スクリプト実行時のフォールバック
+    from ocr_extractor import extract_text_from_image, has_ocr
 
 TEXT_EXTENSIONS = {".txt"}
 DOCUMENT_EXTENSIONS = {".docx", ".pdf"}
