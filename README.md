@@ -9,6 +9,7 @@
 - **信頼度スコア**: 抽出したメタ情報（ISO 日付化の可否、人物・場所の数、文脈量）から 0〜1 の信頼度を算出。
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
+- **OCR 対応の画像取り込み**: PNG/JPEG/TIFF などの画像から Tesseract OCR でテキストを抽出し、他フォーマットと同一パイプラインで処理。
 - **柔軟な共有API**: クライアントが生成した年表項目をそのまま保存でき、レスポンスでは共有URLとメタ情報だけを返します。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
 - **MeCab 形態素解析**: fugashi + UniDic Lite を組み込み、品詞情報を活用した人物・地名抽出および接続詞検出を実現。
@@ -39,6 +40,7 @@ chronology/
 
 - Python 3.10 以上（推奨 3.10 系）
 - Poetry / pip いずれか（本リポジトリでは `pip` 前提）
+- 画像アップロードで OCR を利用する場合は Tesseract OCR バイナリ（後述）
 
 ## セットアップ
 
@@ -97,6 +99,34 @@ pip install -r src/requirements.txt
 	```
 
 環境変数 `MECABRC` を設定すると、fugashi がシステム辞書を優先的に利用します。辞書が見つからない場合は自動的に UniDic Lite にフォールバックし、アプリケーションは警告なしで継続動作します。
+
+### OCR (Tesseract) セットアップ
+
+画像ファイル（PNG / JPEG / TIFF など）からテキストを抽出する際は、`pytesseract` が利用する Tesseract OCR のバイナリを別途インストールしてください。言語データ（`jpn.traineddata` 等）が未導入の場合は自動的に英語モデルへフォールバックします。
+
+- **Windows (PowerShell)**
+
+	```powershell
+	choco install tesseract
+	# 日本語を使用する場合は追加パッケージもインストール
+	choco install tesseract-languages --params '/Features=jpn'
+	```
+
+- **macOS (Homebrew)**
+
+	```bash
+	brew install tesseract
+	brew install tesseract-lang  # 日本語など各種言語データ
+	```
+
+- **Ubuntu / Debian**
+
+	```bash
+	sudo apt-get update
+	sudo apt-get install tesseract-ocr tesseract-ocr-jpn
+	```
+
+`pytesseract` が Tesseract を見つけられない場合、`TESSDATA_PREFIX` や実行ファイルパス（例: Windows では `C:\Program Files\Tesseract-OCR`）を環境変数 `PATH` に追加してください。セットアップが完了すると、画像アップロード時に自動的に OCR が有効化されます。
 
 ## ローカル起動
 
