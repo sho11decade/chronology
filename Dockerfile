@@ -1,6 +1,6 @@
 # Use Python 3.10 slim image for smaller size
 FROM python:3.10.14-slim
-
+RUN apt-get update && apt-get install -y tesseract-ocr tesseract-ocr-jpn
 # Set working directory
 WORKDIR /app
 
