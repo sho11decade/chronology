@@ -11,6 +11,7 @@
 - **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
 - **柔軟な共有API**: クライアントが生成した年表項目をそのまま保存でき、レスポンスでは共有URLとメタ情報だけを返します。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
+- **MeCab 形態素解析**: fugashi + UniDic Lite を組み込み、品詞情報を活用した人物・地名抽出および接続詞検出を実現。
 - **DAG ベースの因果分析**: `/api/generate-dag` がノードと有向エッジを生成し、因果・前提・派生などの関係タイプ、最長経路長、サイクル解消数などの統計を返します。
 - **日本史・古代年号対応**: 「江戸」「徳川幕府」など歴史固有語を辞書化し、紀元前や BC 表記を ISO 拡張形式（例: `-0660-01-01`）に正規化して扱います。
 - **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
@@ -67,6 +68,35 @@ pip install -r src/requirements.txt
 - `CHRONOLOGY_MAX_INPUT_CHARACTERS`: テキスト入力の最大文字数（既定: 200000）
 - `CHRONOLOGY_MAX_TIMELINE_EVENTS`: 年表生成で保持する最大イベント数（既定: 500）
 - `CHRONOLOGY_MAX_SEARCH_RESULTS`: 検索レスポンスの最大件数（既定: 500）
+
+### MeCab / UniDic セットアップ
+
+`fugashi[unidic-lite]` を採用しており、追加の辞書インストールなしで基本的な品詞解析が利用できます。高速化や精度向上のためにシステム辞書の MeCab を利用したい場合は、以下の手順を参考に環境を整備してください。
+
+- **Windows (PowerShell)**
+
+	```powershell
+	choco install mecab
+	choco install mecab-ipadic
+	$env:MECABRC = "C:\Program Files\MeCab\etc\mecabrc"
+	```
+
+- **macOS (Homebrew)**
+
+	```bash
+	brew install mecab mecab-ipadic
+	export MECABRC="/usr/local/etc/mecabrc"
+	```
+
+- **Ubuntu / Debian**
+
+	```bash
+	sudo apt-get update
+	sudo apt-get install mecab libmecab-dev mecab-ipadic-utf8
+	export MECABRC="/etc/mecabrc"
+	```
+
+環境変数 `MECABRC` を設定すると、fugashi がシステム辞書を優先的に利用します。辞書が見つからない場合は自動的に UniDic Lite にフォールバックし、アプリケーションは警告なしで継続動作します。
 
 ## ローカル起動
 

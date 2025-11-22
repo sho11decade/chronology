@@ -11,9 +11,18 @@ try:
     # ローカル相対インポート（アプリ内実行）
     from .models import TimelineItem
     from .timeline_generator import generate_timeline
+    from .mecab_analyzer import has_mecab, tokenize as mecab_tokenize
 except ImportError:  # pragma: no cover - script 直実行フォールバック
     from models import TimelineItem
     from timeline_generator import generate_timeline
+    try:
+        from mecab_analyzer import has_mecab, tokenize as mecab_tokenize
+    except ImportError:  # pragma: no cover
+        def has_mecab() -> bool:
+            return False
+
+        def mecab_tokenize(_text: str):
+            return []
 
 from pydantic import BaseModel, Field
 
@@ -177,6 +186,14 @@ def _detect_temporal_markers(prev_text: str, cur_text: str) -> Tuple[RelationTyp
     for phrase, (rtype, score) in _MARKERS.items():
         if phrase in prev_text and score > best[1]:
             best = (rtype, score, phrase)
+    if has_mecab() and best[1] < 0.95:  # 既に最有力でなければ形態素解析を補助利用
+        for morph in mecab_tokenize(cur_text):
+            key = getattr(morph, "surface", "")
+            if not key:
+                continue
+            marker = _MARKERS.get(key)
+            if marker and marker[1] > best[1]:
+                best = (marker[0], marker[1], key)
     return best
 
 

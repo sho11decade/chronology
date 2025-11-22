@@ -9,7 +9,7 @@ from collections import Counter, OrderedDict
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
-from typing import Iterable, List, Optional, Set, Tuple
+from typing import Any, Iterable, List, Optional, Set, Tuple
 from uuid import uuid4
 
 # Add current directory to Python path for imports
@@ -26,6 +26,7 @@ try:
     from .models import TimelineItem
     from .japanese_calendar import normalise_era_notation
     from .text_cleaner import normalise_input_text
+    from .mecab_analyzer import has_mecab, tokenize as mecab_tokenize
 except ImportError:
     # Fallback to absolute imports when running as script
     from text_features import (
@@ -37,6 +38,14 @@ except ImportError:
     from models import TimelineItem
     from japanese_calendar import normalise_era_notation
     from text_cleaner import normalise_input_text
+    try:
+        from mecab_analyzer import has_mecab, tokenize as mecab_tokenize
+    except ImportError:  # pragma: no cover - MeCab なし環境フォールバック
+        def has_mecab() -> bool:
+            return False
+
+        def mecab_tokenize(_text: str) -> List[Any]:
+            return []
 
 KANJI_DIGITS = "〇零一二三四五六七八九"
 KANJI_DIGIT_VALUES = {
@@ -111,6 +120,8 @@ TOKEN_STRIP_CHARS = "（）()「」『』\"'、，,。:：;；!?！？〜～‐-
 TOKEN_PATTERN = re.compile(r"[\w一-龥]+")
 NUMERAL_REGEX = re.compile(rf"[{NUMERAL_CLASS}]")
 LOCATION_KEYWORDS_SET = set(LOCATION_KEYWORDS)
+
+MECAB_ENABLED = has_mecab()
 
 ISO_EXTENDED_PATTERN = re.compile(r"^(-?\d{1,6})-(\d{2})-(\d{2})$")
 
@@ -463,7 +474,12 @@ def _remove_location_suffix(token: str) -> str:
     return token
 
 
-def classify_people_locations(sentence: str, tokens: List[str]) -> tuple[List[str], List[str]]:
+def classify_people_locations(
+    sentence: str,
+    tokens: List[str],
+    *,
+    morphemes: Optional[List[Any]] = None,
+) -> tuple[List[str], List[str]]:
     people_order: OrderedDict[str, None] = OrderedDict()
     locations_order: OrderedDict[str, None] = OrderedDict()
     person_bases: set[str] = set()
@@ -487,41 +503,95 @@ def classify_people_locations(sentence: str, tokens: List[str]) -> tuple[List[st
         base = _strip_token(_remove_location_suffix(cleaned)) or cleaned
         if base in person_bases and not any(cleaned.endswith(suf) for suf in LOCATION_SUFFIXES):
             return
-        if base not in location_bases:
-            location_bases.add(base)
-            locations_order.setdefault(cleaned, None)
+        if base in location_bases:
+            if cleaned != base:
+                locations_order.setdefault(cleaned, None)
+            return
+        location_bases.add(base)
+        locations_order.setdefault(cleaned, None)
 
-    for token in tokens:
+    morph_alignment = morphemes if morphemes and len(morphemes) == len(tokens) else None
+
+    if morphemes:
+        for morph in morphemes:
+            surface = getattr(morph, "surface", "")
+            if not surface:
+                continue
+            pos = getattr(morph, "pos", "")
+            pos_detail = getattr(morph, "pos_detail", "")
+            pos_subclass = getattr(morph, "pos_subclass", "")
+            if pos == "名詞" and pos_detail in {"固有名詞", "人名"}:
+                if pos_subclass in {"地名", "地域"}:
+                    add_location(surface)
+                elif any(surface.endswith(suffix) for suffix in LOCATION_SUFFIXES):
+                    add_location(surface)
+                else:
+                    add_person(surface)
+            elif pos == "名詞" and pos_detail in {"地域", "地名"}:
+                add_location(surface)
+            elif pos == "名詞" and pos_subclass in {"地名", "地域"}:
+                add_location(surface)
+
+    for index, token in enumerate(tokens):
         cleaned = _strip_token(token)
         if not cleaned:
             continue
+
+        morph = None
+        if morph_alignment and index < len(morph_alignment):
+            morph = morph_alignment[index]
+        morph_pos = getattr(morph, "pos", "") if morph else ""
+        morph_detail = getattr(morph, "pos_detail", "") if morph else ""
+        morph_subclass = getattr(morph, "pos_subclass", "") if morph else ""
 
         if cleaned in LOCATION_KEYWORDS_SET:
             add_location(cleaned)
             continue
 
         if any(cleaned.endswith(suffix) for suffix in LOCATION_SUFFIXES):
+            if len(cleaned) == 1 and not (morph and morph_subclass in {"地名", "地域"}):
+                continue
             add_location(cleaned)
             continue
 
         base_person = _remove_person_suffix(cleaned)
         if base_person != cleaned:
             if base_person and base_person not in LOCATION_KEYWORDS_SET and not any(base_person.endswith(suf) for suf in LOCATION_SUFFIXES):
+                if morph and not (
+                    morph_pos == "名詞"
+                    and (morph_detail in {"固有名詞", "人名"} or morph_subclass in {"人名", "姓", "名"})
+                ):
+                    continue
                 add_person(cleaned)
             continue
 
         if KANJI_NAME_PATTERN.match(cleaned) and not any(cleaned.endswith(suf) for suf in LOCATION_SUFFIXES):
             if cleaned not in LOCATION_KEYWORDS_SET:
+                if morph and not (
+                    morph_pos == "名詞"
+                    and (morph_detail in {"固有名詞", "人名"} or morph_subclass in {"人名", "姓", "名"})
+                ):
+                    continue
                 add_person(cleaned)
             continue
 
         if "・" in cleaned:
             parts = [part for part in cleaned.split("・") if part]
             if parts and all(KANJI_NAME_PATTERN.match(part) or KATAKANA_NAME_PATTERN.match(part) for part in parts):
+                if morph and not (
+                    morph_pos == "名詞"
+                    and (morph_detail in {"固有名詞", "人名"} or morph_subclass in {"人名"})
+                ):
+                    continue
                 add_person(cleaned)
                 continue
 
         if KATAKANA_NAME_PATTERN.match(cleaned) and len(cleaned) >= 3:
+            if morph and not (
+                morph_pos == "名詞"
+                and (morph_detail in {"固有名詞", "人名"} or morph_subclass in {"人名"})
+            ):
+                continue
             add_person(cleaned)
             continue
 
@@ -675,6 +745,7 @@ def _update_entry_with_sentence(
     sentence: str,
     *,
     tokens: List[str],
+    morphemes: Optional[List[Any]] = None,
     lower_sentence: str,
     has_numeral: bool,
     allow_title_update: bool,
@@ -684,7 +755,7 @@ def _update_entry_with_sentence(
     if sentence not in entry["sentences"]:
         entry["sentences"].append(sentence)
 
-    people, locations = classify_people_locations(sentence, tokens)
+    people, locations = classify_people_locations(sentence, tokens, morphemes=morphemes)
     for person in people:
         entry["people"].setdefault(person, None)
     for location in locations:
@@ -929,6 +1000,7 @@ def generate_timeline(
     token_cache: dict[str, List[str]] = {}
     lowercase_cache: dict[str, str] = {}
     numeral_cache: dict[str, bool] = {}
+    morpheme_cache: dict[str, List[Any]] = {}
     seen_pairs: Set[Tuple[str, str]] = set()
     last_event_key: Optional[str] = None
 
@@ -939,10 +1011,21 @@ def generate_timeline(
             lowercase_cache[sentence] = lowered
         return lowered
 
+    def _morphemes(sentence: str) -> List[Any]:
+        cached = morpheme_cache.get(sentence)
+        if cached is None:
+            cached = mecab_tokenize(sentence) if MECAB_ENABLED else []
+            morpheme_cache[sentence] = cached
+        return cached
+
     def _tokens(sentence: str) -> List[str]:
         cached = token_cache.get(sentence)
         if cached is None:
-            cached = extract_tokens(sentence)
+            morphs = _morphemes(sentence) if MECAB_ENABLED else []
+            if morphs:
+                cached = [m.surface for m in morphs if getattr(m, "surface", "")]  # type: ignore[attr-defined]
+            else:
+                cached = extract_tokens(sentence)
             token_cache[sentence] = cached
         return cached
 
@@ -994,12 +1077,14 @@ def generate_timeline(
 
                 lowercase_sentence = _lower(sentence)
                 tokens = _tokens(sentence)
+                morphemes = _morphemes(sentence)
                 has_numeral = _has_numeral(sentence)
 
                 _update_entry_with_sentence(
                     entry,
                     sentence,
                     tokens=tokens,
+                    morphemes=morphemes,
                     lower_sentence=lowercase_sentence,
                     has_numeral=has_numeral,
                     allow_title_update=True,
@@ -1020,12 +1105,14 @@ def generate_timeline(
 
             lowercase_sentence = _lower(sentence)
             tokens = _tokens(sentence)
+            morphemes = _morphemes(sentence)
             has_numeral = _has_numeral(sentence)
 
             _update_entry_with_sentence(
                 entry,
                 sentence,
                 tokens=tokens,
+                morphemes=morphemes,
                 lower_sentence=lowercase_sentence,
                 has_numeral=has_numeral,
                 allow_title_update=False,

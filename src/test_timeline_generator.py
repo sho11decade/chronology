@@ -2,11 +2,19 @@ from __future__ import annotations
 
 from datetime import date
 
+import pytest
+
 try:
     from .timeline_generator import generate_timeline
+    from .mecab_analyzer import has_mecab
 except ImportError:
     # Fallback to absolute imports when running as script
     from timeline_generator import generate_timeline
+    try:
+        from mecab_analyzer import has_mecab  # type: ignore
+    except ImportError:  # pragma: no cover
+        def has_mecab() -> bool:
+            return False
 
 
 def test_generate_timeline_extracts_events():
@@ -315,3 +323,13 @@ def test_generate_timeline_parses_bce_dates():
     assert any(item.date_iso == "-659-01-01" for item in items)
     assert any(item.date_iso == "-220-01-01" for item in items)
     assert items[0].date_text.startswith("紀元前")
+
+
+@pytest.mark.skipif(not has_mecab(), reason="MeCab が利用できない環境です")
+def test_mecab_enhances_entity_extraction():
+    text = "1868年、徳川慶喜が江戸城を明け渡した。"
+    items = generate_timeline(text)
+    assert items
+    item = items[0]
+    assert any("徳川慶喜" in person for person in item.people)
+    assert any(location.startswith("江戸") for location in item.locations)
