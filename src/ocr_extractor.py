@@ -24,13 +24,16 @@ _JAPANESE_CHAR_PATTERN = re.compile(r"[一-龥ぁ-んァ-ヴー々〆ヶー]")
 
 MAX_OCR_DIMENSION = 2400
 FALLBACK_OCR_DIMENSION = 1600
-OSD_MAX_DIMENSION = 1024
-OSD_SKIP_DIMENSION = 400
+FAST_PROBE_DIMENSION = 1024
+FAST_PROBE_TIMEOUT_SECONDS = 6
+FAST_FALLBACK_DIMENSION = 900
+FAST_FALLBACK_TIMEOUT_SECONDS = 5
+FAST_FALLBACK_CONFIG = "--oem 1 --psm 7 -c preserve_interword_spaces=1"
 TESSERACT_TIMEOUT_SECONDS = 12
-TESSERACT_OSD_TIMEOUT_SECONDS = 5
 GOOD_SCORE_THRESHOLD = 35.0
 MEDIAN_FILTER_THRESHOLD = 1_200_000  # ピクセル数
 UNSHARP_FILTER_THRESHOLD = 250_000
+DEFAULT_ANGLE_ORDER = [0, 180, 90, 270]
 
 
 _OCR_INITIALISED = False
@@ -67,12 +70,12 @@ def extract_text_from_image(image_bytes: bytes, *, lang: str = "jpn") -> str:
             working = _prepare_for_ocr(image, max_dimension=max_dimension)
             try:
                 text = ""
-                rotation_hint = _detect_rotation(working)
+                angles = _determine_rotation_order(working, lang=lang)
                 processed = _preprocess_image(working)
                 try:
                     text = _run_ocr_candidates(
                         processed,
-                        rotation_hint=rotation_hint,
+                        angles=angles,
                         lang=lang,
                     )
                 finally:
@@ -84,6 +87,10 @@ def extract_text_from_image(image_bytes: bytes, *, lang: str = "jpn") -> str:
             if stripped:
                 return stripped
             last_result = text
+
+        fallback_text = _lightweight_ocr(image, lang=lang)
+        if fallback_text.strip():
+            return fallback_text.strip()
         return last_result.strip()
     finally:
         image.close()
@@ -136,13 +143,13 @@ def _preprocess_image(image: Image.Image) -> Image.Image:
     return binary.convert("L")
 
 
-def _run_ocr_candidates(image: Image.Image, *, rotation_hint: int, lang: str) -> str:
+def _run_ocr_candidates(image: Image.Image, *, angles: List[int], lang: str) -> str:
     best_text = ""
     best_score = float("-inf")
 
-    for angle in _generate_candidate_angles(rotation_hint):
+    for angle in angles or DEFAULT_ANGLE_ORDER:
         with _candidate_view(image, angle) as candidate:
-            config = DEFAULT_TESSERACT_CONFIG if angle in {0, 180} else VERTICAL_TESSERACT_CONFIG
+            config = _config_for_angle(angle)
             text = _perform_ocr(
                 candidate,
                 lang=lang,
@@ -161,6 +168,84 @@ def _run_ocr_candidates(image: Image.Image, *, rotation_hint: int, lang: str) ->
     return best_text
 
 
+def _determine_rotation_order(image: Image.Image, *, lang: str) -> List[int]:
+    if pytesseract is None:
+        return list(DEFAULT_ANGLE_ORDER)
+
+    try:
+        probe = _create_probe_image(image)
+    except Exception:
+        return list(DEFAULT_ANGLE_ORDER)
+
+    try:
+        scored: List[tuple[float, int]] = []
+        for angle in DEFAULT_ANGLE_ORDER:
+            with _candidate_view(probe, angle) as candidate:
+                config = _config_for_angle(angle)
+                text = _perform_ocr(
+                    candidate,
+                    lang=lang,
+                    config=config,
+                    timeout=FAST_PROBE_TIMEOUT_SECONDS,
+                    use_fallback=False,
+                )
+            score = _score_text(text)
+            scored.append((score, angle))
+
+        scored.sort(key=lambda item: item[0], reverse=True)
+        ordered = [angle for score, angle in scored if score > float("-inf")]
+        if not ordered:
+            return list(DEFAULT_ANGLE_ORDER)
+        for angle in DEFAULT_ANGLE_ORDER:
+            if angle not in ordered:
+                ordered.append(angle)
+        return ordered[: len(DEFAULT_ANGLE_ORDER)]
+    finally:
+        probe.close()
+
+
+def _create_probe_image(image: Image.Image) -> Image.Image:
+    base = image.copy()
+    if max(base.size) > FAST_PROBE_DIMENSION:
+        try:
+            resized = _prepare_for_ocr(base, max_dimension=FAST_PROBE_DIMENSION)
+        finally:
+            base.close()
+        return resized
+    return base
+
+
+def _lightweight_ocr(image: Image.Image, *, lang: str) -> str:
+    if pytesseract is None:
+        return ""
+    base = _prepare_for_ocr(image, max_dimension=FAST_FALLBACK_DIMENSION)
+    try:
+        best_text = ""
+        best_score = float("-inf")
+        for angle in DEFAULT_ANGLE_ORDER:
+            with _candidate_view(base, angle) as candidate:
+                text = _perform_ocr(
+                    candidate,
+                    lang=lang,
+                    config=FAST_FALLBACK_CONFIG,
+                    timeout=FAST_FALLBACK_TIMEOUT_SECONDS,
+                    use_fallback=False,
+                )
+            score = _score_text(text)
+            if score > best_score:
+                best_score = score
+                best_text = text
+            if best_score >= GOOD_SCORE_THRESHOLD:
+                break
+        return best_text
+    finally:
+        base.close()
+
+
+def _config_for_angle(angle: int) -> str:
+    return DEFAULT_TESSERACT_CONFIG if angle % 180 == 0 else VERTICAL_TESSERACT_CONFIG
+
+
 @contextmanager
 def _candidate_view(image: Image.Image, angle: int):
     normalised = angle % 360
@@ -174,49 +259,6 @@ def _candidate_view(image: Image.Image, angle: int):
         yield rotated
     finally:
         rotated.close()
-
-
-def _detect_rotation(image: Image.Image) -> int:
-    if pytesseract is None:
-        return 0
-    longest_edge = max(image.size)
-    if longest_edge <= OSD_SKIP_DIMENSION:
-        return 0
-    downscaled: Image.Image | None = None
-    try:
-        candidate = image
-        if longest_edge > OSD_MAX_DIMENSION:
-            scale = OSD_MAX_DIMENSION / float(longest_edge)
-            new_size = (
-                max(1, int(image.width * scale)),
-                max(1, int(image.height * scale)),
-            )
-            downscaled = image.resize(new_size, RESAMPLE_BEST)
-            candidate = downscaled
-
-        if TESSERACT_OSD_TIMEOUT_SECONDS:
-            osd_text = pytesseract.image_to_osd(  # type: ignore[attr-defined,call-arg]
-                candidate,
-                timeout=TESSERACT_OSD_TIMEOUT_SECONDS,
-            )
-        else:
-            osd_text = pytesseract.image_to_osd(candidate)  # type: ignore[attr-defined]
-    except RuntimeError as exc:
-        if "timeout" in str(exc).lower():
-            return 0
-        return 0
-    except Exception:
-        return 0
-    finally:
-        if downscaled is not None:
-            downscaled.close()
-    match = re.search(r"Rotate:\s*(\d+)", osd_text or "")
-    if not match:
-        return 0
-    try:
-        return int(match.group(1)) % 360
-    except ValueError:
-        return 0
 
 
 def _rotate_image_fast(image: Image.Image, angle: int) -> Image.Image:
@@ -233,31 +275,13 @@ def _rotate_image_fast(image: Image.Image, angle: int) -> Image.Image:
     return image.rotate(normalised, expand=True)
 
 
-def _generate_candidate_angles(rotation_hint: int) -> List[int]:
-    hint = rotation_hint % 360
-    if hint in {0, 180}:
-        base_candidates = [hint, (hint + 180) % 360, 90, 270]
-    elif hint in {90, 270}:
-        base_candidates = [hint, (hint + 180) % 360, 0, 180]
-    else:
-        base_candidates = [hint, 0, 180, 90, 270]
-    seen: set[int] = set()
-    ordered: List[int] = []
-    for angle in base_candidates:
-        normalised = angle % 360
-        if normalised in seen:
-            continue
-        seen.add(normalised)
-        ordered.append(normalised)
-    return ordered[:4]
-
-
 def _perform_ocr(
     image: Image.Image,
     *,
     lang: str,
     config: str,
     timeout: int | None = None,
+    use_fallback: bool = True,
 ) -> str:
     if pytesseract is None:
         return ""
@@ -280,7 +304,7 @@ def _perform_ocr(
         text = ""
     if text.strip():
         return text
-    if lang != "eng":
+    if use_fallback and lang != "eng":
         try:
             if timeout is not None:
                 fallback = pytesseract.image_to_string(  # type: ignore[call-arg]
