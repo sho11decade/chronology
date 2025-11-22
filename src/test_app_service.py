@@ -6,6 +6,11 @@ import pytest
 from fastapi.testclient import TestClient
 from fastapi import HTTPException
 
+try:  # pragma: no cover
+    from .dag import TimelineDAG
+except ImportError:  # pragma: no cover
+    from dag import TimelineDAG
+
 try:  # pragma: no cover - relative import when running tests via package
     from . import app as app_module
 except ImportError:  # pragma: no cover - fallback for direct execution
@@ -100,3 +105,59 @@ def test_ocr_endpoint_propagates_http_exception(
 
     assert response.status_code == 503
     assert response.json()["detail"] == "OCR unavailable"
+
+
+def test_ocr_generate_dag_returns_dag(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    captured = {}
+
+    async def fake_extract(upload, *, max_characters, ocr_lang):
+        captured["filename"] = upload.filename
+        captured["ocr_lang"] = ocr_lang
+        captured["max_characters"] = max_characters
+        return "OCR timeline text", "Preview"
+
+    def fake_build(text, *, relation_threshold, max_events):
+        captured["relation_threshold"] = relation_threshold
+        captured["max_events"] = max_events
+        return TimelineDAG(id="dag-1", title="", text=text, nodes=[], edges=[])
+
+    monkeypatch.setattr(app_module, "extract_text_from_upload", fake_extract)
+    monkeypatch.setattr(app_module, "build_timeline_dag", fake_build)
+
+    response = client.post(
+        "/api/ocr-generate-dag",
+        params={"lang": "eng", "relation_threshold": 0.7, "max_events": 600},
+        files={"file": ("diagram.png", b"fake", "image/png")},
+    )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["id"] == "dag-1"
+    assert captured["filename"] == "diagram.png"
+    assert captured["ocr_lang"] == "eng"
+    assert captured["relation_threshold"] == pytest.approx(0.7)
+    assert captured["max_events"] == min(600, app_module.settings.max_timeline_events)
+
+
+def test_ocr_generate_dag_validates_threshold(client: TestClient) -> None:
+    response = client.post(
+        "/api/ocr-generate-dag",
+        params={"relation_threshold": 1.5},
+        files={"file": ("diagram.png", b"fake", "image/png")},
+    )
+
+    assert response.status_code == 400
+    assert "relation_threshold" in response.json()["detail"]
+
+
+def test_ocr_generate_dag_validates_max_events(client: TestClient) -> None:
+    response = client.post(
+        "/api/ocr-generate-dag",
+        params={"max_events": 0},
+        files={"file": ("diagram.png", b"fake", "image/png")},
+    )
+
+    assert response.status_code == 400
+    assert "max_events" in response.json()["detail"]

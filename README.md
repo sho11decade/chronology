@@ -10,6 +10,7 @@
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
 - **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
 - **OCR 対応の画像取り込み**: PNG/JPEG/TIFF などの画像から Tesseract OCR でテキストを抽出し、他フォーマットと同一パイプラインで処理。
+- **OCR + DAG 連携**: 画像の OCR 結果を直接 DAG 生成へ渡し、因果関係の解析まで一括で行えます。
 - **柔軟な共有API**: クライアントが生成した年表項目をそのまま保存でき、レスポンスでは共有URLとメタ情報だけを返します。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
 - **MeCab 形態素解析**: fugashi + UniDic Lite を組み込み、品詞情報を活用した人物・地名抽出および接続詞検出を実現。
@@ -149,6 +150,34 @@ file=@document.png
 
 Tesseract の言語データが存在しないコードを指定した場合は英語モデルにフォールバックします。OCR が無効な環境では `503 Service Unavailable` が返るため、デプロイ先でのセットアップ状況を事前に確認してください。
 
+### `/api/ocr-generate-dag` リクエスト・レスポンス例
+
+```http
+POST /api/ocr-generate-dag?lang=jpn&relation_threshold=0.6&max_events=400
+Content-Type: multipart/form-data
+
+file=@timeline.png
+```
+
+```json
+{
+	"id": "dag-123",
+	"title": "timeline.png",
+	"text": "1867年、大政奉還が行われた。...",
+	"nodes": [],
+	"edges": [],
+	"stats": {
+		"node_count": 12,
+		"edge_count": 18,
+		"max_path_length": 4
+	},
+	"generated_at": "2025-11-22T09:00:00.000000",
+	"version": "2.0"
+}
+```
+
+`relation_threshold` は 0.0〜1.0 の範囲、`max_events` は 1 以上を指定してください（上限はサーバー設定 `CHRONOLOGY_MAX_TIMELINE_EVENTS` で制御されます）。OCR が無効な場合や画像が解析できない場合は `/api/ocr` と同様のエラーが返却されます。
+
 ## ローカル起動
 
 ```powershell
@@ -193,6 +222,7 @@ cd chronology
 | GET      | `/api/share/{id}/items`  | 公開用。本文を除いた年表（items）だけを返す            |
 | GET      | `/api/share/{id}/export` | ダウンロード用。本文と年表の JSON を添付で返す        |
 | POST     | `/api/ocr`               | 画像ファイルから OCR テキストを抽出して返す            |
+| POST     | `/api/ocr-generate-dag`  | 画像を OCR したテキストから DAG を生成する             |
 
 ### `/api/generate` レスポンス例
 

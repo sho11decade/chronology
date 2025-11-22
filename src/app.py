@@ -209,6 +209,38 @@ async def ocr_document(
     )
 
 
+@app.post("/api/ocr-generate-dag", response_model=TimelineDAG)
+async def ocr_generate_dag(
+    file: UploadFile = File(...),
+    lang: str = "jpn",
+    relation_threshold: float = 0.5,
+    max_events: int = 500,
+) -> TimelineDAG:
+    language = (lang or "jpn").strip() or "jpn"
+    if not 0.0 <= relation_threshold <= 1.0:
+        raise HTTPException(
+            status_code=400,
+            detail="relation_threshold は 0.0〜1.0 の範囲で指定してください。",
+        )
+    if max_events < 1:
+        raise HTTPException(status_code=400, detail="max_events は 1 以上で指定してください。")
+
+    text, _ = await extract_text_from_upload(
+        file,
+        max_characters=settings.max_input_characters,
+        ocr_lang=language,
+    )
+
+    dag = build_timeline_dag(
+        text,
+        relation_threshold=relation_threshold,
+        max_events=min(max_events, settings.max_timeline_events),
+    )
+    dag.title = file.filename or dag.title
+    dag.text = text[: settings.max_input_characters]
+    return dag
+
+
 @app.post("/api/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest) -> GenerateResponse:
     if len(request.text) > settings.max_input_characters:
