@@ -1,6 +1,6 @@
 # Chronology Maker
 
-日本語テキストから高精度な年表を生成する FastAPI ベースのバックエンドです。漢数字や和暦を含む日付抽出、人物・場所の分類、信頼度スコア算出など、日本語特有の表現に最適化したロジックを備えています。
+日本語テキストから高精度な年表を生成する FastAPI ベースのバックエンドです。漢数字や和暦を含む日付抽出、人物・場所の分類、信頼度スコア算出など、日本語特有の表現に最適化したロジックに加え、日本史向けの辞書拡張と古代（紀元前）年号の正規化をサポートしています。
 
 ## 主な特徴
 
@@ -11,6 +11,8 @@
 - **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
 - **柔軟な共有API**: クライアントが生成した年表項目をそのまま保存でき、レスポンスでは共有URLとメタ情報だけを返します。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
+- **DAG ベースの因果分析**: `/api/generate-dag` がノードと有向エッジを生成し、因果・前提・派生などの関係タイプ、最長経路長、サイクル解消数などの統計を返します。
+- **日本史・古代年号対応**: 「江戸」「徳川幕府」など歴史固有語を辞書化し、紀元前や BC 表記を ISO 拡張形式（例: `-0660-01-01`）に正規化して扱います。
 - **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
 
 ## プロジェクト構成
@@ -223,9 +225,29 @@ POST /api/generate-dag
 
 {
 	"id": "...",
-	"nodes": [ { "id": "node-1", "date_iso": "2020-01-01", "title": "ウイルスが発見" } ],
-	"edges": [ { "source_id": "node-1", "target_id": "node-2", "relation_type": "causal", "relation_strength": 0.8 } ],
-	"stats": { "node_count": 2, "edge_count": 1 },
+	"nodes": [
+		{
+			"id": "node-1",
+			"date_iso": "2020-01-01",
+			"title": "ウイルスが発見",
+			"dag_metadata": { "node_type": "event", "is_parent": true }
+		}
+	],
+	"edges": [
+		{
+			"source_id": "node-1",
+			"target_id": "node-2",
+			"relation_type": "causal",
+			"relation_strength": 0.82,
+			"reasoning": "マーカー『その結果』による推定 / 共通エンティティによる補強"
+		}
+	],
+	"stats": {
+		"node_count": 2,
+		"edge_count": 1,
+		"max_path_length": 1,
+		"cyclic_count": 0
+	},
 	"version": "2.0"
 }
 ```
@@ -348,6 +370,7 @@ docker run -p 8000:8000 chronology-api
 
 - 字句・辞書を拡張する際は `text_features.py` を更新し、`pytest` で回帰テストを確認してください。
 - 日付処理を追加するときは `timeline_generator.py` の `_parse_sort_candidate` とテスト (`test_timeline_generator.py`) を更新するのが安全です。
+- 紀元前や古代年号に対応する際は `_safe_iso_date`（ISO 拡張形式）と `TimelineItem.date_iso` のバリデーションを調整し、負の年でも破綻しないか確認してください。
 - ファイル抽出ロジックは `text_extractor.py` に集約されており、ライブラリ追加時は `src/requirements.txt` も更新してください。
 
 ---

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from calendar import monthrange
 from datetime import date, datetime
 from typing import List, Literal, Optional
 from uuid import uuid4
@@ -48,8 +49,20 @@ class TimelineItem(BaseModel):
         # Ensure ISO strings are valid
         try:
             datetime.fromisoformat(value)
-        except ValueError as exc:  # pragma: no cover - defensive guard
-            raise ValueError("date_iso must be an ISO-8601 formatted string") from exc
+            return value
+        except ValueError:
+            pass
+
+        match = re.fullmatch(r"(-?\d{1,6})-(\d{2})-(\d{2})", value)
+        if not match:
+            raise ValueError("date_iso must be an ISO-8601 formatted string")
+
+        year, month, day = (int(part) for part in match.groups())
+        if not (1 <= month <= 12):
+            raise ValueError("date_iso must be an ISO-8601 formatted string")
+        last_day = monthrange(max(1, abs(year) or 1), month)[1]
+        if not (1 <= day <= last_day):
+            raise ValueError("date_iso must be an ISO-8601 formatted string")
         return value
 
 

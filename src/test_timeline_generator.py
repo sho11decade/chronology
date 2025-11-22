@@ -292,3 +292,26 @@ def test_generate_timeline_title_removes_conjunctions():
     assert items
     assert not items[0].title.startswith("しかし")
     assert items[0].title.startswith("新プロジェクト")
+
+
+def test_generate_timeline_detects_japanese_history_context():
+    text = (
+        "1868年1月3日、京都御所で王政復古の大号令が出され、朝廷主導の新政府が樹立された。"
+        "1868年1月27日、これを契機に徳川幕府の支配が終焉へと向かった。"
+    )
+    items = generate_timeline(text)
+    assert items
+    assert any(item.category == "歴史" for item in items)
+    assert any("京都" in location for item in items for location in item.locations)
+
+
+def test_generate_timeline_parses_bce_dates():
+    text = (
+        "紀元前660年1月1日、神武天皇が即位したと伝えられる。"
+        "紀元前221年、秦の始皇帝が中国を統一した。"
+    )
+    items = generate_timeline(text)
+    assert items
+    assert any(item.date_iso == "-659-01-01" for item in items)
+    assert any(item.date_iso == "-220-01-01" for item in items)
+    assert items[0].date_text.startswith("紀元前")

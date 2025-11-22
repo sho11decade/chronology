@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 import re
-from dataclasses import dataclass
+from collections import deque
 from datetime import datetime, date
 from typing import Dict, List, Literal, Optional, Tuple, Set
 from uuid import uuid4
@@ -91,24 +91,49 @@ _MARKERS: Dict[str, Tuple[RelationType, float]] = {
     "これにより": ("causal", 0.92),
     "これによって": ("causal", 0.92),
     "結果として": ("causal", 0.89),
+    "これを受け": ("causal", 0.88),
+    "その結果として": ("causal", 0.89),
+    "これを契機に": ("derived", 0.88),
+    "これをきっかけに": ("derived", 0.87),
+    # 前提条件
+    "これにより初めて": ("prerequisite", 0.95),
+    "により初めて": ("prerequisite", 0.94),
+    "があって初めて": ("prerequisite", 0.94),
+    "を条件に": ("prerequisite", 0.92),
+    "なければ": ("prerequisite", 0.90),
+    # 派生
+    "これに伴い": ("derived", 0.90),
+    "これに伴って": ("derived", 0.90),
     # 時間
     "その後": ("temporal", 0.80),
     "翌日": ("temporal", 0.85),
     "翌月": ("temporal", 0.85),
     "翌年": ("temporal", 0.82),
+    "直後": ("temporal", 0.82),
+    "のち": ("temporal", 0.76),
+    "後に": ("temporal", 0.78),
+    "やがて": ("temporal", 0.77),
+    "ほどなく": ("temporal", 0.76),
     # 並行
     "同時に": ("parallel", 0.88),
     "一方": ("parallel", 0.85),
 }
 
+_ISO_DATE_PATTERN = re.compile(r"^(-?\d{1,6})-(\d{2})-(\d{2})$")
+
 
 def _iso_to_date(iso: Optional[str]) -> Optional[date]:
     if not iso:
         return None
+    match = _ISO_DATE_PATTERN.match(iso)
+    if not match:
+        return None
+    year, month, day = (int(match.group(i)) for i in range(1, 4))
+    if year <= 0:
+        return None
     try:
-        y, m, d = (int(p) for p in iso.split("-"))
-        return date(y, m, d)
-    except Exception:
+        return date(year, month, day)
+    except ValueError:
         return None
 
 
@@ -130,8 +155,14 @@ def _has_marker(text: str, markers: Tuple[str, ...]) -> bool:
     return any(m in text for m in markers)
 
 
-def _entity_overlap(a: TimelineItem, b: TimelineItem) -> int:
-    return len(set(a.people) & set(b.people)) + len(set(a.locations) & set(b.locations))
+def _entity_overlap_score(a: TimelineItem, b: TimelineItem) -> float:
+    people_a, people_b = set(a.people), set(b.people)
+    places_a, places_b = set(a.locations), set(b.locations)
+    overlap = len(people_a & people_b) + len(places_a & places_b)
+    total = len(people_a | people_b) + len(places_a | places_b)
+    if total == 0:
+        return 0.0
+    return round(overlap / total, 3)
 
 
 def _detect_temporal_markers(prev_text: str, cur_text: str) -> Tuple[RelationType, float, Optional[str]]:
@@ -178,26 +209,38 @@ def _semantic_similarity(prev: TimelineItem, cur: TimelineItem) -> float:
     return _CATEGORY_AFFINITY.get((prev.category, cur.category), 0.3)
 
 
-def _relation_strength(prev: TimelineItem, cur: TimelineItem, marker_score: float) -> float:
-    # 要件式: 0.5*wt + 0.3*sc + 0.2*tg
+def _relation_strength(prev: TimelineItem, cur: TimelineItem, marker_score: float, entity_score: float) -> float:
+    # 0.45*wt + 0.25*sc + 0.2*tg + 0.1*entity
     wt = max(0.0, min(1.0, marker_score))
     sc = _semantic_similarity(prev, cur)
     gap = _time_gap_days(prev.date_iso, cur.date_iso)
     tg = math.exp(-abs(gap) / 365.0) if isinstance(gap, int) else 0.8
-    score = 0.5 * wt + 0.3 * sc + 0.2 * tg
+    score = 0.45 * wt + 0.25 * sc + 0.2 * tg + 0.1 * max(0.0, min(1.0, entity_score))
     return round(max(0.0, min(1.0, score)), 3)
 
 
-def _compute_stats(nodes: List[TimelineNode], edges: List[TimelineEdge]) -> Dict[str, float]:
+def _compute_stats(
+    nodes: List[TimelineNode],
+    edges: List[TimelineEdge],
+    *,
+    longest_path: int,
+    cyclic_count: int,
+) -> Dict[str, float]:
     if not nodes:
-        return {"node_count": 0, "edge_count": 0, "avg_degree": 0.0, "max_path_length": 0, "cyclic_count": 0}
+        return {
+            "node_count": 0,
+            "edge_count": 0,
+            "avg_degree": 0.0,
+            "max_path_length": 0,
+            "cyclic_count": cyclic_count,
+        }
     deg = (2 * len(edges)) / max(1, len(nodes))
     return {
         "node_count": len(nodes),
         "edge_count": len(edges),
         "avg_degree": round(deg, 3),
-        "max_path_length": 0,
-        "cyclic_count": 0,
+        "max_path_length": max(0, longest_path),
+        "cyclic_count": cyclic_count,
     }
 
 
@@ -247,13 +290,19 @@ def build_timeline_dag(
             if d1 and d2 and d1 > d2:
                 continue
             rel_type, marker_score, phrase = _infer_relation_type(prev, cur)
-            strength = _relation_strength(prev, cur, marker_score)
+            entity_score = _entity_overlap_score(prev, cur)
+            strength = _relation_strength(prev, cur, marker_score, entity_score)
             if strength < relation_threshold:
                 continue
             gap = _time_gap_days(prev.date_iso, cur.date_iso)
-            reasoning = (
-                f"マーカー『{phrase}』による推定" if (rel_type == "causal" and phrase) else "時間順と類似度による推定"
-            )
+            reasoning_parts: List[str] = []
+            if phrase:
+                reasoning_parts.append(f"マーカー『{phrase}』による推定")
+            if entity_score > 0:
+                reasoning_parts.append("共通エンティティによる補強")
+            if not reasoning_parts:
+                reasoning_parts.append("時間順と類似度による推定")
+            reasoning = " / ".join(reasoning_parts)
             edges.append(
                 TimelineEdge(
                     source_id=prev.id,
@@ -267,9 +316,20 @@ def build_timeline_dag(
             )
 
     # サイクル除去（弱いエッジから間引き）
-    edges = detect_and_resolve_cycles(edges)
+    edges, cycle_count = detect_and_resolve_cycles(edges)
     # 軽量な推移的削減
     edges = reduce_transitive_edges(edges)
+
+    # ノードメタ更新
+    outgoing_count: Dict[str, int] = {}
+    incoming_count: Dict[str, int] = {}
+    for e in edges:
+        outgoing_count[e.source_id] = outgoing_count.get(e.source_id, 0) + 1
+        incoming_count[e.target_id] = incoming_count.get(e.target_id, 0) + 1
+    for node in nodes:
+        node.is_parent = outgoing_count.get(node.id, 0) > 0
+
+    longest_path = _longest_path_length(nodes, edges)
 
     dag = TimelineDAG(
         id=str(uuid4()),
@@ -277,7 +337,7 @@ def build_timeline_dag(
         text=text[:200_000],
         nodes=nodes,
         edges=edges,
-        stats=_compute_stats(nodes, edges),
+        stats=_compute_stats(nodes, edges, longest_path=longest_path, cyclic_count=cycle_count),
     )
     return dag
 
@@ -292,10 +352,10 @@ def topological_sort(nodes: List[TimelineNode], edges: List[TimelineEdge]) -> Li
         adj[e.source_id].append(e.target_id)
         in_deg[e.target_id] = in_deg.get(e.target_id, 0) + 1
 
-    queue = [nid for nid, d in in_deg.items() if d == 0]
+    queue: deque[str] = deque(nid for nid, d in in_deg.items() if d == 0)
     ordered: List[str] = []
     while queue:
-        nid = queue.pop(0)
+        nid = queue.popleft()
         ordered.append(nid)
         for nxt in adj.get(nid, []):
             in_deg[nxt] -= 1
@@ -304,6 +364,35 @@ def topological_sort(nodes: List[TimelineNode], edges: List[TimelineEdge]) -> Li
 
     id_to_node = {n.id: n for n in nodes}
     return [id_to_node[i] for i in ordered if i in id_to_node]
+
+
+def _longest_path_length(nodes: List[TimelineNode], edges: List[TimelineEdge]) -> int:
+    if not nodes or not edges:
+        return 0
+    adj = build_adjacency_list(edges)
+    in_deg: Dict[str, int] = {n.id: 0 for n in nodes}
+    for e in edges:
+        in_deg[e.target_id] = in_deg.get(e.target_id, 0) + 1
+
+    queue: deque[str] = deque(nid for nid, deg in in_deg.items() if deg == 0)
+    dist: Dict[str, int] = {n.id: 0 for n in nodes}
+    visited = 0
+
+    while queue:
+        nid = queue.popleft()
+        visited += 1
+        base = dist[nid]
+        for nxt in adj.get(nid, []):
+            if base + 1 > dist.get(nxt, 0):
+                dist[nxt] = base + 1
+            in_deg[nxt] -= 1
+            if in_deg[nxt] == 0:
+                queue.append(nxt)
+
+    if visited < len(nodes):
+        # サイクルが存在する場合でも距離推定は保持
+        return max(dist.values()) if dist else 0
+    return max(dist.values()) if dist else 0
 
 
 def find_paths(
@@ -381,15 +470,15 @@ def _find_cycle(adj: Dict[str, List[str]]) -> Optional[List[str]]:
     return None
 
 
-def detect_and_resolve_cycles(edges: List[TimelineEdge]) -> List[TimelineEdge]:
-    adj = build_adjacency_list(edges)
-    cycle = _find_cycle(adj)
-    if not cycle:
-        return edges
-    # 1サイクルずつ最弱エッジを除去し、安定まで繰り返す
+def detect_and_resolve_cycles(edges: List[TimelineEdge]) -> Tuple[List[TimelineEdge], int]:
     edge_map: Dict[Tuple[str, str], TimelineEdge] = {(e.source_id, e.target_id): e for e in edges}
-    while cycle:
-        # サイクル上のエッジ候補
+    cycle_count = 0
+    while True:
+        adj = build_adjacency_list(list(edge_map.values()))
+        cycle = _find_cycle(adj)
+        if not cycle:
+            break
+        cycle_count += 1
         candidates = []
         for i in range(len(cycle)):
             a = cycle[i]
@@ -401,10 +490,7 @@ def detect_and_resolve_cycles(edges: List[TimelineEdge]) -> List[TimelineEdge]:
             break
         weakest = min(candidates, key=lambda e: e.relation_strength)
         edge_map.pop((weakest.source_id, weakest.target_id), None)
-        # 再評価
-        adj = build_adjacency_list(list(edge_map.values()))
-        cycle = _find_cycle(adj)
-    return list(edge_map.values())
+    return list(edge_map.values()), cycle_count
 
 
 def _has_alternative_path(src: str, dst: str, adj: Dict[str, List[str]], *, exclude: Tuple[str, str]) -> bool:

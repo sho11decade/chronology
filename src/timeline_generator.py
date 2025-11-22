@@ -76,6 +76,13 @@ DATE_PATTERNS = [
     re.compile(rf"{YEAR_TOKEN}[-/\.]" + rf"{MONTH_TOKEN}[-/\.]" + rf"{DAY_TOKEN}"),
 ]
 
+BCE_PATTERN = re.compile(
+    rf"(紀元前|BC|B\.C\.)\s*(?P<year>[{NUMERAL_CLASS}]{{1,8}})年?"
+    rf"(?:(?P<month>[{NUMERAL_CLASS}]{{1,5}})月)?"
+    rf"(?:(?P<day>[{NUMERAL_CLASS}]{{1,5}})日)?",
+    re.IGNORECASE,
+)
+
 ERA_NUMERAL_CLASS = f"0-9０-９{KANJI_DIGITS}{''.join(KANJI_SMALL_UNITS.keys())}"
 ERA_PATTERN = re.compile(
     rf"(?P<era>令和|平成|昭和|大正|明治)(?P<year>[{ERA_NUMERAL_CLASS}]+|元)(?P<suffix>年度|年)(?:(?P<month>[{ERA_NUMERAL_CLASS}]+)月)?(?:(?P<day>[{ERA_NUMERAL_CLASS}]+)日)?"
@@ -104,6 +111,8 @@ TOKEN_STRIP_CHARS = "（）()「」『』\"'、，,。:：;；!?！？〜～‐-
 TOKEN_PATTERN = re.compile(r"[\w一-龥]+")
 NUMERAL_REGEX = re.compile(rf"[{NUMERAL_CLASS}]")
 LOCATION_KEYWORDS_SET = set(LOCATION_KEYWORDS)
+
+ISO_EXTENDED_PATTERN = re.compile(r"^(-?\d{1,6})-(\d{2})-(\d{2})$")
 
 
 def _initialise_category_keyword_tables() -> tuple[dict[str, tuple[str, ...]], dict[str, dict[str, float]]]:
@@ -303,14 +312,30 @@ def _parse_number(value: Optional[str], fallback: int = 1) -> int:
     return fallback
 
 
-def _safe_iso_date(year: int, month: int, day: int) -> Optional[str]:
-    if year < 100:  # Ignore unrealistic matches like postal codes
+def _safe_iso_date(year: int, month: int, day: int, *, allow_small_year: bool = False) -> Optional[str]:
+    if not allow_small_year and 0 < abs(year) < 100:
         return None
     month = min(max(month, 1), 12)
-    last_day = monthrange(year, month)[1]
+    last_day = monthrange(max(1, abs(year)), month)[1]
     day = min(max(day, 1), last_day)
+    if year > 0:
+        try:
+            return date(year, month, day).isoformat()
+        except ValueError:
+            return None
+    # ISO8601 拡張表記で負の年を扱う（紀元前）
+    return f"{year:04d}-{month:02d}-{day:02d}"
+
+
+def _decompose_iso(iso: Optional[str]) -> Optional[tuple[int, int, int]]:
+    if iso is None:
+        return None
+    match = ISO_EXTENDED_PATTERN.match(iso)
+    if not match:
+        return None
+    year_text, month_text, day_text = match.groups()
     try:
-        return date(year, month, day).isoformat()
+        return int(year_text), int(month_text), int(day_text)
     except ValueError:
         return None
 
@@ -329,10 +354,36 @@ def _relative_year_to_iso(years_text: str, reference: date) -> tuple[Optional[st
 
 def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
     seen_spans: list[tuple[int, int]] = []
+
+    for match in BCE_PATTERN.finditer(sentence):
+        span = match.span()
+        if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
+            continue
+        year_raw = match.group("year")
+        year = _parse_number(year_raw, fallback=0)
+        if year <= 0:
+            continue
+        month_raw = match.group("month")
+        day_raw = match.group("day")
+        month = _parse_number(month_raw, fallback=1) if month_raw else 1
+        day = _parse_number(day_raw, fallback=1) if day_raw else 1
+        astronomical_year = -(year - 1)
+        iso_candidate = _safe_iso_date(astronomical_year, month, day, allow_small_year=True)
+        seen_spans.append(span)
+        yield RawEvent(
+            sentence=sentence,
+            date_text=match.group(),
+            date_iso=iso_candidate,
+            reference_year=None,
+        )
+
     for match in ERA_PATTERN.finditer(sentence):
+        span = match.span()
+        if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
+            continue
         era_raw = match.group()
         iso_candidate = normalise_era_notation(era_raw)
-        seen_spans.append(match.span())
+        seen_spans.append(span)
         yield RawEvent(
             sentence=sentence,
             date_text=era_raw,
@@ -359,7 +410,7 @@ def iter_dates(sentence: str, reference: date) -> Iterable[RawEvent]:
             span = match.span()
             if any(start <= span[0] and span[1] <= end for start, end in seen_spans):
                 continue
-            if sentence[span[1]: span[1] + 1] == "度":
+            if sentence[span[1] : span[1] + 1] == "度":
                 continue
             year_raw = match.group("year")
             month_raw = match.groupdict().get("month")
@@ -751,11 +802,10 @@ def _parse_sort_candidate(
     reference_year: Optional[int] = None,
 ) -> Optional[tuple[int, int, int, int]]:
     if date_iso:
-        try:
-            year, month, day = (int(part) for part in date_iso.split("-"))
+        iso_parts = _decompose_iso(date_iso)
+        if iso_parts:
+            year, month, day = iso_parts
             return (year, month, day, 0)
-        except ValueError:
-            pass
 
     if relative_years is not None:
         base_year = reference_year if reference_year is not None else datetime.utcnow().year
@@ -770,11 +820,10 @@ def _parse_sort_candidate(
     # Try to normalise era notations
     era_iso = normalise_era_notation(cleaned)
     if era_iso:
-        try:
-            year, month, day = (int(part) for part in era_iso.split("-"))
+        iso_parts = _decompose_iso(era_iso)
+        if iso_parts:
+            year, month, day = iso_parts
             return (year, month, day, 0)
-        except ValueError:
-            pass
 
     for pattern in DATE_PATTERNS:
         match = pattern.search(cleaned)
@@ -827,11 +876,10 @@ def _timeline_sort_key(entry: dict, appearance_order: int) -> tuple:
         return (0, year, month, day, precision, -entry["importance"], appearance_order)
     fallback_date = entry.get("date_iso")
     if fallback_date:
-        try:
-            year, month, day = (int(part) for part in fallback_date.split("-"))
+        iso_parts = _decompose_iso(fallback_date)
+        if iso_parts:
+            year, month, day = iso_parts
             return (0, year, month, day, 0, -entry["importance"], appearance_order)
-        except ValueError:
-            pass
     return (1, appearance_order)
 
 
