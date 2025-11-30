@@ -62,9 +62,9 @@ async def test_extract_text_requires_ocr_configuration(monkeypatch):
 async def test_extract_text_uses_ocr_when_available(monkeypatch):
     monkeypatch.setattr("src.text_extractor.has_ocr", lambda: True)
 
-    async def fake_ocr(data: bytes, *, language: str | None = None, timeout_seconds: int = 15) -> str:  # type: ignore[override]
+    def fake_ocr(data: bytes, *, language: str | None = None, timeout_seconds: int = 15) -> str:  # type: ignore[override]
         assert data == b"fake-binary"
-        assert language == "jpn"
+        assert language is None
         return "抽出されたテキスト"
 
     monkeypatch.setattr("src.text_extractor.extract_text_from_image", fake_ocr)

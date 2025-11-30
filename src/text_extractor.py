@@ -26,7 +26,7 @@ async def extract_text_from_upload(
     upload: UploadFile,
     *,
     max_characters: int = MAX_CHARACTERS,
-    ocr_lang: str = "jpn",
+    ocr_lang: str | None = None,
 ) -> Tuple[str, str]:
     filename = upload.filename or "uploaded"
     extension = _infer_extension(filename)
@@ -94,7 +94,7 @@ async def _read_pdf(upload: UploadFile) -> str:
     return "\n".join(text_chunks)
 
 
-async def _read_image(upload: UploadFile, *, lang: str) -> str:
+async def _read_image(upload: UploadFile, *, lang: str | None) -> str:
     data = await _read_bytes(upload)
 
     if not has_ocr():
