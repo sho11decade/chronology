@@ -170,4 +170,3 @@ def _raise_azure_error(response: Response) -> None:
 def has_ocr() -> bool:
     """従来のインターフェースに合わせたエイリアス。"""
     return is_configured()
-*** End of File
