@@ -27,6 +27,22 @@ class Settings(BaseSettings):
         default=True,
         description="各リクエストのログ出力を有効化",
     )
+    azure_vision_endpoint: str = Field(
+        default="",
+        description="Azure AI Vision のエンドポイント URL（例: https://example.cognitiveservices.azure.com/）",
+    )
+    azure_vision_key: str = Field(
+        default="",
+        description="Azure AI Vision の API キー",
+    )
+    azure_vision_api_version: str = Field(
+        default="2023-02-01-preview",
+        description="Azure AI Vision Read API のバージョン",
+    )
+    azure_vision_default_language: str = Field(
+        default="ja",
+        description="OCR の既定言語コード。auto を指定すると自動判定。",
+    )
     # --- 共有機能設定（Firestore / SQLite フォールバック） ---
     enable_sharing: bool = Field(
         default=True,

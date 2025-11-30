@@ -6,7 +6,7 @@ import time
 import os
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from uuid import uuid4
 
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
@@ -29,7 +29,8 @@ try:
         UploadResponse,
     )
     from .models import WikipediaImportRequest, WikipediaImportResponse
-    from .text_extractor import extract_text_from_upload
+    from .azure_ocr import has_ocr
+    from .text_extractor import IMAGE_EXTENSIONS, extract_text_from_upload
     from .timeline_generator import generate_timeline
     from .search import search_timeline_items
     from .wikipedia_importer import fetch_wikipedia_article
@@ -52,7 +53,8 @@ except ImportError:
         UploadResponse,
     )
     from models import WikipediaImportRequest, WikipediaImportResponse
-    from text_extractor import extract_text_from_upload
+    from azure_ocr import has_ocr
+    from text_extractor import IMAGE_EXTENSIONS, extract_text_from_upload
     from timeline_generator import generate_timeline
     from search import search_timeline_items
     from wikipedia_importer import fetch_wikipedia_article
@@ -185,6 +187,70 @@ async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
         text_preview=preview,
         text=text,
     )
+
+
+def _ensure_image_upload(file: UploadFile) -> None:
+    filename = (file.filename or "").lower()
+    if not filename or not any(filename.endswith(ext) for ext in IMAGE_EXTENSIONS):
+        raise HTTPException(status_code=400, detail="画像ファイル（png/jpg/jpeg/tif/bmp）をアップロードしてください。")
+
+
+def _ensure_ocr_enabled() -> None:
+    if not has_ocr():
+        raise HTTPException(status_code=503, detail="OCR機能が利用できません。Azure Vision の設定を確認してください。")
+
+
+@app.post("/api/ocr", response_model=UploadResponse)
+async def ocr_document(
+    file: UploadFile = File(...),
+    lang: Optional[str] = None,
+) -> UploadResponse:
+    _ensure_image_upload(file)
+    _ensure_ocr_enabled()
+
+    language = lang or settings.azure_vision_default_language
+    text, preview = await extract_text_from_upload(
+        file,
+        max_characters=settings.max_input_characters,
+        ocr_lang=language,
+    )
+    return UploadResponse(
+        filename=file.filename or "uploaded",
+        characters=len(text),
+        text_preview=preview,
+        text=text,
+    )
+
+
+@app.post("/api/ocr-generate-dag", response_model=TimelineDAG)
+async def ocr_generate_dag(
+    file: UploadFile = File(...),
+    lang: Optional[str] = None,
+    relation_threshold: float = 0.5,
+    max_events: int = 500,
+) -> TimelineDAG:
+    if not (0.0 <= relation_threshold <= 1.0):
+        raise HTTPException(status_code=400, detail="relation_threshold は 0.0〜1.0 の範囲で指定してください。")
+    if max_events < 1:
+        raise HTTPException(status_code=400, detail="max_events は 1 以上で指定してください。")
+
+    _ensure_image_upload(file)
+    _ensure_ocr_enabled()
+
+    language = lang or settings.azure_vision_default_language
+    text, _preview = await extract_text_from_upload(
+        file,
+        max_characters=settings.max_input_characters,
+        ocr_lang=language,
+    )
+
+    capped_events = min(max_events, settings.max_timeline_events)
+    dag = build_timeline_dag(
+        text,
+        relation_threshold=relation_threshold,
+        max_events=capped_events,
+    )
+    return dag
 
 
 @app.post("/api/generate", response_model=GenerateResponse)

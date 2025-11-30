@@ -8,13 +8,48 @@
 - **人物・場所の自動抽出**: 接尾辞辞書と形態的ヒューリスティクスで人物・場所を判別し、イベントごとに整理。
 - **信頼度スコア**: 抽出したメタ情報（ISO 日付化の可否、人物・場所の数、文脈量）から 0〜1 の信頼度を算出。
 - **Wikipedia 互換の前処理**: 脚注・テンプレート・箇条書きなどのノイズを除去し、文章単位で解析。
-- **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word ファイルを扱い、抽出結果を年表化。
+- **大容量テキストとファイルアップロード**: 200,000 文字までのテキスト、5MB までの PDF/Word/画像ファイルを扱い、抽出結果を年表化。
+- **Azure Vision OCR 連携**: 画像ファイルをアップロードすると Azure AI Vision Read API でテキストを抽出し、年表生成や DAG 解析に利用可能。
 - **柔軟な共有API**: クライアントが生成した年表項目をそのまま保存でき、レスポンスでは共有URLとメタ情報だけを返します。
 - **高度な検索フィルタ**: キーワード、カテゴリ、日付範囲を組み合わせた年表検索 API を提供。
 - **MeCab 形態素解析**: fugashi + UniDic Lite を組み込み、品詞情報を活用した人物・地名抽出および接続詞検出を実現。
 - **DAG ベースの因果分析**: `/api/generate-dag` がノードと有向エッジを生成し、因果・前提・派生などの関係タイプ、最長経路長、サイクル解消数などの統計を返します。
 - **日本史・古代年号対応**: 「江戸」「徳川幕府」など歴史固有語を辞書化し、紀元前や BC 表記を ISO 拡張形式（例: `-0660-01-01`）に正規化して扱います。
 - **運用性に配慮した API**: リクエスト ID 自動付与、ライブ/レディネスヘルスチェック、環境変数による設定をサポート。
+
+## 使用技術
+
+### アプリケーションレイヤー
+- **言語 / ランタイム**: Python 3.10 系
+- **Web フレームワーク**: FastAPI（非同期 I/O / OpenAPI 自動生成）
+- **アプリケーションサーバ**: Uvicorn（ASGI）
+- **設定管理**: Pydantic BaseSettings（`.env` の読み込み、型安全な検証）
+
+### テキスト処理
+- **文書解析**: `python-docx`（Word）、`pdfplumber`（PDF）
+- **形態素解析**: `fugashi[unidic-lite]`（MeCab ラッパー + UniDic Lite 辞書）
+- **日付正規化**: 独自実装（`japanese_calendar.py`）により和暦・漢数字・曖昧表現を ISO 化
+- **テキストクレンジング**: `text_cleaner.py` で Wikipedia 由来の脚注・テンプレートを除去
+
+### データ永続化 / 共有
+- **デフォルトストア**: SQLite（`data/chronology.db`）によるシンプルな埋め込み DB
+- **クラウドオプション**: Google Cloud Firestore（`CHRONOLOGY_FIRESTORE_ENABLED=true` 時に利用）
+- **共有 TTL 管理**: `ShareStore` が作成日時・有効期限を ISO 形式で保持
+
+### DAG・検索機能
+- **DAG 生成**: `dag.py` / `timeline_generator.py` による因果グラフ構築
+- **検索エンジン**: `search.py` におけるスコアリング（キーワード一致・カテゴリ・日付レンジ）
+
+### テスト / 品質管理
+- **テストフレームワーク**: pytest
+- **HTTP テスト**: `fastapi.testclient` を用いたエンドポイント検証（`test_app_service.py`）
+- **型ヒント**: Python typing による静的解析の補助
+
+### デプロイ / 運用
+- **コンテナ**: Docker（`python:3.10-slim` ベース）
+- **クラウドホスティング**: Render.com（無料プラン想定、`render.yaml` 設定済み）
+- **ヘルスチェック**: `/health`, `/health/live`, `/health/ready` による監視ポイント
+- **ロギング**: 標準 logging モジュールでリクエスト ID を付与
 
 ## プロジェクト構成
 
@@ -65,6 +100,10 @@ pip install -r src/requirements.txt
 - `CHRONOLOGY_ALLOWED_ORIGINS`: CORS で許可するオリジン（カンマ区切り）
 - `CHRONOLOGY_LOG_LEVEL`: ログレベル（`DEBUG`/`INFO`/`WARNING`/`ERROR`/`CRITICAL`）
 - `CHRONOLOGY_ENABLE_REQUEST_LOGGING`: リクエストログの有効・無効（`true`/`false`）
+- `CHRONOLOGY_AZURE_VISION_ENDPOINT`: Azure AI Vision のエンドポイント URL
+- `CHRONOLOGY_AZURE_VISION_KEY`: Azure AI Vision の API キー
+- `CHRONOLOGY_AZURE_VISION_API_VERSION`: Vision Read API のバージョン（例: `2023-02-01-preview`）
+- `CHRONOLOGY_AZURE_VISION_DEFAULT_LANGUAGE`: OCR の既定言語コード（`auto` 指定で自動判定）
 - `CHRONOLOGY_MAX_INPUT_CHARACTERS`: テキスト入力の最大文字数（既定: 200000）
 - `CHRONOLOGY_MAX_TIMELINE_EVENTS`: 年表生成で保持する最大イベント数（既定: 500）
 - `CHRONOLOGY_MAX_SEARCH_RESULTS`: 検索レスポンスの最大件数（既定: 500）
@@ -132,7 +171,9 @@ cd chronology
 | GET      | `/health`                | 稼働状態とアップタイムを返すヘルスチェック           |
 | GET      | `/health/live`           | プロセス稼働を確認するライブネスチェック             |
 | GET      | `/health/ready`          | アプリケーションの起動状態を確認するレディネス       |
-| POST     | `/api/upload`            | PDF / DOCX などをアップロードしてテキスト抽出       |
+| POST     | `/api/upload`            | PDF / DOCX / TXT のテキスト抽出。画像は `/api/ocr` を利用 |
+| POST     | `/api/ocr`               | 画像をアップロードして Azure Vision でテキスト抽出      |
+| POST     | `/api/ocr-generate-dag`  | 画像から OCR → テキスト化し DAG を生成                 |
 | POST     | `/api/generate`          | テキストから年表を生成して返す                        |
 | POST     | `/api/search`            | 生成した年表をキーワードや日付でフィルタリング        |
 | POST     | `/api/import/wikipedia`  | Wikipedia の記事タイトル/URL から本文を取得し年表生成 |

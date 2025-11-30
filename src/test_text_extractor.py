@@ -47,11 +47,30 @@ async def test_extract_text_rejects_empty_text():
 
 
 @pytest.mark.anyio
-async def test_extract_text_rejects_image_upload():
+async def test_extract_text_requires_ocr_configuration(monkeypatch):
+    monkeypatch.setattr("src.text_extractor.has_ocr", lambda: False)
     upload = UploadFile(filename="sample.png", file=io.BytesIO(b"fake-binary"))
 
     with pytest.raises(HTTPException) as exc_info:
         await extract_text_from_upload(upload)
 
-    assert exc_info.value.status_code == 400
-    assert "画像" in exc_info.value.detail
+    assert exc_info.value.status_code == 503
+    assert "OCR" in exc_info.value.detail
+
+
+@pytest.mark.anyio
+async def test_extract_text_uses_ocr_when_available(monkeypatch):
+    monkeypatch.setattr("src.text_extractor.has_ocr", lambda: True)
+
+    async def fake_ocr(data: bytes, *, language: str | None = None, timeout_seconds: int = 15) -> str:  # type: ignore[override]
+        assert data == b"fake-binary"
+        assert language == "jpn"
+        return "抽出されたテキスト"
+
+    monkeypatch.setattr("src.text_extractor.extract_text_from_image", fake_ocr)
+
+    upload = UploadFile(filename="sample.png", file=io.BytesIO(b"fake-binary"))
+    text, preview = await extract_text_from_upload(upload)
+
+    assert text == "抽出されたテキスト"
+    assert preview.startswith("抽出されたテキスト")
