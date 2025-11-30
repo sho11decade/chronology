@@ -8,7 +8,10 @@ from typing import Iterable, Optional
 import requests
 from requests import Response
 
-from .settings import settings
+try:  # pragma: no cover - 実行コンテキストにより相対/絶対が異なる
+    from .settings import settings
+except ImportError:  # pragma: no cover
+    from settings import settings
 
 logger = logging.getLogger("chronology.azure_ocr")
 
