@@ -8,9 +8,9 @@ from starlette.status import HTTP_413_REQUEST_ENTITY_TOO_LARGE
 from fastapi import HTTPException, UploadFile
 
 try:  # pragma: no cover - 実行形式によって相対/絶対が変わる
-    from .azure_ocr import extract_text_from_image, has_ocr
+    from .azure_ocr import AzureVisionError, extract_text_from_image, has_ocr
 except ImportError:  # pragma: no cover - スクリプト実行時のフォールバック
-    from azure_ocr import extract_text_from_image, has_ocr
+    from azure_ocr import AzureVisionError, extract_text_from_image, has_ocr
 
 TEXT_EXTENSIONS = {".txt"}
 DOCUMENT_EXTENSIONS = {".docx", ".pdf"}
@@ -102,6 +102,8 @@ async def _read_image(upload: UploadFile, *, lang: str | None) -> str:
 
     try:
         return extract_text_from_image(data, language=lang)
+    except AzureVisionError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
         raise HTTPException(status_code=400, detail="画像からテキストを抽出できませんでした。") from exc
 

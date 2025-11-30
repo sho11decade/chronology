@@ -139,25 +139,35 @@ def _send_request(method: str, url: str, *, headers: dict, timeout: int, params:
 
 
 def _extract_lines(payload: dict) -> Iterable[str]:
-    analyze_result = payload.get("analyzeResult")
-    if analyze_result:
-        for page in analyze_result.get("readResults", []):
-            for line in page.get("lines", []):
-                text = line.get("text")
-                if text:
-                    yield text
-    read_result = payload.get("readResult")
-    if read_result:
-        for block in read_result.get("blocks", []):
-            for line in block.get("lines", []):
-                text = line.get("text") or line.get("content")
-                if text:
-                    yield text
-        for page in read_result.get("pages", []):  # 一部の API 形式では pages 配列が返る
-            for line in page.get("lines", []):
-                text = line.get("text") or line.get("content")
-                if text:
-                    yield text
+    lines: list[str] = []
+
+    def _append(text: Optional[str]) -> None:
+        if text:
+            cleaned = text.strip()
+            if cleaned:
+                lines.append(cleaned)
+
+    analyze_result = payload.get("analyzeResult") or {}
+    for page in analyze_result.get("readResults", []):
+        for line in page.get("lines", []):
+            _append(line.get("text") or line.get("content"))
+    if not lines:
+        _append(analyze_result.get("content"))
+
+    read_result = payload.get("readResult") or {}
+    for block in read_result.get("blocks", []):
+        for line in block.get("lines", []):
+            _append(line.get("text") or line.get("content"))
+    for page in read_result.get("pages", []):  # 一部の API 形式では pages 配列が返る
+        for line in page.get("lines", []):
+            _append(line.get("text") or line.get("content"))
+    if not lines:
+        _append(read_result.get("content"))
+
+    if not lines:
+        _append(payload.get("content"))
+
+    return lines
 
 
 def _raise_azure_error(response: Response) -> None:
