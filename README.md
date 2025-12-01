@@ -102,7 +102,7 @@ pip install -r src/requirements.txt
 - `CHRONOLOGY_ENABLE_REQUEST_LOGGING`: リクエストログの有効・無効（`true`/`false`）
 - `CHRONOLOGY_AZURE_VISION_ENDPOINT`: Azure AI Vision のエンドポイント URL
 - `CHRONOLOGY_AZURE_VISION_KEY`: Azure AI Vision の API キー
-- `CHRONOLOGY_AZURE_VISION_API_VERSION`: Vision Read API のバージョン（例: `2023-02-01-preview`）
+- `CHRONOLOGY_AZURE_VISION_API_VERSION`: Vision Read API のバージョン（例: `la`）
 - `CHRONOLOGY_AZURE_VISION_DEFAULT_LANGUAGE`: OCR の既定言語コード（`auto` 指定で自動判定）
 - `CHRONOLOGY_MAX_INPUT_CHARACTERS`: テキスト入力の最大文字数（既定: 200000）
 - `CHRONOLOGY_MAX_TIMELINE_EVENTS`: 年表生成で保持する最大イベント数（既定: 500）

@@ -18,6 +18,7 @@ logger = logging.getLogger("chronology.azure_ocr")
 _DEFAULT_TIMEOUT_SECONDS = 15
 _POLL_INTERVAL_SECONDS = 0.6
 _LEGACY_LANGUAGE_AUTO = "unk"
+_FALLBACK_READ_VERSION = "v3.2"
 
 
 class AzureVisionError(RuntimeError):
@@ -39,7 +40,7 @@ def extract_text_from_image(
     if not is_configured():
         raise AzureVisionError("Azure Vision API の認証情報が設定されていません。")
 
-    version = (settings.azure_vision_api_version or "v3.2").strip()
+    version = ""
     lang_param = _resolve_language(language)
 
     if _use_image_analysis_api(version):
@@ -81,6 +82,13 @@ def _call_image_analysis_api(
         "Content-Type": "application/octet-stream",
     }
     response = _send_request("POST", url, headers=headers, params=params, data=image_bytes, timeout=timeout_seconds)
+    if response.status_code == 404:
+        fallback_version = _FALLBACK_READ_VERSION
+        logger.warning(
+            "Azure Vision Image Analysis API not found (404). Falling back to Read API version %s.",
+            fallback_version,
+        )
+        return _call_read_api(image_bytes, fallback_version, language, timeout_seconds)
     if response.status_code >= 400:
         _raise_azure_error(response)
     try:
