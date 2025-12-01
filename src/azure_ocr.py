@@ -18,6 +18,7 @@ logger = logging.getLogger("chronology.azure_ocr")
 _DEFAULT_TIMEOUT_SECONDS = 15
 _POLL_INTERVAL_SECONDS = 0.6
 _LEGACY_LANGUAGE_AUTO = "unk"
+_DEFAULT_IMAGE_ANALYSIS_VERSION = "2023-02-01-preview"
 _FALLBACK_READ_VERSION = "v3.2"
 
 
@@ -40,13 +41,15 @@ def extract_text_from_image(
     if not is_configured():
         raise AzureVisionError("Azure Vision API の認証情報が設定されていません。")
 
-    version = ""
+    version = (settings.azure_vision_api_version or _DEFAULT_IMAGE_ANALYSIS_VERSION).strip()
+    if not version:
+        version = _DEFAULT_IMAGE_ANALYSIS_VERSION
     lang_param = _resolve_language(language)
 
     if _use_image_analysis_api(version):
         payload = _call_image_analysis_api(image_bytes, version, lang_param, timeout_seconds)
     else:
-        payload = _call_read_api(image_bytes, version, lang_param, timeout_seconds)
+        payload = _call_read_api(image_bytes, version or _FALLBACK_READ_VERSION, lang_param, timeout_seconds)
 
     lines = list(_extract_lines(payload))
     text = "\n".join(line.strip() for line in lines if line and line.strip())
@@ -103,6 +106,8 @@ def _call_read_api(
     language: Optional[str],
     timeout_seconds: int,
 ) -> dict:
+    if not version:
+        version = _FALLBACK_READ_VERSION
     base = settings.azure_vision_endpoint.rstrip("/")
     url = f"{base}/vision/{version}/read/analyze"
     params = {}
