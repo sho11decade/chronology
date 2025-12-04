@@ -5,7 +5,10 @@ from datetime import datetime
 from html import escape
 from typing import Iterable, List, Optional, Tuple
 
-from .models import PrintTimelineOptions, TimelineItem
+try:  # パッケージとして実行される場合
+    from .models import PrintTimelineOptions, TimelineItem
+except ImportError:  # スクリプト実行時のフォールバック
+    from models import PrintTimelineOptions, TimelineItem
 
 
 @dataclass
