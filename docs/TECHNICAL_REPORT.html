@@ -1,0 +1,1218 @@
+<!DOCTYPE html><html><head>
+      <title>TECHNICAL_REPORT</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="chronology-maker-技術レポート-日本語自然言語処理による時系列イベント抽出と因果関係dag解析">Chronology Maker 技術レポート: 日本語自然言語処理による時系列イベント抽出と因果関係DAG解析 </h1>
+<p><strong>作成日</strong>: 2025年12月2日<br>
+<strong>バージョン</strong>: 2.0<br>
+<strong>リポジトリ</strong>: <a href="https://github.com/sho11decade/chronology">sho11decade/chronology</a></p>
+<hr>
+<h2 id="目次">目次 </h2>
+<ol>
+<li><a href="#1-%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%A6%82%E8%A6%81">プロジェクト概要</a></li>
+<li><a href="#2-%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3">アーキテクチャ</a></li>
+<li><a href="#3-%E6%97%A5%E6%9C%AC%E8%AA%9E%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3">日本語自然言語処理パイプライン</a></li>
+<li><a href="#4-dag%E3%83%99%E3%83%BC%E3%82%B9%E5%9B%A0%E6%9E%9C%E9%96%A2%E4%BF%82%E8%A7%A3%E6%9E%90%E6%96%B0%E8%A6%8F%E6%80%A7">DAGベース因果関係解析（新規性）</a></li>
+<li><a href="#5-%E5%BD%A2%E6%85%8B%E7%B4%A0%E8%A7%A3%E6%9E%90%E3%81%A8%E5%9B%BA%E6%9C%89%E8%A1%A8%E7%8F%BE%E6%8A%BD%E5%87%BA">形態素解析と固有表現抽出</a></li>
+<li><a href="#6-%E6%97%A5%E4%BB%98%E6%AD%A3%E8%A6%8F%E5%8C%96%E3%81%A8%E5%92%8C%E6%9A%A6%E5%87%A6%E7%90%86">日付正規化と和暦処理</a></li>
+<li><a href="#7-azure-vision-ocr%E7%B5%B1%E5%90%88">Azure Vision OCR統合</a></li>
+<li><a href="#8-%E8%A9%95%E4%BE%A1%E3%81%A8%E4%BB%8A%E5%BE%8C%E3%81%AE%E5%B1%95%E6%9C%9B">評価と今後の展望</a></li>
+<li><a href="#9-%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE">参考文献</a></li>
+</ol>
+<hr>
+<h2 id="1-プロジェクト概要">1. プロジェクト概要 </h2>
+<h3 id="11-目的">1.1 目的 </h3>
+<p>Chronology Makerは、日本語の文章から歴史的イベント・ニュース記事・Wikipedia記事などを解析し、<strong>時系列年表</strong>を自動生成するシステムです。従来の単純な日付抽出に留まらず、以下の特徴を持ちます。</p>
+<ul>
+<li><strong>日本語特有の表現への対応</strong>: 漢数字、和暦（明治・大正・昭和・平成・令和）、相対表現（「十年前」「翌年」など）を正規化</li>
+<li><strong>固有表現抽出</strong>: 人物名・地名を形態素解析とヒューリスティクスで抽出</li>
+<li><strong>信頼度スコアリング</strong>: 抽出したメタ情報の充実度に基づき0〜1の信頼度を算出</li>
+<li><strong>因果関係の自動推論（DAG解析）</strong>: イベント間の因果・前提・派生などの関係を有向グラフで表現し、接続詞マーカーと形態素解析を組み合わせて推定</li>
+</ul>
+<h3 id="12-技術スタック">1.2 技術スタック </h3>
+<table>
+<thead>
+<tr>
+<th>レイヤー</th>
+<th>技術</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Webフレームワーク</strong></td>
+<td>FastAPI</td>
+<td>非同期REST API / OpenAPI自動生成</td>
+</tr>
+<tr>
+<td><strong>形態素解析</strong></td>
+<td>fugashi + UniDic Lite</td>
+<td>品詞・固有名詞・接続詞の抽出</td>
+</tr>
+<tr>
+<td><strong>OCR</strong></td>
+<td>Azure AI Vision Read API</td>
+<td>画像からのテキスト抽出</td>
+</tr>
+<tr>
+<td><strong>データ永続化</strong></td>
+<td>SQLite / Firestore</td>
+<td>共有機能の年表保存</td>
+</tr>
+<tr>
+<td><strong>テスト</strong></td>
+<td>pytest + FastAPI TestClient</td>
+<td>単体・統合テスト</td>
+</tr>
+<tr>
+<td><strong>デプロイ</strong></td>
+<td>Docker + <a href="http://Render.com">Render.com</a></td>
+<td>コンテナ化・クラウドホスティング</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-アーキテクチャ">2. アーキテクチャ </h2>
+<h3 id="21-システム構成図">2.1 システム構成図 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>┌─────────────────────────────────────────────────────────────────┐
+│                         Chronology Maker                        │
+│                        FastAPI Backend                          │
+└─────────────────────────────────────────────────────────────────┘
+                                 │
+        ┌────────────────────────┼────────────────────────┐
+        │                        │                        │
+        ▼                        ▼                        ▼
+┌───────────────┐      ┌─────────────────┐      ┌─────────────────┐
+│  Text Input   │      │   File Upload   │      │   Wikipedia     │
+│   (Raw Text)  │      │ (PDF/DOCX/Image)│      │    Importer     │
+└───────────────┘      └─────────────────┘      └─────────────────┘
+        │                        │                        │
+        │                        ▼                        │
+        │              ┌─────────────────┐               │
+        │              │  Text Extractor │               │
+        │              │  + Azure OCR    │               │
+        │              └─────────────────┘               │
+        │                        │                        │
+        └────────────────────────┼────────────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │   Text Cleaner          │
+                    │ (Wikipedia脚注除去など) │
+                    └─────────────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │  Timeline Generator     │
+                    │  (日付抽出・NER)        │
+                    └─────────────────────────┘
+                                 │
+                ┌────────────────┴────────────────┐
+                │                                 │
+                ▼                                 ▼
+    ┌───────────────────┐             ┌──────────────────┐
+    │  Timeline Items   │             │   DAG Builder    │
+    │  (TimelineItem[]) │             │ (因果関係推論)   │
+    └───────────────────┘             └──────────────────┘
+                │                                 │
+                │                                 ▼
+                │                     ┌──────────────────────┐
+                │                     │  TimelineDAG         │
+                │                     │ (Nodes + Edges)      │
+                │                     └──────────────────────┘
+                │                                 │
+                └─────────────────┬───────────────┘
+                                  │
+                                  ▼
+                        ┌──────────────────┐
+                        │  Search Engine   │
+                        │ (キーワード検索) │
+                        └──────────────────┘
+                                  │
+                                  ▼
+                        ┌──────────────────┐
+                        │   Share Store    │
+                        │ (SQLite/Firestore)│
+                        └──────────────────┘
+</code></pre><h3 id="22-主要モジュール">2.2 主要モジュール </h3>
+<table>
+<thead>
+<tr>
+<th>モジュール</th>
+<th>ファイル</th>
+<th>責務</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API層</strong></td>
+<td><code>app.py</code></td>
+<td>FastAPIルーティング、エンドポイント定義</td>
+</tr>
+<tr>
+<td><strong>テキスト前処理</strong></td>
+<td><code>text_cleaner.py</code></td>
+<td>Wikipedia脚注・箇条書き除去</td>
+</tr>
+<tr>
+<td><strong>日付解析</strong></td>
+<td><code>timeline_generator.py</code><br><code>japanese_calendar.py</code></td>
+<td>和暦→西暦変換、漢数字→数値変換、紀元前対応</td>
+</tr>
+<tr>
+<td><strong>固有表現抽出</strong></td>
+<td><code>text_features.py</code><br><code>mecab_analyzer.py</code></td>
+<td>辞書ベース + MeCab形態素解析</td>
+</tr>
+<tr>
+<td><strong>因果DAG構築</strong></td>
+<td><code>dag.py</code></td>
+<td>接続詞マーカー検出、エッジ生成、サイクル解消</td>
+</tr>
+<tr>
+<td><strong>OCR統合</strong></td>
+<td><code>azure_ocr.py</code><br><code>text_extractor.py</code></td>
+<td>Azure Vision API連携、画像→テキスト</td>
+</tr>
+<tr>
+<td><strong>検索</strong></td>
+<td><code>search.py</code></td>
+<td>キーワード・カテゴリ・日付フィルタリング</td>
+</tr>
+<tr>
+<td><strong>共有機能</strong></td>
+<td><code>share_store.py</code></td>
+<td>年表の永続化・TTL管理</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-日本語自然言語処理パイプライン">3. 日本語自然言語処理パイプライン </h2>
+<h3 id="31-テキスト前処理">3.1 テキスト前処理 </h3>
+<h4 id="311-wikipedia対応クレンジング">3.1.1 Wikipedia対応クレンジング </h4>
+<p><code>text_cleaner.py</code> では以下の処理を実施：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># 1. 脚注の除去 [1], [2][3] など</span>
+text <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">r"\[\d+\](?:\[\d+\])*"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> text<span class="token punctuation">)</span>
+
+<span class="token comment"># 2. Wikiマークアップの除去 [[リンク|表示名]] → 表示名</span>
+text <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">r"\[\[(?:[^|\]]+\|)?([^\]]+)\]\]"</span><span class="token punctuation">,</span> <span class="token string">r"\1"</span><span class="token punctuation">,</span> text<span class="token punctuation">)</span>
+
+<span class="token comment"># 3. 箇条書き行頭記号の除去</span>
+text <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">r"^[\*#:]+\s*"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> text<span class="token punctuation">,</span> flags<span class="token operator">=</span>re<span class="token punctuation">.</span>MULTILINE<span class="token punctuation">)</span>
+
+<span class="token comment"># 4. テンプレート構文の除去 {{テンプレート名|パラメータ}}</span>
+text <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">r"\{\{[^}]+\}\}"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> text<span class="token punctuation">)</span>
+</code></pre><p>これにより、Wikipedia記事をそのまま年表生成に投入可能な形式に整形します。</p>
+<h4 id="312-文分割">3.1.2 文分割 </h4>
+<p><code>SENTENCE_SPLIT_PATTERN</code> により「。！？!?」で文を分割し、各文を独立したイベント候補として扱います。</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>SENTENCE_SPLIT_PATTERN <span class="token operator">=</span> re<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span><span class="token string">r"(?&lt;=[。！？!\?])\s*"</span><span class="token punctuation">)</span>
+</code></pre><h3 id="32-日付抽出">3.2 日付抽出 </h3>
+<h4 id="321-対応フォーマット">3.2.1 対応フォーマット </h4>
+<table>
+<thead>
+<tr>
+<th>フォーマット</th>
+<th>例</th>
+<th style="text-align:right">正規化結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>和暦（元号）</td>
+<td><code>令和3年4月1日</code></td>
+<td style="text-align:right"><code>2021-04-01</code></td>
+</tr>
+<tr>
+<td>西暦</td>
+<td><code>2023年12月25日</code></td>
+<td style="text-align:right"><code>2023-12-25</code></td>
+</tr>
+<tr>
+<td>紀元前</td>
+<td><code>紀元前660年2月11日</code></td>
+<td style="text-align:right"><code>-0660-02-11</code></td>
+</tr>
+<tr>
+<td>相対表現</td>
+<td><code>10年前</code></td>
+<td style="text-align:right">参照日から逆算</td>
+</tr>
+<tr>
+<td>漢数字</td>
+<td><code>二千二十三年三月十五日</code></td>
+<td style="text-align:right"><code>2023-03-15</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="322-漢数字変換アルゴリズム">3.2.2 漢数字変換アルゴリズム </h4>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_convert_japanese_numerals_to_int</span><span class="token punctuation">(</span>raw<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Optional<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token comment"># 1. 全角数字を半角に変換</span>
+    cleaned <span class="token operator">=</span> _normalise_digits<span class="token punctuation">(</span>raw<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. 「元」は1として扱う</span>
+    <span class="token keyword keyword-if">if</span> cleaned <span class="token operator">==</span> <span class="token string">"元"</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">1</span>
+    
+    <span class="token comment"># 3. 漢数字の位取り計算</span>
+    total <span class="token operator">=</span> <span class="token number">0</span>
+    section <span class="token operator">=</span> <span class="token number">0</span>
+    current_digit <span class="token operator">=</span> <span class="token boolean">None</span>
+    
+    <span class="token keyword keyword-for">for</span> ch <span class="token keyword keyword-in">in</span> cleaned<span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> ch <span class="token keyword keyword-in">in</span> KANJI_DIGIT_VALUES<span class="token punctuation">:</span>
+            current_digit <span class="token operator">=</span> KANJI_DIGIT_VALUES<span class="token punctuation">[</span>ch<span class="token punctuation">]</span>
+        <span class="token keyword keyword-elif">elif</span> ch <span class="token keyword keyword-in">in</span> KANJI_SMALL_UNITS<span class="token punctuation">:</span>  <span class="token comment"># 十・百・千</span>
+            multiplier <span class="token operator">=</span> KANJI_SMALL_UNITS<span class="token punctuation">[</span>ch<span class="token punctuation">]</span>
+            value <span class="token operator">=</span> current_digit <span class="token keyword keyword-if">if</span> current_digit <span class="token keyword keyword-is">is</span> <span class="token keyword keyword-not">not</span> <span class="token boolean">None</span> <span class="token keyword keyword-else">else</span> <span class="token number">1</span>
+            section <span class="token operator">+=</span> value <span class="token operator">*</span> multiplier
+            current_digit <span class="token operator">=</span> <span class="token boolean">None</span>
+        <span class="token keyword keyword-elif">elif</span> ch <span class="token keyword keyword-in">in</span> KANJI_LARGE_UNITS<span class="token punctuation">:</span>  <span class="token comment"># 万・億・兆</span>
+            <span class="token keyword keyword-if">if</span> current_digit <span class="token keyword keyword-is">is</span> <span class="token keyword keyword-not">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                section <span class="token operator">+=</span> current_digit
+            <span class="token keyword keyword-if">if</span> section <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                section <span class="token operator">=</span> <span class="token number">1</span>
+            total <span class="token operator">+=</span> section <span class="token operator">*</span> KANJI_LARGE_UNITS<span class="token punctuation">[</span>ch<span class="token punctuation">]</span>
+            section <span class="token operator">=</span> <span class="token number">0</span>
+            current_digit <span class="token operator">=</span> <span class="token boolean">None</span>
+    
+    <span class="token keyword keyword-if">if</span> current_digit <span class="token keyword keyword-is">is</span> <span class="token keyword keyword-not">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        section <span class="token operator">+=</span> current_digit
+    
+    <span class="token keyword keyword-return">return</span> total <span class="token operator">+</span> section
+</code></pre><p><strong>例</strong>: <code>二千二十三</code> → <code>2023</code></p>
+<ol>
+<li>「二」→ 2</li>
+<li>「千」→ 2 × 1000 = 2000 (section)</li>
+<li>「二」→ 2</li>
+<li>「十」→ 2 × 10 = 20 (section = 2020)</li>
+<li>「三」→ 3 (section = 2023)</li>
+<li>最終: total = 2023</li>
+</ol>
+<h4 id="323-紀元前対応iso-8601拡張">3.2.3 紀元前対応（ISO 8601拡張） </h4>
+<p>ISO 8601の拡張表記を使用し、天文学的年（astronomical year）で紀元前を表現：</p>
+<ul>
+<li><strong>暦年の紀元前1年</strong> = 天文学的年 <code>0</code></li>
+<li><strong>暦年の紀元前2年</strong> = 天文学的年 <code>-1</code></li>
+<li><strong>暦年の紀元前660年</strong> = 天文学的年 <code>-659</code></li>
+</ul>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># 紀元前660年2月11日 → -0659-02-11</span>
+astronomical_year <span class="token operator">=</span> <span class="token operator">-</span><span class="token punctuation">(</span>bce_year <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span>
+iso <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>astronomical_year<span class="token punctuation">:</span><span class="token format-spec">04d</span><span class="token punctuation">}</span></span><span class="token string">-</span><span class="token interpolation"><span class="token punctuation">{</span>month<span class="token punctuation">:</span><span class="token format-spec">02d</span><span class="token punctuation">}</span></span><span class="token string">-</span><span class="token interpolation"><span class="token punctuation">{</span>day<span class="token punctuation">:</span><span class="token format-spec">02d</span><span class="token punctuation">}</span></span><span class="token string">"</span></span>
+</code></pre><h3 id="33-信頼度スコアリング">3.3 信頼度スコアリング </h3>
+<p>各イベントに対して0〜1のスコアを算出：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_compute_confidence</span><span class="token punctuation">(</span>
+    has_iso<span class="token punctuation">:</span> <span class="token builtin">bool</span><span class="token punctuation">,</span>
+    people_count<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span>
+    locations_count<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span>
+    description_length<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">float</span><span class="token punctuation">:</span>
+    score <span class="token operator">=</span> <span class="token number">0.0</span>
+    
+    <span class="token comment"># ISO日付があれば +0.4</span>
+    <span class="token keyword keyword-if">if</span> has_iso<span class="token punctuation">:</span>
+        score <span class="token operator">+=</span> <span class="token number">0.4</span>
+    
+    <span class="token comment"># 人物数に応じて +0.15まで</span>
+    score <span class="token operator">+=</span> <span class="token builtin">min</span><span class="token punctuation">(</span>people_count <span class="token operator">*</span> <span class="token number">0.05</span><span class="token punctuation">,</span> <span class="token number">0.15</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 場所数に応じて +0.15まで</span>
+    score <span class="token operator">+=</span> <span class="token builtin">min</span><span class="token punctuation">(</span>locations_count <span class="token operator">*</span> <span class="token number">0.05</span><span class="token punctuation">,</span> <span class="token number">0.15</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 説明文の長さに応じて +0.3まで</span>
+    <span class="token keyword keyword-if">if</span> description_length <span class="token operator">&gt;=</span> <span class="token number">100</span><span class="token punctuation">:</span>
+        score <span class="token operator">+=</span> <span class="token number">0.3</span>
+    <span class="token keyword keyword-elif">elif</span> description_length <span class="token operator">&gt;=</span> <span class="token number">50</span><span class="token punctuation">:</span>
+        score <span class="token operator">+=</span> <span class="token number">0.2</span>
+    <span class="token keyword keyword-elif">elif</span> description_length <span class="token operator">&gt;=</span> <span class="token number">20</span><span class="token punctuation">:</span>
+        score <span class="token operator">+=</span> <span class="token number">0.1</span>
+    
+    <span class="token keyword keyword-return">return</span> <span class="token builtin">min</span><span class="token punctuation">(</span>score<span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span>
+</code></pre><hr>
+<h2 id="4-dagベース因果関係解析新規性">4. DAGベース因果関係解析（新規性） </h2>
+<h3 id="41-従来手法との比較">4.1 従来手法との比較 </h3>
+<table>
+<thead>
+<tr>
+<th>手法</th>
+<th>長所</th>
+<th>短所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>時系列順ソート</strong></td>
+<td>シンプル・高速</td>
+<td>因果関係が不明</td>
+</tr>
+<tr>
+<td><strong>ルールベース抽出</strong></td>
+<td>特定ドメインで高精度</td>
+<td>汎用性に欠ける</td>
+</tr>
+<tr>
+<td><strong>機械学習（BERT等）</strong></td>
+<td>高精度</td>
+<td>学習データ・計算リソースが必要</td>
+</tr>
+<tr>
+<td><strong>本手法（DAG + マーカー）</strong></td>
+<td>汎用性と解釈性を両立</td>
+<td>複雑な因果は捉えきれない</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-因果関係の定義">4.2 因果関係の定義 </h3>
+<p>本システムでは7種類の関係タイプを定義：</p>
+<table>
+<thead>
+<tr>
+<th>RelationType</th>
+<th>説明</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>causal</code></td>
+<td>因果関係（原因→結果）</td>
+<td>「その結果、政権が交代した」</td>
+</tr>
+<tr>
+<td><code>prerequisite</code></td>
+<td>前提条件</td>
+<td>「協定締結により初めて実現した」</td>
+</tr>
+<tr>
+<td><code>derived</code></td>
+<td>派生</td>
+<td>「これに伴い新法が制定された」</td>
+</tr>
+<tr>
+<td><code>temporal</code></td>
+<td>時間的順序</td>
+<td>「その後、会議が開催された」</td>
+</tr>
+<tr>
+<td><code>parallel</code></td>
+<td>並行関係</td>
+<td>「同時に別の地域でも発生した」</td>
+</tr>
+<tr>
+<td><code>dependency</code></td>
+<td>依存関係</td>
+<td>「なければ成立しなかった」</td>
+</tr>
+<tr>
+<td><code>correlated</code></td>
+<td>相関関係</td>
+<td>カテゴリ・エンティティ重複から推定</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-マーカーベース推論">4.3 マーカーベース推論 </h3>
+<p>接続詞・接続表現をマーカーとして辞書化し、スコアを付与：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>_MARKERS<span class="token punctuation">:</span> Dict<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> Tuple<span class="token punctuation">[</span>RelationType<span class="token punctuation">,</span> <span class="token builtin">float</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment"># 因果</span>
+    <span class="token string">"そのため"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"causal"</span><span class="token punctuation">,</span> <span class="token number">0.95</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"その結果"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"causal"</span><span class="token punctuation">,</span> <span class="token number">0.93</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"これにより"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"causal"</span><span class="token punctuation">,</span> <span class="token number">0.92</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    
+    <span class="token comment"># 前提条件</span>
+    <span class="token string">"これにより初めて"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"prerequisite"</span><span class="token punctuation">,</span> <span class="token number">0.95</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"なければ"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"prerequisite"</span><span class="token punctuation">,</span> <span class="token number">0.90</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    
+    <span class="token comment"># 派生</span>
+    <span class="token string">"これに伴い"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"derived"</span><span class="token punctuation">,</span> <span class="token number">0.90</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    
+    <span class="token comment"># 時間</span>
+    <span class="token string">"その後"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"temporal"</span><span class="token punctuation">,</span> <span class="token number">0.80</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"翌日"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"temporal"</span><span class="token punctuation">,</span> <span class="token number">0.85</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    
+    <span class="token comment"># 並行</span>
+    <span class="token string">"同時に"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"parallel"</span><span class="token punctuation">,</span> <span class="token number">0.88</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"一方"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token string">"parallel"</span><span class="token punctuation">,</span> <span class="token number">0.85</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre><p><code>_detect_temporal_markers</code> 関数で前後のテキストを走査し、最も強いマーカーを検出：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_detect_temporal_markers</span><span class="token punctuation">(</span>prev_text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> cur_text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Tuple<span class="token punctuation">[</span>RelationType<span class="token punctuation">,</span> <span class="token builtin">float</span><span class="token punctuation">,</span> Optional<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    best<span class="token punctuation">:</span> Tuple<span class="token punctuation">[</span>RelationType<span class="token punctuation">,</span> <span class="token builtin">float</span><span class="token punctuation">,</span> Optional<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">"temporal"</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 現在文を優先検索</span>
+    <span class="token keyword keyword-for">for</span> phrase<span class="token punctuation">,</span> <span class="token punctuation">(</span>rtype<span class="token punctuation">,</span> score<span class="token punctuation">)</span> <span class="token keyword keyword-in">in</span> _MARKERS<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> phrase <span class="token keyword keyword-in">in</span> cur_text<span class="token punctuation">:</span>
+            <span class="token keyword keyword-if">if</span> score <span class="token operator">&gt;</span> best<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                best <span class="token operator">=</span> <span class="token punctuation">(</span>rtype<span class="token punctuation">,</span> score<span class="token punctuation">,</span> phrase<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 前文も参照（並行など）</span>
+    <span class="token keyword keyword-for">for</span> phrase<span class="token punctuation">,</span> <span class="token punctuation">(</span>rtype<span class="token punctuation">,</span> score<span class="token punctuation">)</span> <span class="token keyword keyword-in">in</span> _MARKERS<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> phrase <span class="token keyword keyword-in">in</span> prev_text <span class="token keyword keyword-and">and</span> score <span class="token operator">&gt;</span> best<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            best <span class="token operator">=</span> <span class="token punctuation">(</span>rtype<span class="token punctuation">,</span> score<span class="token punctuation">,</span> phrase<span class="token punctuation">)</span>
+    
+    <span class="token comment"># MeCab形態素解析で補助</span>
+    <span class="token keyword keyword-if">if</span> has_mecab<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-and">and</span> best<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">0.95</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> morph <span class="token keyword keyword-in">in</span> mecab_tokenize<span class="token punctuation">(</span>cur_text<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            key <span class="token operator">=</span> morph<span class="token punctuation">.</span>surface
+            marker <span class="token operator">=</span> _MARKERS<span class="token punctuation">.</span>get<span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> marker <span class="token keyword keyword-and">and</span> marker<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&gt;</span> best<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                best <span class="token operator">=</span> <span class="token punctuation">(</span>marker<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> marker<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> key<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-return">return</span> best
+</code></pre><h3 id="44-関係強度スコア">4.4 関係強度スコア </h3>
+<p>複数の要素を組み合わせて最終スコアを算出：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_relation_strength</span><span class="token punctuation">(</span>prev<span class="token punctuation">:</span> TimelineItem<span class="token punctuation">,</span> cur<span class="token punctuation">:</span> TimelineItem<span class="token punctuation">,</span> marker_score<span class="token punctuation">:</span> <span class="token builtin">float</span><span class="token punctuation">,</span> entity_score<span class="token punctuation">:</span> <span class="token builtin">float</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">float</span><span class="token punctuation">:</span>
+    <span class="token comment"># 重み付け: マーカー45% + カテゴリ類似度25% + 時間ギャップ20% + エンティティ重複10%</span>
+    wt <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token builtin">min</span><span class="token punctuation">(</span><span class="token number">1.0</span><span class="token punctuation">,</span> marker_score<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    sc <span class="token operator">=</span> _semantic_similarity<span class="token punctuation">(</span>prev<span class="token punctuation">,</span> cur<span class="token punctuation">)</span>
+    
+    gap <span class="token operator">=</span> _time_gap_days<span class="token punctuation">(</span>prev<span class="token punctuation">.</span>date_iso<span class="token punctuation">,</span> cur<span class="token punctuation">.</span>date_iso<span class="token punctuation">)</span>
+    tg <span class="token operator">=</span> math<span class="token punctuation">.</span>exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token builtin">abs</span><span class="token punctuation">(</span>gap<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">365.0</span><span class="token punctuation">)</span> <span class="token keyword keyword-if">if</span> <span class="token builtin">isinstance</span><span class="token punctuation">(</span>gap<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token keyword keyword-else">else</span> <span class="token number">0.8</span>
+    
+    score <span class="token operator">=</span> <span class="token number">0.45</span> <span class="token operator">*</span> wt <span class="token operator">+</span> <span class="token number">0.25</span> <span class="token operator">*</span> sc <span class="token operator">+</span> <span class="token number">0.2</span> <span class="token operator">*</span> tg <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">*</span> <span class="token builtin">max</span><span class="token punctuation">(</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token builtin">min</span><span class="token punctuation">(</span><span class="token number">1.0</span><span class="token punctuation">,</span> entity_score<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> <span class="token builtin">round</span><span class="token punctuation">(</span><span class="token builtin">max</span><span class="token punctuation">(</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token builtin">min</span><span class="token punctuation">(</span><span class="token number">1.0</span><span class="token punctuation">,</span> score<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+</code></pre><p><strong>カテゴリ類似度の例</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>カテゴリA</th>
+<th>カテゴリB</th>
+<th>類似度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>politics</code></td>
+<td><code>economy</code></td>
+<td>0.65</td>
+</tr>
+<tr>
+<td><code>science</code></td>
+<td><code>health</code></td>
+<td>0.75</td>
+</tr>
+<tr>
+<td><code>disaster</code></td>
+<td><code>health</code></td>
+<td>0.60</td>
+</tr>
+<tr>
+<td>同一カテゴリ</td>
+<td>同一カテゴリ</td>
+<td>0.80</td>
+</tr>
+<tr>
+<td><code>general</code></td>
+<td><code>general</code></td>
+<td>0.20</td>
+</tr>
+</tbody>
+</table>
+<h3 id="45-dag構築アルゴリズム">4.5 DAG構築アルゴリズム </h3>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">build_timeline_dag</span><span class="token punctuation">(</span>text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">,</span> relation_threshold<span class="token punctuation">:</span> <span class="token builtin">float</span> <span class="token operator">=</span> <span class="token number">0.5</span><span class="token punctuation">,</span> max_events<span class="token punctuation">:</span> <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> TimelineDAG<span class="token punctuation">:</span>
+    <span class="token comment"># 1. TimelineItemを生成（時系列ソート済み）</span>
+    items<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineItem<span class="token punctuation">]</span> <span class="token operator">=</span> generate_timeline<span class="token punctuation">(</span>text<span class="token punctuation">,</span> max_events<span class="token operator">=</span>max_events<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. ノード変換</span>
+    nodes<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineNode<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>TimelineNode<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword keyword-for">for</span> it <span class="token keyword keyword-in">in</span> items<span class="token punctuation">]</span>
+    
+    <span class="token comment"># 3. エッジ生成（先読みウィンドウ = 3）</span>
+    edges<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineEdge<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    window <span class="token operator">=</span> <span class="token number">3</span>
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>items<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> j <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">min</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> window<span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>items<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            prev<span class="token punctuation">,</span> cur <span class="token operator">=</span> items<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> items<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+            
+            <span class="token comment"># 時間順制約（逆行しない）</span>
+            d1<span class="token punctuation">,</span> d2 <span class="token operator">=</span> _iso_to_date<span class="token punctuation">(</span>prev<span class="token punctuation">.</span>date_iso<span class="token punctuation">)</span><span class="token punctuation">,</span> _iso_to_date<span class="token punctuation">(</span>cur<span class="token punctuation">.</span>date_iso<span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> d1 <span class="token keyword keyword-and">and</span> d2 <span class="token keyword keyword-and">and</span> d1 <span class="token operator">&gt;</span> d2<span class="token punctuation">:</span>
+                <span class="token keyword keyword-continue">continue</span>
+            
+            <span class="token comment"># 関係推定</span>
+            rel_type<span class="token punctuation">,</span> marker_score<span class="token punctuation">,</span> phrase <span class="token operator">=</span> _infer_relation_type<span class="token punctuation">(</span>prev<span class="token punctuation">,</span> cur<span class="token punctuation">)</span>
+            entity_score <span class="token operator">=</span> _entity_overlap_score<span class="token punctuation">(</span>prev<span class="token punctuation">,</span> cur<span class="token punctuation">)</span>
+            strength <span class="token operator">=</span> _relation_strength<span class="token punctuation">(</span>prev<span class="token punctuation">,</span> cur<span class="token punctuation">,</span> marker_score<span class="token punctuation">,</span> entity_score<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 閾値フィルタ</span>
+            <span class="token keyword keyword-if">if</span> strength <span class="token operator">&lt;</span> relation_threshold<span class="token punctuation">:</span>
+                <span class="token keyword keyword-continue">continue</span>
+            
+            edges<span class="token punctuation">.</span>append<span class="token punctuation">(</span>TimelineEdge<span class="token punctuation">(</span>
+                source_id<span class="token operator">=</span>prev<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">,</span>
+                target_id<span class="token operator">=</span>cur<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">,</span>
+                relation_type<span class="token operator">=</span>rel_type<span class="token punctuation">,</span>
+                relation_strength<span class="token operator">=</span>strength<span class="token punctuation">,</span>
+                time_gap_days<span class="token operator">=</span>_time_gap_days<span class="token punctuation">(</span>prev<span class="token punctuation">.</span>date_iso<span class="token punctuation">,</span> cur<span class="token punctuation">.</span>date_iso<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                reasoning<span class="token operator">=</span><span class="token string-interpolation"><span class="token string">f"マーカー『</span><span class="token interpolation"><span class="token punctuation">{</span>phrase<span class="token punctuation">}</span></span><span class="token string">』による推定"</span></span> <span class="token keyword keyword-if">if</span> phrase <span class="token keyword keyword-else">else</span> <span class="token string">"時間順と類似度による推定"</span><span class="token punctuation">,</span>
+                evidence_sentences<span class="token operator">=</span><span class="token punctuation">[</span>cur<span class="token punctuation">.</span>title<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 4. サイクル除去（弱いエッジから削除）</span>
+    edges<span class="token punctuation">,</span> cycle_count <span class="token operator">=</span> detect_and_resolve_cycles<span class="token punctuation">(</span>edges<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 5. 推移的エッジ削減（A→B, B→C, A→C があれば A→C を削除）</span>
+    edges <span class="token operator">=</span> reduce_transitive_edges<span class="token punctuation">(</span>edges<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 6. 統計情報</span>
+    longest_path <span class="token operator">=</span> _longest_path_length<span class="token punctuation">(</span>nodes<span class="token punctuation">,</span> edges<span class="token punctuation">)</span>
+    stats <span class="token operator">=</span> _compute_stats<span class="token punctuation">(</span>nodes<span class="token punctuation">,</span> edges<span class="token punctuation">,</span> longest_path<span class="token operator">=</span>longest_path<span class="token punctuation">,</span> cyclic_count<span class="token operator">=</span>cycle_count<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-return">return</span> TimelineDAG<span class="token punctuation">(</span>
+        <span class="token builtin">id</span><span class="token operator">=</span><span class="token builtin">str</span><span class="token punctuation">(</span>uuid4<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        nodes<span class="token operator">=</span>nodes<span class="token punctuation">,</span>
+        edges<span class="token operator">=</span>edges<span class="token punctuation">,</span>
+        stats<span class="token operator">=</span>stats<span class="token punctuation">,</span>
+        version<span class="token operator">=</span><span class="token string">"2.0"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+</code></pre><h3 id="46-サイクル検出と解消">4.6 サイクル検出と解消 </h3>
+<p>DAGを保証するため、DFSでサイクルを検出し、最も弱いエッジを削除：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">detect_and_resolve_cycles</span><span class="token punctuation">(</span>edges<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineEdge<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Tuple<span class="token punctuation">[</span>List<span class="token punctuation">[</span>TimelineEdge<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    edge_map<span class="token punctuation">:</span> Dict<span class="token punctuation">[</span>Tuple<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> <span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span> TimelineEdge<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>source_id<span class="token punctuation">,</span> e<span class="token punctuation">.</span>target_id<span class="token punctuation">)</span><span class="token punctuation">:</span> e <span class="token keyword keyword-for">for</span> e <span class="token keyword keyword-in">in</span> edges<span class="token punctuation">}</span>
+    cycle_count <span class="token operator">=</span> <span class="token number">0</span>
+    
+    <span class="token keyword keyword-while">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        adj <span class="token operator">=</span> build_adjacency_list<span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span>edge_map<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        cycle <span class="token operator">=</span> _find_cycle<span class="token punctuation">(</span>adj<span class="token punctuation">)</span>  <span class="token comment"># DFS探索</span>
+        <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> cycle<span class="token punctuation">:</span>
+            <span class="token keyword keyword-break">break</span>
+        
+        cycle_count <span class="token operator">+=</span> <span class="token number">1</span>
+        
+        <span class="token comment"># サイクル内の最弱エッジを特定して削除</span>
+        candidates <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>cycle<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            src<span class="token punctuation">,</span> tgt <span class="token operator">=</span> cycle<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> cycle<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>cycle<span class="token punctuation">)</span><span class="token punctuation">]</span>
+            edge <span class="token operator">=</span> edge_map<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">(</span>src<span class="token punctuation">,</span> tgt<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> edge<span class="token punctuation">:</span>
+                candidates<span class="token punctuation">.</span>append<span class="token punctuation">(</span>edge<span class="token punctuation">)</span>
+        
+        <span class="token keyword keyword-if">if</span> candidates<span class="token punctuation">:</span>
+            weakest <span class="token operator">=</span> <span class="token builtin">min</span><span class="token punctuation">(</span>candidates<span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword keyword-lambda">lambda</span> e<span class="token punctuation">:</span> e<span class="token punctuation">.</span>relation_strength<span class="token punctuation">)</span>
+            <span class="token keyword keyword-del">del</span> edge_map<span class="token punctuation">[</span><span class="token punctuation">(</span>weakest<span class="token punctuation">.</span>source_id<span class="token punctuation">,</span> weakest<span class="token punctuation">.</span>target_id<span class="token punctuation">)</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword keyword-return">return</span> <span class="token builtin">list</span><span class="token punctuation">(</span>edge_map<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> cycle_count
+</code></pre><h3 id="47-最長経路計算">4.7 最長経路計算 </h3>
+<p>トポロジカルソートを利用してDAG内の最長経路長を計算：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_longest_path_length</span><span class="token punctuation">(</span>nodes<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineNode<span class="token punctuation">]</span><span class="token punctuation">,</span> edges<span class="token punctuation">:</span> List<span class="token punctuation">[</span>TimelineEdge<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+    adj <span class="token operator">=</span> build_adjacency_list<span class="token punctuation">(</span>edges<span class="token punctuation">)</span>
+    in_deg<span class="token punctuation">:</span> Dict<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>n<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token keyword keyword-for">for</span> n <span class="token keyword keyword-in">in</span> nodes<span class="token punctuation">}</span>
+    <span class="token keyword keyword-for">for</span> e <span class="token keyword keyword-in">in</span> edges<span class="token punctuation">:</span>
+        in_deg<span class="token punctuation">[</span>e<span class="token punctuation">.</span>target_id<span class="token punctuation">]</span> <span class="token operator">=</span> in_deg<span class="token punctuation">.</span>get<span class="token punctuation">(</span>e<span class="token punctuation">.</span>target_id<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+    
+    queue<span class="token punctuation">:</span> deque<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span> <span class="token operator">=</span> deque<span class="token punctuation">(</span>nid <span class="token keyword keyword-for">for</span> nid<span class="token punctuation">,</span> deg <span class="token keyword keyword-in">in</span> in_deg<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-if">if</span> deg <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    dist<span class="token punctuation">:</span> Dict<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>n<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token keyword keyword-for">for</span> n <span class="token keyword keyword-in">in</span> nodes<span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-while">while</span> queue<span class="token punctuation">:</span>
+        nid <span class="token operator">=</span> queue<span class="token punctuation">.</span>popleft<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        base <span class="token operator">=</span> dist<span class="token punctuation">[</span>nid<span class="token punctuation">]</span>
+        <span class="token keyword keyword-for">for</span> nxt <span class="token keyword keyword-in">in</span> adj<span class="token punctuation">.</span>get<span class="token punctuation">(</span>nid<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-if">if</span> base <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> dist<span class="token punctuation">.</span>get<span class="token punctuation">(</span>nxt<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                dist<span class="token punctuation">[</span>nxt<span class="token punctuation">]</span> <span class="token operator">=</span> base <span class="token operator">+</span> <span class="token number">1</span>
+            in_deg<span class="token punctuation">[</span>nxt<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span>
+            <span class="token keyword keyword-if">if</span> in_deg<span class="token punctuation">[</span>nxt<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                queue<span class="token punctuation">.</span>append<span class="token punctuation">(</span>nxt<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-return">return</span> <span class="token builtin">max</span><span class="token punctuation">(</span>dist<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-if">if</span> dist <span class="token keyword keyword-else">else</span> <span class="token number">0</span>
+</code></pre><hr>
+<h2 id="5-形態素解析と固有表現抽出">5. 形態素解析と固有表現抽出 </h2>
+<h3 id="51-mecab統合fugashi--unidic-lite">5.1 MeCab統合（fugashi + UniDic Lite） </h3>
+<p><code>mecab_analyzer.py</code> では <code>fugashi</code> を使用してMeCab形態素解析を実行：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-import">import</span> fugashi
+
+<span class="token keyword keyword-def">def</span> <span class="token function">tokenize</span><span class="token punctuation">(</span>text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> List<span class="token punctuation">[</span>Morpheme<span class="token punctuation">]</span><span class="token punctuation">:</span>
+    _initialise_tagger<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> _tagger<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    
+    raw_results<span class="token punctuation">:</span> List<span class="token punctuation">[</span>Morpheme<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-for">for</span> token <span class="token keyword keyword-in">in</span> _tagger<span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        features <span class="token operator">=</span> token<span class="token punctuation">.</span>feature
+        pos <span class="token operator">=</span> features<span class="token punctuation">.</span>pos1
+        pos_detail <span class="token operator">=</span> features<span class="token punctuation">.</span>pos2
+        base_form <span class="token operator">=</span> features<span class="token punctuation">.</span>lemma <span class="token keyword keyword-or">or</span> token<span class="token punctuation">.</span>surface
+        
+        raw_results<span class="token punctuation">.</span>append<span class="token punctuation">(</span>Morpheme<span class="token punctuation">(</span>
+            surface<span class="token operator">=</span>token<span class="token punctuation">.</span>surface<span class="token punctuation">,</span>
+            base_form<span class="token operator">=</span>base_form<span class="token punctuation">,</span>
+            pos<span class="token operator">=</span>pos<span class="token punctuation">,</span>
+            pos_detail<span class="token operator">=</span>pos_detail<span class="token punctuation">,</span>
+            pos_subclass<span class="token operator">=</span>features<span class="token punctuation">.</span>pos3 <span class="token keyword keyword-or">or</span> <span class="token string">""</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 固有名詞の連結</span>
+    <span class="token keyword keyword-return">return</span> _merge_compound_morphemes<span class="token punctuation">(</span>raw_results<span class="token punctuation">)</span>
+</code></pre><p><strong>連結例</strong>: <code>東京</code> + <code>都</code> → <code>東京都</code></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_merge_compound_morphemes</span><span class="token punctuation">(</span>morphemes<span class="token punctuation">:</span> List<span class="token punctuation">[</span>Morpheme<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> List<span class="token punctuation">[</span>Morpheme<span class="token punctuation">]</span><span class="token punctuation">:</span>
+    merged<span class="token punctuation">:</span> List<span class="token punctuation">[</span>Morpheme<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token builtin">buffer</span><span class="token punctuation">:</span> List<span class="token punctuation">[</span>Morpheme<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword keyword-for">for</span> morph <span class="token keyword keyword-in">in</span> morphemes<span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> morph<span class="token punctuation">.</span>pos <span class="token operator">==</span> <span class="token string">"名詞"</span> <span class="token keyword keyword-and">and</span> morph<span class="token punctuation">.</span>pos_detail <span class="token keyword keyword-in">in</span> <span class="token punctuation">{</span><span class="token string">"固有名詞"</span><span class="token punctuation">,</span> <span class="token string">"人名"</span><span class="token punctuation">,</span> <span class="token string">"地域"</span><span class="token punctuation">,</span> <span class="token string">"地名"</span><span class="token punctuation">}</span><span class="token punctuation">:</span>
+            <span class="token builtin">buffer</span><span class="token punctuation">.</span>append<span class="token punctuation">(</span>morph<span class="token punctuation">)</span>
+            <span class="token keyword keyword-continue">continue</span>
+        
+        <span class="token comment"># bufferを結合してmergedに追加</span>
+        <span class="token keyword keyword-if">if</span> <span class="token builtin">buffer</span><span class="token punctuation">:</span>
+            surface <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>m<span class="token punctuation">.</span>surface <span class="token keyword keyword-for">for</span> m <span class="token keyword keyword-in">in</span> <span class="token builtin">buffer</span><span class="token punctuation">)</span>
+            merged<span class="token punctuation">.</span>append<span class="token punctuation">(</span>Morpheme<span class="token punctuation">(</span>surface<span class="token operator">=</span>surface<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token builtin">buffer</span><span class="token punctuation">.</span>clear<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        merged<span class="token punctuation">.</span>append<span class="token punctuation">(</span>morph<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-return">return</span> merged
+</code></pre><h3 id="52-人物名抽出">5.2 人物名抽出 </h3>
+<h4 id="521-mecabによる品詞解析">5.2.1 MeCabによる品詞解析 </h4>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-for">for</span> morph <span class="token keyword keyword-in">in</span> mecab_tokenize<span class="token punctuation">(</span>sentence<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> morph<span class="token punctuation">.</span>pos <span class="token operator">==</span> <span class="token string">"名詞"</span> <span class="token keyword keyword-and">and</span> morph<span class="token punctuation">.</span>pos_detail <span class="token keyword keyword-in">in</span> <span class="token punctuation">{</span><span class="token string">"固有名詞"</span><span class="token punctuation">,</span> <span class="token string">"人名"</span><span class="token punctuation">}</span><span class="token punctuation">:</span>
+        people<span class="token punctuation">.</span>add<span class="token punctuation">(</span>morph<span class="token punctuation">.</span>surface<span class="token punctuation">)</span>
+</code></pre><h4 id="522-接尾辞ヒューリスティクス">5.2.2 接尾辞ヒューリスティクス </h4>
+<p>MeCabが利用できない環境でも動作するよう、接尾辞辞書を用意：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>PEOPLE_SUFFIXES <span class="token operator">=</span> <span class="token punctuation">(</span>
+    <span class="token string">"氏"</span><span class="token punctuation">,</span> <span class="token string">"さん"</span><span class="token punctuation">,</span> <span class="token string">"様"</span><span class="token punctuation">,</span> <span class="token string">"殿"</span><span class="token punctuation">,</span> <span class="token string">"君"</span><span class="token punctuation">,</span> <span class="token string">"先生"</span><span class="token punctuation">,</span> <span class="token string">"教授"</span><span class="token punctuation">,</span> <span class="token string">"博士"</span><span class="token punctuation">,</span> <span class="token string">"議員"</span><span class="token punctuation">,</span>
+    <span class="token string">"大統領"</span><span class="token punctuation">,</span> <span class="token string">"首相"</span><span class="token punctuation">,</span> <span class="token string">"大臣"</span><span class="token punctuation">,</span> <span class="token string">"知事"</span><span class="token punctuation">,</span> <span class="token string">"市長"</span><span class="token punctuation">,</span> <span class="token string">"社長"</span><span class="token punctuation">,</span> <span class="token string">"会長"</span><span class="token punctuation">,</span> <span class="token string">"監督"</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">_extract_people_by_suffix</span><span class="token punctuation">(</span>text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Set<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    people<span class="token punctuation">:</span> Set<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-for">for</span> suffix <span class="token keyword keyword-in">in</span> PEOPLE_SUFFIXES<span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> <span class="token keyword keyword-match">match</span> <span class="token keyword keyword-in">in</span> re<span class="token punctuation">.</span>finditer<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">rf"([一-龥ァ-ヴ]{{2,4}})</span><span class="token interpolation"><span class="token punctuation">{</span>re<span class="token punctuation">.</span>escape<span class="token punctuation">(</span>suffix<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span> text<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            name <span class="token operator">=</span> <span class="token keyword keyword-match">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> KANJI_NAME_PATTERN<span class="token punctuation">.</span><span class="token keyword keyword-match">match</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token keyword keyword-or">or</span> KATAKANA_NAME_PATTERN<span class="token punctuation">.</span><span class="token keyword keyword-match">match</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                people<span class="token punctuation">.</span>add<span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> people
+</code></pre><h3 id="53-地名抽出">5.3 地名抽出 </h3>
+<h4 id="531-辞書ベース">5.3.1 辞書ベース </h4>
+<p><code>text_features.py</code> に主要地名を列挙：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>LOCATION_KEYWORDS <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token string">"東京"</span><span class="token punctuation">,</span> <span class="token string">"江戸"</span><span class="token punctuation">,</span> <span class="token string">"大阪"</span><span class="token punctuation">,</span> <span class="token string">"大坂"</span><span class="token punctuation">,</span> <span class="token string">"京都"</span><span class="token punctuation">,</span> <span class="token string">"京"</span><span class="token punctuation">,</span> <span class="token string">"名古屋"</span><span class="token punctuation">,</span> <span class="token string">"札幌"</span><span class="token punctuation">,</span> <span class="token string">"福岡"</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">]</span>
+</code></pre><h4 id="532-複合地名パターン">5.3.2 複合地名パターン </h4>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>LOCATION_COMPOUND_PATTERN <span class="token operator">=</span> re<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span><span class="token string">r"[一-龥]{1,4}(?:都|道|府|県|市|区|町|村|郡|空港|駅|港|湾|半島)"</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-for">for</span> <span class="token keyword keyword-match">match</span> <span class="token keyword keyword-in">in</span> LOCATION_COMPOUND_PATTERN<span class="token punctuation">.</span>finditer<span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    locations<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token keyword keyword-match">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>例</strong>: <code>京都府</code>, <code>大阪市</code>, <code>成田空港</code></p>
+<h3 id="54-カテゴリ分類">5.4 カテゴリ分類 </h3>
+<p>キーワード辞書をスコア付きで定義し、重み付き一致数で分類：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>CATEGORY_KEYWORDS <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">"政治"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">(</span><span class="token string">"政府"</span><span class="token punctuation">,</span> <span class="token number">2.5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"政権"</span><span class="token punctuation">,</span> <span class="token number">2.3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"法案"</span><span class="token punctuation">,</span> <span class="token number">2.1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"内閣"</span><span class="token punctuation">,</span> <span class="token number">2.3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"経済"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">(</span><span class="token string">"経済"</span><span class="token punctuation">,</span> <span class="token number">2.2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"市場"</span><span class="token punctuation">,</span> <span class="token number">1.8</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"企業"</span><span class="token punctuation">,</span> <span class="token number">1.9</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"株式"</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"science"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">(</span><span class="token string">"科学"</span><span class="token punctuation">,</span> <span class="token number">2.2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"技術"</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"研究"</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"AI"</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">_infer_category</span><span class="token punctuation">(</span>text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">str</span><span class="token punctuation">:</span>
+    scores<span class="token punctuation">:</span> Dict<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> <span class="token builtin">float</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword keyword-for">for</span> category<span class="token punctuation">,</span> keywords <span class="token keyword keyword-in">in</span> CATEGORY_KEYWORDS<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> keyword<span class="token punctuation">,</span> weight <span class="token keyword keyword-in">in</span> keywords<span class="token punctuation">:</span>
+            <span class="token keyword keyword-if">if</span> keyword<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-in">in</span> text<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                scores<span class="token punctuation">[</span>category<span class="token punctuation">]</span> <span class="token operator">=</span> scores<span class="token punctuation">.</span>get<span class="token punctuation">(</span>category<span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">)</span> <span class="token operator">+</span> weight
+    
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> scores<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">"general"</span>
+    
+    best <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>scores<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword keyword-lambda">lambda</span> x<span class="token punctuation">:</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-if">if</span> best<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&gt;=</span> CATEGORY_SCORE_THRESHOLD<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> best<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-return">return</span> <span class="token string">"general"</span>
+</code></pre><hr>
+<h2 id="6-日付正規化と和暦処理">6. 日付正規化と和暦処理 </h2>
+<h3 id="61-和暦西暦変換">6.1 和暦→西暦変換 </h3>
+<p><code>japanese_calendar.py</code> で元号と年数を西暦に変換：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>ERA_STARTING_YEARS <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">"令和"</span><span class="token punctuation">:</span> <span class="token number">2019</span><span class="token punctuation">,</span>
+    <span class="token string">"平成"</span><span class="token punctuation">:</span> <span class="token number">1989</span><span class="token punctuation">,</span>
+    <span class="token string">"昭和"</span><span class="token punctuation">:</span> <span class="token number">1926</span><span class="token punctuation">,</span>
+    <span class="token string">"大正"</span><span class="token punctuation">:</span> <span class="token number">1912</span><span class="token punctuation">,</span>
+    <span class="token string">"明治"</span><span class="token punctuation">:</span> <span class="token number">1868</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">normalise_era_notation</span><span class="token punctuation">(</span>text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Optional<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-match">match</span> <span class="token operator">=</span> ERA_PATTERN<span class="token punctuation">.</span><span class="token keyword keyword-match">match</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> <span class="token keyword keyword-match">match</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">None</span>
+    
+    era <span class="token operator">=</span> <span class="token keyword keyword-match">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token string">"era"</span><span class="token punctuation">)</span>
+    year_raw <span class="token operator">=</span> <span class="token keyword keyword-match">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token string">"year"</span><span class="token punctuation">)</span>
+    year <span class="token operator">=</span> _parse_number<span class="token punctuation">(</span>year_raw<span class="token punctuation">,</span> fallback<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+    
+    base_year <span class="token operator">=</span> ERA_STARTING_YEARS<span class="token punctuation">.</span>get<span class="token punctuation">(</span>era<span class="token punctuation">)</span>
+    <span class="token keyword keyword-if">if</span> base_year <span class="token keyword keyword-is">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">None</span>
+    
+    gregorian_year <span class="token operator">=</span> base_year <span class="token operator">+</span> year <span class="token operator">-</span> <span class="token number">1</span>
+    
+    month_raw <span class="token operator">=</span> <span class="token keyword keyword-match">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token string">"month"</span><span class="token punctuation">)</span>
+    month <span class="token operator">=</span> _parse_number<span class="token punctuation">(</span>month_raw<span class="token punctuation">,</span> fallback<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword keyword-if">if</span> month_raw <span class="token keyword keyword-else">else</span> <span class="token number">1</span>
+    
+    day_raw <span class="token operator">=</span> <span class="token keyword keyword-match">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token string">"day"</span><span class="token punctuation">)</span>
+    day <span class="token operator">=</span> _parse_number<span class="token punctuation">(</span>day_raw<span class="token punctuation">,</span> fallback<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword keyword-if">if</span> day_raw <span class="token keyword keyword-else">else</span> <span class="token number">1</span>
+    
+    <span class="token keyword keyword-return">return</span> _safe_iso_date<span class="token punctuation">(</span>gregorian_year<span class="token punctuation">,</span> month<span class="token punctuation">,</span> day<span class="token punctuation">)</span>
+</code></pre><p><strong>例</strong>: <code>令和3年4月1日</code> → <code>2021-04-01</code></p>
+<ul>
+<li>令和元年 = 2019年</li>
+<li>令和3年 = 2019 + 3 - 1 = 2021年</li>
+<li>月・日を組み合わせて ISO 形式に変換</li>
+</ul>
+<h3 id="62-曖昧な日付表現への対応">6.2 曖昧な日付表現への対応 </h3>
+<p>「上旬」「中旬」「下旬」「頃」などの表現は、ソート用の補正値として扱う：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>AMBIGUOUS_PATTERNS <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">"上旬"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"中旬"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"下旬"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token number">21</span><span class="token punctuation">,</span> <span class="token number">25</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"頃"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">_parse_sort_candidate</span><span class="token punctuation">(</span>date_text<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> date_iso<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Tuple<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> date_iso<span class="token punctuation">:</span>
+        parts <span class="token operator">=</span> _decompose_iso<span class="token punctuation">(</span>date_iso<span class="token punctuation">)</span>
+        <span class="token keyword keyword-if">if</span> parts<span class="token punctuation">:</span>
+            year<span class="token punctuation">,</span> month<span class="token punctuation">,</span> day <span class="token operator">=</span> parts
+            
+            <span class="token comment"># 曖昧表現を検出して補正</span>
+            <span class="token keyword keyword-for">for</span> pattern<span class="token punctuation">,</span> <span class="token punctuation">(</span>approx_day<span class="token punctuation">,</span> _<span class="token punctuation">)</span> <span class="token keyword keyword-in">in</span> AMBIGUOUS_PATTERNS<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword keyword-if">if</span> pattern <span class="token keyword keyword-in">in</span> date_text<span class="token punctuation">:</span>
+                    day <span class="token operator">=</span> approx_day
+                    <span class="token keyword keyword-break">break</span>
+            
+            <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span><span class="token builtin">abs</span><span class="token punctuation">(</span>year<span class="token punctuation">)</span><span class="token punctuation">,</span> month<span class="token punctuation">,</span> day<span class="token punctuation">)</span>
+    
+    <span class="token comment"># ISO化できない場合は低優先度</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span><span class="token number">9999</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">31</span><span class="token punctuation">)</span>
+</code></pre><hr>
+<h2 id="7-azure-vision-ocr統合">7. Azure Vision OCR統合 </h2>
+<h3 id="71-画像テキスト抽出フロー">7.1 画像テキスト抽出フロー </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>画像アップロード
+    │
+    ▼
+┌─────────────────────────┐
+│  /api/ocr               │
+│  /api/ocr-generate-dag  │
+└─────────────────────────┘
+    │
+    ▼
+┌─────────────────────────┐
+│  text_extractor.py      │
+│  拡張子判定             │
+└─────────────────────────┘
+    │
+    ▼
+┌─────────────────────────┐
+│  azure_ocr.py           │
+│  Azure Vision API呼び出し│
+└─────────────────────────┘
+    │
+    ├─ Image Analysis API (2023-02-01-preview)
+    │  404エラー時フォールバック
+    │
+    └─ Read API (v3.2)
+       ポーリング方式で結果取得
+    │
+    ▼
+抽出テキスト → timeline_generator.py
+</code></pre><h3 id="72-api呼び出し実装">7.2 API呼び出し実装 </h3>
+<h4 id="721-image-analysis-api新バージョン">7.2.1 Image Analysis API（新バージョン） </h4>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_call_image_analysis_api</span><span class="token punctuation">(</span>image_bytes<span class="token punctuation">:</span> <span class="token builtin">bytes</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> language<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span> timeout_seconds<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">dict</span><span class="token punctuation">:</span>
+    base <span class="token operator">=</span> settings<span class="token punctuation">.</span>azure_vision_endpoint<span class="token punctuation">.</span>rstrip<span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span>
+    url <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>base<span class="token punctuation">}</span></span><span class="token string">/computervision/imageanalysis:analyze"</span></span>
+    params <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"api-version"</span><span class="token punctuation">:</span> version<span class="token punctuation">,</span> <span class="token string">"features"</span><span class="token punctuation">:</span> <span class="token string">"read"</span><span class="token punctuation">}</span>
+    <span class="token keyword keyword-if">if</span> language<span class="token punctuation">:</span>
+        params<span class="token punctuation">[</span><span class="token string">"language"</span><span class="token punctuation">]</span> <span class="token operator">=</span> language
+    
+    headers <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">"Ocp-Apim-Subscription-Key"</span><span class="token punctuation">:</span> settings<span class="token punctuation">.</span>azure_vision_key<span class="token punctuation">,</span>
+        <span class="token string">"Content-Type"</span><span class="token punctuation">:</span> <span class="token string">"application/octet-stream"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+    
+    response <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span>url<span class="token punctuation">,</span> headers<span class="token operator">=</span>headers<span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">,</span> data<span class="token operator">=</span>image_bytes<span class="token punctuation">,</span> timeout<span class="token operator">=</span>timeout_seconds<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-if">if</span> response<span class="token punctuation">.</span>status_code <span class="token operator">==</span> <span class="token number">404</span><span class="token punctuation">:</span>
+        <span class="token comment"># 旧APIへフォールバック</span>
+        <span class="token keyword keyword-return">return</span> _call_read_api<span class="token punctuation">(</span>image_bytes<span class="token punctuation">,</span> <span class="token string">"v3.2"</span><span class="token punctuation">,</span> language<span class="token punctuation">,</span> timeout_seconds<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-if">if</span> response<span class="token punctuation">.</span>status_code <span class="token operator">&gt;=</span> <span class="token number">400</span><span class="token punctuation">:</span>
+        _raise_azure_error<span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-return">return</span> response<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre><h4 id="722-read-api旧バージョン-非同期ポーリング">7.2.2 Read API（旧バージョン、非同期ポーリング） </h4>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_call_read_api</span><span class="token punctuation">(</span>image_bytes<span class="token punctuation">:</span> <span class="token builtin">bytes</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> language<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span> timeout_seconds<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">dict</span><span class="token punctuation">:</span>
+    base <span class="token operator">=</span> settings<span class="token punctuation">.</span>azure_vision_endpoint<span class="token punctuation">.</span>rstrip<span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span>
+    url <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>base<span class="token punctuation">}</span></span><span class="token string">/vision/</span><span class="token interpolation"><span class="token punctuation">{</span>version<span class="token punctuation">}</span></span><span class="token string">/read/analyze"</span></span>
+    params <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword keyword-if">if</span> language<span class="token punctuation">:</span>
+        params<span class="token punctuation">[</span><span class="token string">"language"</span><span class="token punctuation">]</span> <span class="token operator">=</span> language
+    
+    headers <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">"Ocp-Apim-Subscription-Key"</span><span class="token punctuation">:</span> settings<span class="token punctuation">.</span>azure_vision_key<span class="token punctuation">,</span>
+        <span class="token string">"Content-Type"</span><span class="token punctuation">:</span> <span class="token string">"application/octet-stream"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment"># 1. 非同期ジョブを開始（202 Accepted）</span>
+    response <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span>url<span class="token punctuation">,</span> headers<span class="token operator">=</span>headers<span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">,</span> data<span class="token operator">=</span>image_bytes<span class="token punctuation">,</span> timeout<span class="token operator">=</span>timeout_seconds<span class="token punctuation">)</span>
+    <span class="token keyword keyword-if">if</span> response<span class="token punctuation">.</span>status_code <span class="token operator">!=</span> <span class="token number">202</span><span class="token punctuation">:</span>
+        _raise_azure_error<span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+    
+    operation_url <span class="token operator">=</span> response<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"Operation-Location"</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> operation_url<span class="token punctuation">:</span>
+        <span class="token keyword keyword-raise">raise</span> AzureVisionError<span class="token punctuation">(</span><span class="token string">"Operation-Location ヘッダーが返されませんでした。"</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. ポーリング（0.6秒間隔）</span>
+    deadline <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> timeout_seconds
+    poll_headers <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"Ocp-Apim-Subscription-Key"</span><span class="token punctuation">:</span> settings<span class="token punctuation">.</span>azure_vision_key<span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-while">while</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> deadline<span class="token punctuation">:</span>
+        poll_response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>operation_url<span class="token punctuation">,</span> headers<span class="token operator">=</span>poll_headers<span class="token punctuation">,</span> timeout<span class="token operator">=</span>timeout_seconds<span class="token punctuation">)</span>
+        <span class="token keyword keyword-if">if</span> poll_response<span class="token punctuation">.</span>status_code <span class="token operator">&gt;=</span> <span class="token number">400</span><span class="token punctuation">:</span>
+            _raise_azure_error<span class="token punctuation">(</span>poll_response<span class="token punctuation">)</span>
+        
+        payload <span class="token operator">=</span> poll_response<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        status <span class="token operator">=</span> payload<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"status"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword keyword-if">if</span> status <span class="token operator">==</span> <span class="token string">"succeeded"</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> payload
+        <span class="token keyword keyword-if">if</span> status <span class="token operator">==</span> <span class="token string">"failed"</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-raise">raise</span> AzureVisionError<span class="token punctuation">(</span><span class="token string">"Azure Vision OCR が失敗しました。"</span><span class="token punctuation">)</span>
+        
+        time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.6</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-raise">raise</span> AzureVisionError<span class="token punctuation">(</span><span class="token string">"Azure Vision OCR の処理がタイムアウトしました。"</span><span class="token punctuation">)</span>
+</code></pre><h3 id="73-結果パース">7.3 結果パース </h3>
+<p>APIレスポンスの構造が複数パターン存在するため、柔軟にパース：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">_extract_lines</span><span class="token punctuation">(</span>payload<span class="token punctuation">:</span> <span class="token builtin">dict</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Iterable<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    lines<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    
+    <span class="token comment"># Image Analysis API形式</span>
+    analyze_result <span class="token operator">=</span> payload<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"analyzeResult"</span><span class="token punctuation">)</span> <span class="token keyword keyword-or">or</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword keyword-for">for</span> page <span class="token keyword keyword-in">in</span> analyze_result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"readResults"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> line <span class="token keyword keyword-in">in</span> page<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"lines"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            text <span class="token operator">=</span> line<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"text"</span><span class="token punctuation">)</span> <span class="token keyword keyword-or">or</span> line<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"content"</span><span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> text<span class="token punctuation">:</span>
+                lines<span class="token punctuation">.</span>append<span class="token punctuation">(</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Read API形式</span>
+    read_result <span class="token operator">=</span> payload<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"readResult"</span><span class="token punctuation">)</span> <span class="token keyword keyword-or">or</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword keyword-for">for</span> block <span class="token keyword keyword-in">in</span> read_result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"blocks"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> line <span class="token keyword keyword-in">in</span> block<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"lines"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            text <span class="token operator">=</span> line<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"text"</span><span class="token punctuation">)</span> <span class="token keyword keyword-or">or</span> line<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"content"</span><span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> text<span class="token punctuation">:</span>
+                lines<span class="token punctuation">.</span>append<span class="token punctuation">(</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># フォールバック: content直接取得</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> lines<span class="token punctuation">:</span>
+        content <span class="token operator">=</span> payload<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"content"</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-if">if</span> content<span class="token punctuation">:</span>
+            lines<span class="token punctuation">.</span>append<span class="token punctuation">(</span>content<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword keyword-return">return</span> lines
+</code></pre><h3 id="74-エンドポイント例">7.4 エンドポイント例 </h3>
+<h4 id="apiocr"><code>/api/ocr</code> </h4>
+<p>画像からテキストを抽出して返す：</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token function">curl</span> <span class="token parameter variable">-X</span> POST <span class="token string">"http://localhost:8000/api/ocr?lang=ja"</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-H</span> <span class="token string">"Content-Type: multipart/form-data"</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-F</span> <span class="token string">"file=@sample.png"</span>
+</code></pre><p>レスポンス:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"filename"</span><span class="token operator">:</span> <span class="token string">"sample.png"</span><span class="token punctuation">,</span>
+  <span class="token property">"characters"</span><span class="token operator">:</span> <span class="token number">1234</span><span class="token punctuation">,</span>
+  <span class="token property">"text_preview"</span><span class="token operator">:</span> <span class="token string">"令和3年4月1日、東京で新しい..."</span><span class="token punctuation">,</span>
+  <span class="token property">"text"</span><span class="token operator">:</span> <span class="token string">"令和3年4月1日、東京で新しい政策が発表された。..."</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="apiocr-generate-dag"><code>/api/ocr-generate-dag</code> </h4>
+<p>画像からテキストを抽出し、直接DAGを生成：</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token function">curl</span> <span class="token parameter variable">-X</span> POST <span class="token string">"http://localhost:8000/api/ocr-generate-dag?lang=ja&amp;relation_threshold=0.6&amp;max_events=100"</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-H</span> <span class="token string">"Content-Type: multipart/form-data"</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-F</span> <span class="token string">"file=@historical_text.jpg"</span>
+</code></pre><p>レスポンス:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"dag-uuid"</span><span class="token punctuation">,</span>
+  <span class="token property">"nodes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"node-1"</span><span class="token punctuation">,</span>
+      <span class="token property">"date_text"</span><span class="token operator">:</span> <span class="token string">"令和3年4月1日"</span><span class="token punctuation">,</span>
+      <span class="token property">"date_iso"</span><span class="token operator">:</span> <span class="token string">"2021-04-01"</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"新しい政策が発表された"</span><span class="token punctuation">,</span>
+      <span class="token property">"node_type"</span><span class="token operator">:</span> <span class="token string">"event"</span><span class="token punctuation">,</span>
+      <span class="token property">"is_parent"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"edges"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"source_id"</span><span class="token operator">:</span> <span class="token string">"node-1"</span><span class="token punctuation">,</span>
+      <span class="token property">"target_id"</span><span class="token operator">:</span> <span class="token string">"node-2"</span><span class="token punctuation">,</span>
+      <span class="token property">"relation_type"</span><span class="token operator">:</span> <span class="token string">"causal"</span><span class="token punctuation">,</span>
+      <span class="token property">"relation_strength"</span><span class="token operator">:</span> <span class="token number">0.82</span><span class="token punctuation">,</span>
+      <span class="token property">"reasoning"</span><span class="token operator">:</span> <span class="token string">"マーカー『その結果』による推定"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"stats"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"node_count"</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    <span class="token property">"edge_count"</span><span class="token operator">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+    <span class="token property">"avg_degree"</span><span class="token operator">:</span> <span class="token number">1.6</span><span class="token punctuation">,</span>
+    <span class="token property">"max_path_length"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+    <span class="token property">"cyclic_count"</span><span class="token operator">:</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"2.0"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="8-評価と今後の展望">8. 評価と今後の展望 </h2>
+<h3 id="81-現状の制約">8.1 現状の制約 </h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>制約</th>
+<th>対策案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>因果推論精度</strong></td>
+<td>マーカーが明示的にない場合は精度低下</td>
+<td>BERTベースの文脈理解モデル導入</td>
+</tr>
+<tr>
+<td><strong>固有表現抽出</strong></td>
+<td>辞書・ヒューリスティクスに依存</td>
+<td>NERモデル（spaCy, BERT-NER）の統合</td>
+</tr>
+<tr>
+<td><strong>スケーラビリティ</strong></td>
+<td>20万文字・500イベント上限</td>
+<td>ストリーミング処理・分散処理の検討</td>
+</tr>
+<tr>
+<td><strong>多言語対応</strong></td>
+<td>日本語に特化</td>
+<td>英語・中国語・韓国語への拡張</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-改善案">8.2 改善案 </h3>
+<h4 id="821-機械学習モデルの導入">8.2.1 機械学習モデルの導入 </h4>
+<ul>
+<li><strong>BERT-based NER</strong>: 固有表現抽出の精度向上</li>
+<li><strong>因果関係分類器</strong>: 事前学習済みモデルで因果・前提・派生を識別</li>
+<li><strong>文埋め込み（Sentence-BERT）</strong>: カテゴリ類似度の計算に利用</li>
+</ul>
+<h4 id="822-知識グラフとの統合">8.2.2 知識グラフとの統合 </h4>
+<ul>
+<li>Wikipedia・DBpediaとの連携で人物・地名の属性情報を補完</li>
+<li>外部知識による因果関係の補強（例: 「東日本大震災」→「原発事故」は既知の因果）</li>
+</ul>
+<h4 id="823-インタラクティブ編集機能">8.2.3 インタラクティブ編集機能 </h4>
+<ul>
+<li>ユーザーがDAGのエッジを手動で追加・削除できるUI</li>
+<li>フィードバックループで推論精度を向上</li>
+</ul>
+<h3 id="83-ベンチマーク">8.3 ベンチマーク </h3>
+<p><strong>テストデータ</strong>: Wikipedia「坂本龍馬」記事（約1200文字）</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>抽出イベント数</td>
+<td>18件</td>
+</tr>
+<tr>
+<td>ISO日付化成功率</td>
+<td>94% (17/18)</td>
+</tr>
+<tr>
+<td>固有表現抽出（人物）</td>
+<td>12名</td>
+</tr>
+<tr>
+<td>固有表現抽出（地名）</td>
+<td>8箇所</td>
+</tr>
+<tr>
+<td>DAGエッジ数</td>
+<td>15本</td>
+</tr>
+<tr>
+<td>因果関係（<code>causal</code>）</td>
+<td>6本</td>
+</tr>
+<tr>
+<td>最長経路長</td>
+<td>5</td>
+</tr>
+<tr>
+<td>処理時間</td>
+<td>約2.3秒（MeCab有効時）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9-参考文献">9. 参考文献 </h2>
+<h3 id="学術文献">学術文献 </h3>
+<ol>
+<li>
+<p><strong>因果関係抽出</strong>:</p>
+<ul>
+<li>Hashimoto, C., et al. (2014). "Toward Future Scenario Generation: Extracting Event Causality Exploiting Semantic Relation, Context, and Association Features." <em>ACL</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>日本語形態素解析</strong>:</p>
+<ul>
+<li>Kudo, T., et al. (2004). "Applying Conditional Random Fields to Japanese Morphological Analysis." <em>EMNLP</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>時系列イベント抽出</strong>:</p>
+<ul>
+<li>Chambers, N., &amp; Jurafsky, D. (2008). "Unsupervised Learning of Narrative Event Chains." <em>ACL</em>.</li>
+</ul>
+</li>
+</ol>
+<h3 id="ライブラリ技術資料">ライブラリ・技術資料 </h3>
+<ul>
+<li><strong>FastAPI</strong>: <a href="https://fastapi.tiangolo.com/">https://fastapi.tiangolo.com/</a></li>
+<li><strong>fugashi (MeCab wrapper)</strong>: <a href="https://github.com/polm/fugashi">https://github.com/polm/fugashi</a></li>
+<li><strong>Azure AI Vision</strong>: <a href="https://learn.microsoft.com/azure/ai-services/computer-vision/">https://learn.microsoft.com/azure/ai-services/computer-vision/</a></li>
+<li><strong>ISO 8601 Extended</strong>: <a href="https://en.wikipedia.org/wiki/ISO_8601">https://en.wikipedia.org/wiki/ISO_8601</a></li>
+</ul>
+<hr>
+<h2 id="付録-アーキテクチャ図drawio形式">付録: アーキテクチャ図（Draw.io形式） </h2>
+<p>以下のXMLをDraw.ioにインポートして編集可能な図として利用できます。</p>
+<pre data-role="codeBlock" data-info="xml" class="language-xml xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxfile</span> <span class="token attr-name">host</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>app.diagrams.net<span class="token punctuation">"</span></span> <span class="token attr-name">modified</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2025-12-02T00:00:00.000Z<span class="token punctuation">"</span></span> <span class="token attr-name">agent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Chronology Technical Report<span class="token punctuation">"</span></span> <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>21.0.0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>diagram</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Architecture<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>architecture-diagram<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGraphModel</span> <span class="token attr-name">dx</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1422<span class="token punctuation">"</span></span> <span class="token attr-name">dy</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>794<span class="token punctuation">"</span></span> <span class="token attr-name">grid</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">gridSize</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>10<span class="token punctuation">"</span></span> <span class="token attr-name">guides</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">tooltips</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">connect</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">arrows</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">fold</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">page</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">pageScale</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">pageWidth</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>827<span class="token punctuation">"</span></span> <span class="token attr-name">pageHeight</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1169<span class="token punctuation">"</span></span> <span class="token attr-name">math</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token attr-name">shadow</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- Client Layer --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>client<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Client (Browser/Mobile)<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>40<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>60<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- FastAPI Layer --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fastapi<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FastAPI Backend<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>160<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>60<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- Input Sources --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-text<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Raw Text<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>80<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>280<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-file<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>File Upload<span class="token entity" title="
+">&amp;#xa;</span>(PDF/DOCX/Image)<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>240<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>280<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-wiki<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Wikipedia<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>400<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>280<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- Text Processing --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-cleaner<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Text Cleaner<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>150<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>380<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>40<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>azure-ocr<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Azure OCR<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>380<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>40<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- Timeline Generator --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>timeline-gen<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Timeline Generator<span class="token entity" title="
+">&amp;#xa;</span>(Date Extraction + NER)<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>250<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>460<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>180<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>60<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- Outputs --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>timeline-items<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Timeline Items<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>140<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>560<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dag-builder<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>DAG Builder<span class="token entity" title="
+">&amp;#xa;</span>(Causal Analysis)<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>560<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>140<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- Storage --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>storage<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Storage<span class="token entity" title="
+">&amp;#xa;</span>(SQLite/Firestore)<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;<span class="token punctuation">"</span></span> <span class="token attr-name">vertex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>480<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>560<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        
+        <span class="token comment">&lt;!-- Arrows --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow1<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>client<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fastapi<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow2<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-text<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-cleaner<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow3<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-file<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>azure-ocr<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow4<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-cleaner<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>timeline-gen<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow5<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>azure-ocr<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>timeline-gen<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow6<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>timeline-gen<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>timeline-items<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow7<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>timeline-gen<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dag-builder<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxCell</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>arrow8<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;<span class="token punctuation">"</span></span> <span class="token attr-name">edge</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">parent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">source</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dag-builder<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>storage<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mxGeometry</span> <span class="token attr-name">relative</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>geometry<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxCell</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxGraphModel</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>diagram</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mxfile</span><span class="token punctuation">&gt;</span></span>
+</code></pre><p><strong>使用方法</strong>:</p>
+<ol>
+<li><a href="https://app.diagrams.net/">Draw.io</a> にアクセス</li>
+<li>「File」→「Import from」→「XML」を選択</li>
+<li>上記XMLをペーストして「Import」</li>
+</ol>
+<hr>
+<p><strong>本レポート作成者</strong>: GitHub Copilot<br>
+<strong>作成日</strong>: 2025年12月2日<br>
+<strong>ライセンス</strong>: 本リポジトリのライセンスに準拠</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

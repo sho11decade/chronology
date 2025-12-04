@@ -259,8 +259,71 @@ class SearchRequest(BaseModel):
 class WikipediaImportResponse(GenerateResponse):
     source_title: str = Field(..., description="取得した Wikipedia 記事のタイトル")
     source_url: str = Field(..., description="取得した Wikipedia 記事の URL")
-    characters: int = Field(..., description="タイムライン生成に使用した本文の文字数")
-    text_preview: str = Field(..., description="本文の先頭 200 文字のプレビュー")
+
+
+class PrintTimelineOptions(BaseModel):
+    """印刷用レイアウト・表示オプション。"""
+
+    page_size: Literal["A4", "Letter"] = Field(
+        default="A4",
+        description="用紙サイズ。現状は A4 / Letter のみ対応。",
+    )
+    orientation: Literal["portrait", "landscape"] = Field(
+        default="portrait",
+        description="印刷時の向き。portrait=縦、landscape=横。",
+    )
+    sort_order: Literal["asc", "desc"] = Field(
+        default="asc",
+        description="イベント並び順。asc=古い順、desc=新しい順。",
+    )
+    group_by_century: bool = Field(
+        default=False,
+        description="世紀単位で見出しを付与してグルーピングするかどうか。",
+    )
+    show_people: bool = Field(
+        default=True,
+        description="人物情報を表示するかどうか。",
+    )
+    show_locations: bool = Field(
+        default=True,
+        description="場所情報を表示するかどうか。",
+    )
+    show_category: bool = Field(
+        default=True,
+        description="カテゴリを表示するかどうか。",
+    )
+
+
+class PrintTimelineRequest(BaseModel):
+    """印刷用タイムラインを生成するためのリクエスト。"""
+
+    title: str = Field(..., max_length=200, description="年表タイトル（印刷ヘッダに表示）")
+    subtitle: str = Field(
+        default="",
+        max_length=400,
+        description="任意のサブタイトル / 補足説明。空でも可。",
+    )
+    items: List[TimelineItem] = Field(
+        ...,
+        min_items=1,
+        max_items=5_000,
+        description="印刷対象とするタイムライン項目の配列。",
+    )
+    options: PrintTimelineOptions = Field(
+        default_factory=PrintTimelineOptions,
+        description="印刷レイアウトおよび表示オプション。",
+    )
+
+    @validator("title")
+    def _ensure_non_empty_title(cls, value: str) -> str:  # type: ignore[override]
+        cleaned = value.strip()
+        if not cleaned:
+            raise ValueError("title は空にできません。")
+        return cleaned
+
+    @validator("subtitle")
+    def _normalise_subtitle(cls, value: str) -> str:  # type: ignore[override]
+        return value.strip()
 
 
 class ShareCreateRequest(BaseModel):

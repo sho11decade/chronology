@@ -12,7 +12,7 @@ from uuid import uuid4
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 from starlette.concurrency import run_in_threadpool
 
 # Add current directory to Python path for imports
@@ -40,6 +40,8 @@ try:
         ShareGetResponse,
         SharePublicResponse,
     )
+    from .models import PrintTimelineRequest
+    from .print_renderer import render_printable_timeline_html
     from .share_store import ShareStore, FirestoreConfig
     from .dag import GenerateDAGRequest, TimelineDAG, build_timeline_dag
 except ImportError:
@@ -64,6 +66,8 @@ except ImportError:
         ShareGetResponse,
         SharePublicResponse,
     )
+    from models import PrintTimelineRequest
+    from print_renderer import render_printable_timeline_html
     from share_store import ShareStore, FirestoreConfig
     from dag import GenerateDAGRequest, TimelineDAG, build_timeline_dag
 
@@ -486,3 +490,50 @@ async def export_share_json(share_id: str) -> JSONResponse:
         "Content-Disposition": f'attachment; filename="timeline-{share_id}.json"'
     }
     return JSONResponse(status_code=200, content=content, headers=headers)
+
+
+@app.post("/api/print/timeline", response_class=HTMLResponse)
+async def print_timeline(request: PrintTimelineRequest) -> HTMLResponse:
+    """タイムライン配列から印刷用 HTML を生成して返す。"""
+
+    html = await run_in_threadpool(
+        render_printable_timeline_html,
+        request.title,
+        request.subtitle,
+        request.items,
+        request.options,
+    )
+    return HTMLResponse(content=html, media_type="text/html; charset=utf-8")
+
+
+@app.get("/api/print/share/{share_id}", response_class=HTMLResponse)
+async def print_share(share_id: str) -> HTMLResponse:
+    """共有済みタイムラインを取得し、印刷用 HTML を返す。"""
+
+    if not settings.enable_sharing:
+        raise HTTPException(status_code=403, detail="共有機能は無効化されています。")
+
+    store: ShareStore = app.state.share_store
+    rec = store.get_share(share_id)
+    if not rec:
+        raise HTTPException(status_code=404, detail="共有が見つかりませんでした。")
+
+    try:
+        exp = datetime.fromisoformat(rec["expires_at"]).astimezone(timezone.utc)
+    except Exception:
+        exp = datetime.now(timezone.utc)
+    if datetime.now(timezone.utc) > exp:
+        raise HTTPException(status_code=404, detail="共有の有効期限が切れています。")
+
+    title = rec.get("title") or "共有タイムライン"
+    items = [item for item in rec["items"]]
+
+    # PrintTimelineOptions はデフォルトを使用
+    html = await run_in_threadpool(
+        render_printable_timeline_html,
+        title,
+        "",
+        items,
+        None,
+    )
+    return HTMLResponse(content=html, media_type="text/html; charset=utf-8")
